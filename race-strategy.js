@@ -164,16 +164,25 @@ export class StintPlanner {
 }
 
 export class GhostCoach {
-  constructor() { this.cues = []; this.fired = {}; this.lap = -1; }
+  constructor() { this.cues = []; this.fired = {}; this.lap = -1; this.history = {}; }
+
+  // A cue is worth repeating only while the driver is still losing there, and
+  // only twice — after that it has to be getting worse to be said again.
+  worthSaying(v) {
+    const h = this.history[v.name];
+    if (!h) return true;
+    if (h.count < 2) return v.lost > h.lost - 0.08;
+    return v.lost > h.lost + 0.10;
+  }
 
   load(verdicts, lapN) {
     this.lap = lapN;
     this.fired = {};
     this.cues = (verdicts || [])
-      .filter(v => v.lost > 0.05 && v.tags && v.tags.length)
+      .filter(v => v.lost > 0.05 && v.tags && v.tags.length && this.worthSaying(v))
       .sort((a, b) => b.lost - a.lost)
       .slice(0, 5)
-      .map(v => ({ at: Math.max(0, v.d0 - 110), name: v.name, text: cueFor(v) }))
+      .map(v => ({ at: Math.max(0, v.d0 - 110), name: v.name, text: cueFor(v), lost: v.lost }))
       .filter(c => c.text)
       .sort((a, b) => a.at - b.at);
     return this.cues.length;
@@ -185,6 +194,8 @@ export class GhostCoach {
       if (this.fired[c.name]) continue;
       if (dist >= c.at && dist < c.at + 60) {
         this.fired[c.name] = true;
+        const h = (this.history[c.name] = this.history[c.name] || { count: 0, lost: 0 });
+        h.count++; h.lost = Math.max(h.lost, c.lost || 0);
         return { id: "ghost" + c.name, tag: "GHOST", priority: 74, cooldown: 4000,
           meta: { corner: c.name, event: "GHOST_CUE" }, text: c.text };
       }

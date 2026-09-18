@@ -31,58 +31,61 @@
 <script src="./image-slot.js"></script>
 </helmet>
 
-<div style="position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background-color:var(--bg,#07080A); background-image:{{ tex }}; background-size:{{ texSize }}; background-position:{{ texPos }}; overflow:hidden;">
-<div style="width:1600px; height:900px; flex:none; transform:scale({{ scale }}); transform-origin:center center; position:relative; display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto 1fr; gap:12px; padding:16px 18px; box-sizing:border-box; background-color:var(--bg,#07080A); background-image:{{ tex }}; background-size:{{ texSize }}; background-position:{{ texPos }}; font-family:'Barlow Condensed',sans-serif; color:var(--text,#F4F5F2);">
+<div ref="{{ hostRef }}" style="position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background-color:var(--bg,#07080A); background-image:{{ tex }}; background-size:{{ texSize }}; background-position:{{ texPos }}; overflow:hidden;">
+<div style="width:1600px; height:900px; flex:none; transform:scale({{ scale }}); transform-origin:center center; position:relative; overflow:hidden; display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto 1fr; gap:12px; padding:16px 18px; box-sizing:border-box; background-color:var(--bg,#07080A); background-image:{{ tex }}; background-size:{{ texSize }}; background-position:{{ texPos }}; font-family:'Barlow Condensed',sans-serif; color:var(--text,#F4F5F2);">
 
-  <div style="display:flex; align-items:center; gap:14px;">
+  <div style="display:flex; flex-direction:column; gap:11px; min-width:0;">
+
+    <div style="display:flex; align-items:baseline; gap:14px; min-width:0;">
+      <div style="font-size:30px; font-weight:600; letter-spacing:-0.015em; line-height:1; flex:none;">Apexa</div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; color:var(--dim,#7C817B); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">EVERY APEX, READ AND ANSWERED — LIVE TELEMETRY AND AN AI RACE ENGINEER</div>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:14px; min-width:0;">
     <div style="display:flex; align-items:center; gap:11px; min-width:0;">
-      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:700; letter-spacing:0.1em; padding:6px 10px; background:var(--acc,#E8FF3A); color:var(--bg,#07080A); border-radius:2px;">GR.3</div>
+      <sc-if value="{{ hasCar }}" hint-placeholder-val="{{ false }}">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:700; letter-spacing:0.1em; padding:6px 10px; background:var(--acc,#E8FF3A); color:var(--bg,#07080A); border-radius:2px;">{{ carClass }}</div>
+      </sc-if>
       <div style="display:flex; flex-direction:column; line-height:1.05; min-width:0; max-width:200px;">
-        <div style="font-size:20px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ carName }}</div>
+        <div style="font-size:20px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:{{ carNameFg }};">{{ carName }}</div>
         <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; color:var(--dim,#7C817B); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ trackName }} · {{ gameName }}</div>
       </div>
     </div>
 
     <div style="display:flex; gap:2px; flex:none;">
       <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
-        <div onClick="{{ n.go }}" style="cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; padding:9px 8px; border-radius:2px; border:1px solid {{ n.border }}; background:{{ n.bg }}; color:{{ n.fg }};">{{ n.label }}</div>
+        <div onClick="{{ n.go }}" style="cursor:pointer; position:relative; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; padding:9px 8px; border-radius:2px; border:1px solid {{ n.border }}; background:{{ n.bg }}; color:{{ n.fg }};">{{ n.label }}<div style="{{ n.dotStyle }}"></div></div>
       </sc-for>
     </div>
 
     <div style="flex:1;"></div>
 
-    <div style="display:flex; flex:none; gap:18px; white-space:nowrap;">
-      <div style="display:flex; flex-direction:column; line-height:1;">
-        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">LAP</div>
-        <div style="font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:600; margin-top:4px;">{{ lapLabel }}</div>
-      </div>
-      <div style="display:flex; flex-direction:column; line-height:1;">
-        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">POS</div>
-        <div style="font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:600; margin-top:4px;">{{ posLabel }}</div>
-      </div>
-      <div style="display:flex; flex-direction:column; line-height:1;">
-        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">SESSION</div>
-        <div style="font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:600; margin-top:4px;">{{ sessionClock }}</div>
-      </div>
-    </div>
-
     <div style="display:flex; flex:none; align-items:center; gap:9px; padding:9px 14px; border-radius:2px; border:1px solid var(--line,#1D2024); white-space:nowrap;">
       <div style="{{ linkDot }}"></div>
       <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; color:{{ linkFg }};">{{ linkLabel }}</div>
+      <div style="width:1px; align-self:stretch; background:var(--line,#1D2024);"></div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; color:var(--dim,#7C817B);">{{ phaseLabel }}</div>
     </div>
+
+    <div onClick="{{ enterGlance }}" style="cursor:pointer; flex:none; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; padding:9px 12px; border-radius:2px; border:1px solid var(--line,#1D2024); color:var(--dim,#7C817B); white-space:nowrap;" style-hover="border:1px solid var(--acc,#E8FF3A); color:var(--acc,#E8FF3A);">GLANCE</div>
 
     <div onClick="{{ toggleRadio }}" style="cursor:pointer; display:flex; flex:none; align-items:center; gap:9px; padding:9px 14px; white-space:nowrap; border-radius:2px; border:1px solid {{ radioBorder }}; background:{{ radioBg }};">
       <div style="width:8px; height:8px; border-radius:50%; background:{{ radioDot }};"></div>
       <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; color:{{ radioFg }};">{{ radioLabel }}</div>
     </div>
+    </div>
   </div>
 
   <sc-if value="{{ isRace }}" hint-placeholder-val="{{ true }}">
-  <div style="display:grid; grid-template-rows:1fr 196px; gap:12px; min-height:0;">
+  <div style="display:flex; flex-direction:column; gap:12px; min-height:0;">
 
-    <div style="display:grid; grid-template-columns:300px 1fr 356px; gap:12px; min-height:0;">
+    <sc-if value="{{ stale }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:none; padding:7px 12px; background:var(--hotbg,#1A0E0C); border:1px solid var(--bad,#F2564B); border-radius:2px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; color:var(--bad,#F2564BB; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ staleLabel }}</div>
+    </sc-if>
 
-      <div style="display:flex; flex-direction:column; gap:12px; min-height:0;">
+    <div style="flex:1; display:grid; grid-template-columns:300px 1fr 356px; gap:12px; min-height:0;">
+
+      <div style="display:flex; flex-direction:column; gap:12px; min-height:0; overflow:hidden;">
         <div style="padding:14px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, var(--acc,#E8FF3A) 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, var(--acc,#E8FF3A) 55%, transparent), inset 0 0 28px -19px var(--acc,#E8FF3A); border-radius:3px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">{{ deltaSub }}</div>
           <div style="font-family:'IBM Plex Mono',monospace; font-size:64px; font-weight:600; line-height:1.05; letter-spacing:-0.045em; color:{{ deltaColor }};">{{ deltaLabel }}</div>
@@ -90,96 +93,126 @@
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:{{ deltaTrendColor }};">{{ deltaTrendLabel }}</div>
             <div style="display:flex; align-items:baseline; gap:7px;">
               <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">PREDICTED</div>
-              <div style="font-family:'IBM Plex Mono',monospace; font-size:17px; font-weight:600;">{{ predLabel }}</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:17px; font-weight:600; color:{{ predFg }};">{{ predLabel }}</div>
             </div>
           </div>
-          <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.04em; color:var(--dim,#7C817B); margin-top:8px; padding-top:7px; border-top:1px solid var(--line,#1D2024); line-height:1.55; word-break:break-word;">{{ deltaDiag }}</div>
+          <sc-if value="{{ lapInvalid }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:8px; padding:7px 9px; border:1px solid var(--bad,#F2564B); border-radius:2px; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; line-height:1.5; color:var(--bad,#F2564BB; text-wrap:pretty;">{{ invalidLabel }}</div>
+          </sc-if>
+
+          <div style="margin-top:9px; padding-top:8px; border-top:1px solid var(--line,#1D2024); display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; line-height:1.4; color:var(--dim,#7C817B); text-wrap:pretty;">{{ miniHead }}</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim,#7C817B); flex:none;">{{ miniNote }}</div>
+            </div>
+            <div style="display:flex; align-items:stretch; gap:1px; height:40px;">
+              <sc-for list="{{ miniBars }}" as="b" hint-placeholder-count="24">
+                <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:1px; min-width:0;">
+                  <div style="flex:1; display:flex; flex-direction:column; justify-content:flex-end;">
+                    <div style="width:100%; height:{{ b.up }}; background:{{ b.bg }};"></div>
+                  </div>
+                  <div style="flex:1;">
+                    <div style="width:100%; height:{{ b.down }}; background:{{ b.bg }};"></div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">THEORETICAL BEST</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600; color:{{ optimalFg }};">{{ optimalLabel }}</div>
+            </div>
+          </div>
+
+          <div style="margin-top:9px; padding-top:8px; border-top:1px solid var(--line,#1D2024); display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px;">
+            <div style="display:flex; flex-direction:column; gap:2px; min-width:0;">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.14em; color:var(--dim,#7C817B);">CURRENT</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:19px; font-weight:600; line-height:1; color:{{ curFg }};">{{ curLap }}</div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:2px; min-width:0;">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.14em; color:var(--dim,#7C817B);">BEST</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:15px; line-height:1.15; color:{{ bestFg }};">{{ bestLap }}</div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:2px; min-width:0;">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.14em; color:var(--dim,#7C817B);">LAST</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:15px; line-height:1.15; color:{{ lastFg }};">{{ lastLap }}</div>
+            </div>
+          </div>
         </div>
 
-        <div style="padding:14px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, var(--acc,#E8FF3A) 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, var(--acc,#E8FF3A) 55%, transparent), inset 0 0 28px -19px var(--acc,#E8FF3A); border-radius:3px; display:flex; flex-direction:column; gap:11px;">
-          <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--acc,#E8FF3A);">LAP TIMES</div>
-          <div style="display:flex; justify-content:space-between; align-items:baseline; gap:14px;">
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">CURRENT</div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; line-height:1;">{{ curLap }}</div>
+        <div style="flex:1; min-height:132px; padding:14px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, var(--acc,#E8FF3A) 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, var(--acc,#E8FF3A) 55%, transparent), inset 0 0 28px -19px var(--acc,#E8FF3A); border-radius:3px; display:flex; flex-direction:column; gap:9px;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; line-height:1.4; color:var(--dim,#7C817B);">{{ sectorHead }}</div>
+          <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px;">
+            <sc-for list="{{ sectors }}" as="sc" hint-placeholder-count="3">
+              <div style="display:flex; flex-direction:column; gap:1px; min-width:0;">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim,#7C817B);">{{ sc.n }}</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:15px; line-height:1.1; color:{{ sc.tColor }};">{{ sc.t }}</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; line-height:1.1; color:{{ sc.color }};">{{ sc.d }}</div>
+              </div>
+            </sc-for>
           </div>
           <div style="height:1px; background:var(--line,#1D2024);"></div>
-          <div style="display:flex; justify-content:space-between; align-items:baseline; gap:14px;">
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">BEST</div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:17px; color:var(--acc,#E8FF3A);">{{ bestLap }}</div>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:baseline; gap:14px;">
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">LAST</div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:17px;">{{ lastLap }}</div>
-          </div>
-        </div>
-
-        <div style="flex:1; padding:14px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, var(--acc,#E8FF3A) 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, var(--acc,#E8FF3A) 55%, transparent), inset 0 0 28px -19px var(--acc,#E8FF3A); border-radius:3px; display:flex; flex-direction:column; gap:11px; min-height:0;">
-          <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; line-height:1.4; color:var(--dim,#7C817B);">{{ sectorHead }}</div>
-          <sc-for list="{{ sectors }}" as="sc" hint-placeholder-count="3">
-            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px;">
-              <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--dim,#7C817B); width:22px;">{{ sc.n }}</div>
-              <div style="font-family:'IBM Plex Mono',monospace; font-size:15px;">{{ sc.t }}</div>
-              <div style="font-family:'IBM Plex Mono',monospace; font-size:15px; color:{{ sc.color }};">{{ sc.d }}</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div style="display:flex; flex-direction:column; gap:1px; min-width:0;">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.14em; color:var(--dim,#7C817B);">GAP AHEAD</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:600; line-height:1.1; color:{{ gapAheadFg }};">{{ gapAhead }}</div>
             </div>
-          </sc-for>
-          <div style="height:1px; background:var(--line,#1D2024); margin-top:2px;"></div>
-          <div style="display:flex; justify-content:space-between; align-items:baseline; gap:14px;">
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">GAP AHEAD</div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:600;">{{ gapAhead }}</div>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:baseline; gap:14px;">
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">GAP BEHIND</div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:600;">{{ gapBehind }}</div>
+            <div style="display:flex; flex-direction:column; gap:1px; min-width:0;">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.14em; color:var(--dim,#7C817B);">GAP BEHIND</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:600; line-height:1.1; color:{{ gapBehindFg }};">{{ gapBehind }}</div>
+            </div>
           </div>
         </div>
       </div>
 
       <div style="display:flex; flex-direction:column; gap:12px; min-height:0;">
         <sc-if value="{{ notWheel }}" hint-placeholder-val="{{ true }}">
-        <div style="display:flex; gap:2px; height:30px; align-items:stretch; padding:6px 8px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px;">
+        <div style="display:flex; gap:2px; height:30px; align-items:stretch; padding:6px 8px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px;">
           <sc-for list="{{ leds }}" as="led" hint-placeholder-count="24">
             <div style="flex:1; border-radius:1px; background:{{ led.bg }};"></div>
           </sc-for>
         </div>
 
-        <div style="flex:1; display:grid; grid-template-columns:64px 1fr 64px; gap:22px; align-items:stretch; padding:20px 24px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; min-height:0; overflow:hidden; position:relative;">
+        <div style="flex:1; display:grid; grid-template-columns:64px 1fr 64px; gap:22px; align-items:stretch; padding:20px 24px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; min-height:0; overflow:hidden; position:relative;">
           <div style="position:absolute; inset:0; z-index:0; pointer-events:none; background:radial-gradient(130% 95% at 50% 108%, var(--acc,#E8FF3A) 0%, transparent 68%); opacity:{{ rpmGlow }}; transition:opacity 70ms linear;"></div>
 
           <div style="display:flex; flex-direction:column; align-items:center; gap:8px; min-height:0;">
-            <div style="flex:1; width:100%; position:relative; background:#12151A; border:1px solid var(--line,#1D2024); border-radius:2px; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end;">
-              <div style="position:absolute; left:0; right:0; top:25%; height:1px; background:#1F242B;"></div>
-              <div style="position:absolute; left:0; right:0; top:50%; height:1px; background:#1F242B;"></div>
-              <div style="position:absolute; left:0; right:0; top:75%; height:1px; background:#1F242B;"></div>
-              <div style="width:100%; height:{{ throttleW }}; background:#3BE06A;"></div>
+            <div style="flex:1; width:100%; position:relative; background:var(--sub,#12151A); border:1px solid var(--line,#1D2024); border-radius:2px; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end;">
+              <div style="position:absolute; left:0; right:0; top:25%; height:1px; background:var(--line,#1D2024);"></div>
+              <div style="position:absolute; left:0; right:0; top:50%; height:1px; background:var(--line,#1D2024);"></div>
+              <div style="position:absolute; left:0; right:0; top:75%; height:1px; background:var(--line,#1D2024);"></div>
+              <div style="width:100%; height:{{ throttleW }}; background:var(--good,#3BE06A);"></div>
             </div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600; color:#3BE06A;">{{ throttleLabel }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600; color:{{ thrFg }};">{{ throttleLabel }}</div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.16em; color:var(--dim,#7C817B);">THR</div>
           </div>
 
           <div style="position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; min-width:0;">
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:150px; font-weight:700; line-height:0.88; letter-spacing:-0.055em;">{{ gear }}</div>
+            <sc-if value="{{ hasGear }}" hint-placeholder-val="{{ true }}">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:124px; font-weight:700; line-height:0.88; letter-spacing:-0.055em;">{{ gear }}</div>
+            </sc-if>
+            <sc-if value="{{ noGear }}" hint-placeholder-val="{{ false }}">
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:40px; font-weight:600; line-height:2.7; letter-spacing:0.1em; color:var(--dim,#7C817B);">–</div>
+            </sc-if>
             <div style="display:flex; align-items:baseline; gap:8px;">
-              <div style="font-family:'IBM Plex Mono',monospace; font-size:56px; font-weight:600; line-height:1; letter-spacing:-0.035em;">{{ speed }}</div>
+              <sc-if value="{{ hasGear }}" hint-placeholder-val="{{ true }}">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:48px; font-weight:600; line-height:1; letter-spacing:-0.035em;">{{ speed }}</div>
+              </sc-if>
+              <sc-if value="{{ noGear }}" hint-placeholder-val="{{ false }}">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; line-height:1.85; letter-spacing:0.08em; color:var(--dim,#7C817B);">–</div>
+              </sc-if>
               <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:var(--dim,#7C817B);">{{ speedUnitLabel }}</div>
             </div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600; color:{{ rpmColor }}; margin-top:8px;">{{ rpmLabel }} RPM</div>
-            <div style="display:flex; align-items:center; gap:9px; margin-top:12px;">
-              <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">STEER</div>
-              <div style="width:190px; height:7px; background:#12151A; position:relative; border-radius:1px;">
-                <div style="position:absolute; top:-2px; bottom:-2px; left:50%; width:1px; background:#2A3038;"></div>
-                <div style="position:absolute; top:0; bottom:0; left:{{ steerL }}; width:{{ steerW }}; background:var(--acc,#E8FF3A);"></div>
-              </div>
-            </div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600; color:{{ rpmColor }}; margin-top:6px; white-space:nowrap;">{{ rpmLabel }} RPM</div>
           </div>
 
           <div style="display:flex; flex-direction:column; align-items:center; gap:8px; min-height:0;">
-            <div style="flex:1; width:100%; position:relative; background:#12151A; border:1px solid var(--line,#1D2024); border-radius:2px; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end;">
-              <div style="position:absolute; left:0; right:0; top:25%; height:1px; background:#1F242B;"></div>
-              <div style="position:absolute; left:0; right:0; top:50%; height:1px; background:#1F242B;"></div>
-              <div style="position:absolute; left:0; right:0; top:75%; height:1px; background:#1F242B;"></div>
-              <div style="width:100%; height:{{ brakeW }}; background:#F2564B;"></div>
+            <div style="flex:1; width:100%; position:relative; background:var(--sub,#12151A); border:1px solid var(--line,#1D2024); border-radius:2px; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end;">
+              <div style="position:absolute; left:0; right:0; top:25%; height:1px; background:var(--line,#1D2024);"></div>
+              <div style="position:absolute; left:0; right:0; top:50%; height:1px; background:var(--line,#1D2024);"></div>
+              <div style="position:absolute; left:0; right:0; top:75%; height:1px; background:var(--line,#1D2024);"></div>
+              <div style="width:100%; height:{{ brakeW }}; background:var(--bad,#F2564B);"></div>
             </div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600; color:#F2564B;">{{ brakeLabel }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600; color:{{ brkFg }};">{{ brakeLabel }}</div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.16em; color:var(--dim,#7C817B);">BRK</div>
           </div>
         </div>
@@ -203,9 +236,19 @@
             </div>
 
             <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0;">
-              <div style="font-family:'IBM Plex Mono',monospace; font-size:132px; font-weight:700; line-height:0.86; letter-spacing:-0.06em; color:#FFFFFF;">{{ gear }}</div>
+              <sc-if value="{{ hasGear }}" hint-placeholder-val="{{ true }}">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:132px; font-weight:700; line-height:0.86; letter-spacing:-0.06em; color:var(--text,#FFFFFF);">{{ gear }}</div>
+              </sc-if>
+              <sc-if value="{{ noGear }}" hint-placeholder-val="{{ false }}">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:40px; font-weight:600; line-height:2.8; letter-spacing:0.1em; color:var(--dim,#7C817B);">–</div>
+              </sc-if>
               <div style="display:flex; align-items:baseline; gap:7px; margin-top:2px;">
-                <div style="font-family:'IBM Plex Mono',monospace; font-size:46px; font-weight:600; line-height:1; letter-spacing:-0.04em;">{{ speed }}</div>
+                <sc-if value="{{ hasGear }}" hint-placeholder-val="{{ true }}">
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:46px; font-weight:600; line-height:1; letter-spacing:-0.04em;">{{ speed }}</div>
+                </sc-if>
+                <sc-if value="{{ noGear }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; line-height:1.8; letter-spacing:0.08em; color:var(--dim,#7C817B);">–</div>
+                </sc-if>
                 <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#78849A;">{{ speedUnitLabel }}</div>
               </div>
               <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:{{ rpmColor }}; margin-top:6px;">{{ rpmLabel }} RPM</div>
@@ -261,7 +304,7 @@
         </div>
         </sc-if>
 
-        <div style="padding:12px 16px 14px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column; gap:9px;">
+        <div style="padding:12px 16px 14px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:9px;">
           <div style="display:flex; justify-content:space-between; align-items:baseline; gap:14px;">
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">{{ traceHead }}</div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim,#7C817B);">{{ traceLabel }}</div>
@@ -288,72 +331,71 @@
             </sc-for>
           </div>
           </sc-if>
-        </div>
 
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
-          <div style="padding:12px 14px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column; gap:6px;">
-            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:14px;">
-              <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">FUEL</div>
-              <div style="font-family:'IBM Plex Mono',monospace; font-size:17px; font-weight:600;">{{ fuelLabel }}</div>
+          <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px; padding-top:9px; border-top:1px solid var(--line,#1D2024);">
+            <div style="display:flex; flex-direction:column; gap:3px; min-width:0;">
+              <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px;">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.14em; color:var(--dim,#7C817B);">FUEL</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600; line-height:1; color:{{ timeFg }};">{{ fuelLabel }}</div>
+              </div>
+              <div style="height:5px; background:var(--sub,#12151A); border-radius:1px; overflow:hidden;">
+                <div style="height:100%; width:{{ fuelW }}; background:var(--acc,#E8FF3A);"></div>
+              </div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--dim,#7C817B); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ fuelNote }}</div>
             </div>
-            <div style="height:8px; background:#12151A; border-radius:1px; overflow:hidden;">
-              <div style="height:100%; width:{{ fuelW }}; background:var(--acc,#E8FF3A);"></div>
+            <div style="display:flex; flex-direction:column; gap:3px; min-width:0;">
+              <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px;">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.14em; color:var(--dim,#7C817B);">ENERGY</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600; line-height:1; color:{{ ersFg }};">{{ ersLabel }}</div>
+              </div>
+              <div style="height:5px; background:var(--sub,#12151A); border-radius:1px; overflow:hidden;">
+                <div style="height:100%; width:{{ ersW }}; background:#4EA8FF;"></div>
+              </div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--dim,#7C817B); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ ersNote }}</div>
             </div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--dim,#7C817B);">{{ fuelNote }}</div>
-          </div>
-          <div style="padding:12px 14px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column; gap:6px;">
-            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:14px;">
-              <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">ENERGY</div>
-              <div style="font-family:'IBM Plex Mono',monospace; font-size:17px; font-weight:600; color:#4EA8FF;">{{ ersLabel }}</div>
+            <div style="display:flex; flex-direction:column; gap:3px; min-width:0;">
+              <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px;">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.14em; color:var(--dim,#7C817B);">BRAKE BIAS</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600; line-height:1; color:{{ timeFg }};">{{ biasLabel }}</div>
+              </div>
+              <div style="height:5px; background:var(--sub,#12151A); border-radius:1px; overflow:hidden;">
+                <div style="height:100%; width:{{ biasW }}; background:var(--bad,#F2564B);"></div>
+              </div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--dim,#7C817B); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ biasNote }}</div>
             </div>
-            <div style="height:8px; background:#12151A; border-radius:1px; overflow:hidden;">
-              <div style="height:100%; width:{{ ersW }}; background:#4EA8FF;"></div>
-            </div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--dim,#7C817B);">{{ ersNote }}</div>
-          </div>
-          <div style="padding:12px 14px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column; gap:6px;">
-            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:14px;">
-              <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">BRAKE BIAS</div>
-              <div style="font-family:'IBM Plex Mono',monospace; font-size:17px; font-weight:600;">{{ biasLabel }}</div>
-            </div>
-            <div style="height:8px; background:#12151A; border-radius:1px; overflow:hidden;">
-              <div style="height:100%; width:{{ biasW }}; background:#F2564B;"></div>
-            </div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--dim,#7C817B);">{{ biasNote }}</div>
           </div>
         </div>
       </div>
 
-      <div style="display:flex; flex-direction:column; gap:12px; min-height:0;">
-        <div style="padding:14px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column; gap:11px;">
+      <div style="display:flex; flex-direction:column; gap:12px; min-height:0; overflow:hidden;">
+        <div style="padding:14px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:11px;">
           <div style="display:flex; justify-content:space-between; align-items:baseline; gap:14px;">
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">TYRES</div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; color:{{ tyreWarnColor }};">{{ tyreWarn }}</div>
           </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <div style="display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:8px; min-width:0;">
             <sc-for list="{{ tyres }}" as="ty" hint-placeholder-count="4">
               <div style="padding:11px 12px; background:{{ ty.bg }}; border:1px solid {{ ty.border }}; border-radius:2px; display:flex; gap:11px;">
-                <div style="display:flex; align-items:center; justify-content:center; flex:none; padding:3px; border-radius:4px; background:#0B0D10; box-shadow:inset 0 0 9px rgba(0,0,0,.6);">
+                <div style="display:flex; align-items:center; justify-content:center; flex:none; padding:3px; border-radius:4px; background:var(--sunk,#0B0D10); box-shadow:inset 0 0 9px rgba(0,0,0,.6);">
                   <div style="{{ ty.tyre }}"></div>
                 </div>
-                <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:5px;">
+                <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:6px;">
                   <div style="display:flex; justify-content:space-between; align-items:baseline; gap:8px;">
                     <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; color:var(--dim,#7C817B);">{{ ty.pos }}</div>
-                    <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--dim,#7C817B);">{{ ty.press }}</div>
+                    <div style="{{ ty.bandStyle }}">{{ ty.band }}</div>
                   </div>
-                  <div style="font-family:'IBM Plex Mono',monospace; font-size:24px; font-weight:600; line-height:1; color:{{ ty.fg }};">{{ ty.temp }}</div>
-                  <div style="{{ ty.bandStyle }}">{{ ty.band }}</div>
-                  <div style="height:4px; background:#12151A; border-radius:1px; overflow:hidden;">
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; line-height:1; color:{{ ty.fg }};">{{ ty.temp }}</div>
+                  <div style="height:4px; background:var(--sub,#12151A); border-radius:1px; overflow:hidden;">
                     <div style="height:100%; width:{{ ty.wearW }}; background:{{ ty.wearColor }};"></div>
                   </div>
-                  <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--dim,#7C817B);">WEAR {{ ty.wear }}</div>
+                  <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.06em; color:var(--dim,#7C817B); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ ty.sub }}</div>
                 </div>
               </div>
             </sc-for>
           </div>
         </div>
 
-        <div style="flex:1; padding:14px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #FF5FD2 55%, transparent), inset 0 0 28px -19px #FF5FD2; border-radius:3px; display:flex; flex-direction:column; gap:12px; min-height:0;">
+        <div style="flex:1; padding:14px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:12px; min-height:0;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">CAR</div>
           <sc-for list="{{ carRows }}" as="r" hint-placeholder-count="5">
             <div style="display:flex; justify-content:space-between; align-items:baseline; gap:14px;">
@@ -365,8 +407,8 @@
       </div>
     </div>
 
-    <div style="display:grid; grid-template-columns:1fr 470px; gap:12px; min-height:0;">
-      <div style="padding:14px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #FF5FD2 55%, transparent), inset 0 0 28px -19px #FF5FD2; border-radius:3px; display:flex; flex-direction:column; gap:10px; min-height:0;">
+    <div style="flex:none; display:grid; grid-template-columns:1fr 470px; gap:12px;">
+      <div style="padding:14px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:10px; min-height:0;">
         <div style="display:flex; justify-content:space-between; align-items:center; gap:14px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">RADIO LOG</div>
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim,#7C817B);">CHATTER — {{ chatterLabel }}</div>
@@ -378,32 +420,40 @@
               <div style="flex:1; font-size:17px; line-height:1.3; color:{{ line.color }};">{{ line.text }}</div>
             </div>
           </sc-for>
+          <sc-if value="{{ noRadioLog }}" hint-placeholder-val="{{ false }}">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; line-height:1.5; color:var(--dim,#7C817B); text-wrap:pretty;">Nothing on the radio yet.</div>
+          </sc-if>
         </div>
       </div>
 
-      <div style="padding: 14px 16px; background: var(--panel,#0E1013); border: 1px solid var(--acc,#E8FF3A); border-radius: 3px; display: flex; flex-direction: column; gap: 10px; min-height: 0; width: 433px; height: 220px">
+      <div style="padding: 14px 16px; background: var(--panel,#0E1013); border: 1px solid var(--acc,#E8FF3A); border-radius: 3px; display: flex; flex-direction: column; gap: 10px; min-height: 0;">
         <div style="display:flex; justify-content:space-between; align-items:center; gap:14px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--acc,#E8FF3A);">RACE ENGINEER</div>
-          <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--dim,#7C817B);">{{ engineerState }}</div>
+          <div style="display:flex; align-items:baseline; gap:10px; min-width:0;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--acc,#E8FF3A); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ cueHoldLabel }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--dim,#7C817B); flex:none;">{{ engineerState }}</div>
+          </div>
         </div>
-        <div style="flex:1; font-size:18px; line-height:1.34; min-height:0; overflow:hidden;">{{ engineerLine }}</div>
+        <div style="flex:1; min-height:46px; font-size:18px; line-height:1.34; overflow:hidden;">{{ engineerLine }}</div>
         <div style="display:flex; align-items:center; gap:6px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B); flex:none;">MIC</div>
-          <div style="flex:1; display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px;">
+          <div style="flex:1; min-width:0; display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px;">
             <sc-for list="{{ micOpts }}" as="m" hint-placeholder-count="3">
               <div onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</div>
             </sc-for>
           </div>
-        </div>
-        <div style="display:flex; align-items:center; gap:9px;">
+          <div onClick="{{ pttBtn.go }}" style="{{ pttBtn.style }}">{{ pttBtn.label }}</div>
+          <sc-if value="{{ pttBtn.bound }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ pttBtn.clear }}" style="cursor:pointer; flex:none; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; padding:7px 9px; border-radius:2px; border:1px solid var(--line,#1D2024); color:var(--dim,#7C817B);">CLEAR</div>
+          </sc-if>
           <sc-if value="{{ talkBtn.show }}" hint-placeholder-val="{{ true }}">
             <div onMouseDown="{{ talkBtn.down }}" onMouseUp="{{ talkBtn.up }}" onMouseLeave="{{ talkBtn.up }}" onTouchStart="{{ talkBtn.down }}" onTouchEnd="{{ talkBtn.up }}" style="{{ talkBtn.style }}">{{ talkBtn.label }}</div>
           </sc-if>
-          <div style="{{ micLineStyle }}">{{ micLine }}</div>
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px;">
+        <div style="{{ micLineStyle }}">{{ micLine }}</div>
+        <div style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px;">
           <sc-for list="{{ asks }}" as="a" hint-placeholder-count="6">
-            <div onClick="{{ a.go }}" style="cursor:pointer; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.04em; padding:10px 4px; background:#15181C; border:1px solid var(--line,#1D2024); border-radius:2px; color:var(--text,#F4F5F2);" style-hover="background:var(--acc,#E8FF3A); color:var(--bg,#07080A);">{{ a.label }}</div>
+            <div onClick="{{ a.go }}" style="cursor:pointer; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.02em; padding:9px 3px; background:var(--sub,#12151A); border:1px solid var(--line,#1D2024); border-radius:2px; color:var(--text,#F4F5F2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" style-hover="background:var(--acc,#E8FF3A); color:var(--bg,#07080A);">{{ a.label }}</div>
           </sc-for>
         </div>
       </div>
@@ -411,35 +461,76 @@
   </div>
   </sc-if>
 
+  <sc-if value="{{ glanceOn }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ exitGlance }}" style="position:absolute; inset:0; z-index:9; cursor:pointer; background:var(--bg,#07080A); display:grid; grid-template-rows:auto 1fr auto; gap:20px; padding:36px 46px; box-sizing:border-box;">
+    <div style="display:flex; align-items:baseline; justify-content:space-between; gap:20px;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; letter-spacing:0.22em; color:var(--dim,#7C817B);">GLANCE · {{ glanceRef }}</div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; letter-spacing:0.22em; color:var(--dim,#7C817B);">G OR TAP TO RETURN</div>
+    </div>
+    <div style="display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:44px; align-items:center; min-height:0;">
+      <div style="display:flex; flex-direction:column; gap:22px; min-width:0;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:228px; font-weight:700; line-height:0.8; letter-spacing:-0.06em; color:{{ deltaColor }};">{{ deltaLabel }}</div>
+        <div style="display:flex; align-items:stretch; gap:2px; height:86px;">
+          <sc-for list="{{ miniBars }}" as="b" hint-placeholder-count="24">
+            <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2px; min-width:0;">
+              <div style="flex:1; display:flex; flex-direction:column; justify-content:flex-end;">
+                <div style="width:100%; height:{{ b.up }}; background:{{ b.bg }};"></div>
+              </div>
+              <div style="flex:1;">
+                <div style="width:100%; height:{{ b.down }}; background:{{ b.bg }};"></div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:flex-end; gap:16px; flex:none;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:150px; font-weight:700; line-height:0.82; letter-spacing:-0.05em;">{{ gear }}</div>
+        <div style="display:flex; align-items:baseline; gap:10px;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:62px; font-weight:600; line-height:1; letter-spacing:-0.04em;">{{ speed }}</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:18px; color:var(--dim,#7C817B);">{{ speedUnitLabel }}</div>
+        </div>
+        <div style="display:flex; align-items:baseline; gap:12px;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; letter-spacing:0.18em; color:var(--dim,#7C817B);">PREDICTED</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:38px; font-weight:600; line-height:1; color:{{ predFg }};">{{ predLabel }}</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:baseline; gap:20px; padding-top:18px; border-top:1px solid var(--line,#1D2024);">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; letter-spacing:0.18em; color:var(--acc,#E8FF3A); flex:none;">RADIO</div>
+      <div style="flex:1; min-width:0; font-size:32px; line-height:1.22; text-wrap:pretty;">{{ engineerLine }}</div>
+    </div>
+  </div>
+  </sc-if>
+
   <sc-if value="{{ isSetup }}" hint-placeholder-val="{{ false }}">
   <div style="display:grid; grid-template-columns:1fr 420px; gap:12px; min-height:0;">
     <div style="display:flex; flex-direction:column; gap:12px; min-height:0;">
-      <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column; gap:14px;">
+      <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:14px;">
         <div style="display:flex; flex-direction:column; gap:4px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">TELEMETRY SOURCE</div>
           <div style="font-size:26px; font-weight:600; letter-spacing:-0.01em;">Choose your sim</div>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
           <sc-for list="{{ games }}" as="g" hint-placeholder-count="6">
-            <div onClick="{{ g.pick }}" style="cursor:pointer; padding:14px 15px; background:{{ g.bg }}; border:1px solid {{ g.border }}; border-radius:3px; display:flex; flex-direction:column; gap:7px;">
+            <div onClick="{{ g.pick }}" style="cursor:{{ g.cursor }}; opacity:{{ g.opacity }}; padding:14px 15px; background:{{ g.bg }}; border:1px solid {{ g.border }}; border-radius:3px; display:flex; flex-direction:column; gap:7px;">
               <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-                <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; letter-spacing:0.08em; padding:4px 7px; border-radius:2px; background:{{ g.tagBg }}; color:{{ g.tagFg }};">{{ g.code }}</div>
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; letter-spacing:0.08em; padding:4px 7px; border-radius:2px; border:1px solid {{ g.border }}; background:{{ g.tagBg }}; color:{{ g.tagFg }};">{{ g.code }}</div>
                 <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; color:{{ g.stateColor }};">{{ g.state }}</div>
               </div>
-              <div style="font-size:17px; font-weight:600; line-height:1.15;">{{ g.name }}</div>
+              <div style="font-size:17px; font-weight:600; line-height:1.15; color:{{ g.nameColor }};">{{ g.name }}</div>
               <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; line-height:1.4; color:var(--dim,#7C817B);">{{ g.transport }}</div>
             </div>
           </sc-for>
         </div>
       </div>
 
-      <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #FF5FD2 55%, transparent), inset 0 0 28px -19px #FF5FD2; border-radius:3px; display:grid; grid-template-columns:minmax(0,1fr) 260px; gap:18px;">
+      <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); border-radius:3px; display:grid; grid-template-columns:minmax(0,1fr) 260px; gap:18px;">
         <div style="display:flex; flex-direction:column; gap:11px; min-width:0;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">DRIVER</div>
 
           <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex; align-items:center; gap:14px;">
-              <div style="width:52px; height:52px; flex:none; border-radius:50%; border:1px solid var(--acc,#E8FF3A); background:#12151A; color:var(--acc,#E8FF3A); display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:700;">{{ driverInitial }}</div>
+              <div style="width:52px; height:52px; flex:none; border-radius:50%; border:1px solid var(--acc,#E8FF3A); background:var(--sub,#12151A); color:var(--acc,#E8FF3A); display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:700;">{{ driverInitial }}</div>
               <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:3px;">
                 <div style="font-size:22px; font-weight:600; letter-spacing:-0.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ driverName }}</div>
                 <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; color:var(--acc,#E8FF3A);">{{ driverNumber }} · {{ driverTeam }}</div>
@@ -515,14 +606,14 @@
         </div>
       </div>
 
-      <div style="flex:1; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column; gap:12px; min-height:0; overflow-y:auto;">
+      <div style="flex:1; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:12px; min-height:0; overflow-y:auto;">
         <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">CONNECTION — UDP</div>
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim,#7C817B);">{{ engineNote }}</div>
         </div>
 
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-          <div style="display:flex; flex-direction:column; gap:8px; padding:13px 14px; background:#12151A; border:1px solid var(--line,#1D2024); border-radius:2px;">
+          <div style="display:flex; flex-direction:column; gap:8px; padding:13px 14px; background:var(--sub,#12151A); border:1px solid var(--line,#1D2024); border-radius:2px;">
             <sc-if value="{{ isGtSrc }}" hint-placeholder-val="{{ true }}">
               <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; color:var(--dim,#7C817B);">PLAYSTATION IP</div>
               <input type="text" value="{{ ipDraft }}" onChange="{{ onIp }}" placeholder="192.168.1.24" style="{{ fieldStyle }}">
@@ -532,7 +623,7 @@
             <sc-if value="{{ isF1Src }}" hint-placeholder-val="{{ false }}">
               <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; color:var(--dim,#7C817B);">THIS COMPUTER — ENTER IN THE GAME</div>
               <sc-for list="{{ myIps }}" as="a" hint-placeholder-count="1">
-                <div onClick="{{ a.copy }}" style="cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:17px; font-weight:600; letter-spacing:0.02em; padding:7px 10px; background:#0B0D10; border:1px solid var(--line,#1D2024); border-radius:2px; color:var(--acc,#2E6BFF);">{{ a.ip }}</div>
+                <div onClick="{{ a.copy }}" style="cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:17px; font-weight:600; letter-spacing:0.02em; padding:7px 10px; background:var(--sunk,#0B0D10); border:1px solid var(--line,#1D2024); border-radius:2px; color:var(--acc,#2E6BFF);">{{ a.ip }}</div>
               </sc-for>
               <div style="display:flex; align-items:center; gap:8px;">
                 <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; color:var(--dim,#7C817B); flex:none;">UDP PORT</div>
@@ -542,7 +633,7 @@
               <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; line-height:1.5; color:var(--dim,#7C817B);">{{ f1Note }}</div>
             </sc-if>
           </div>
-          <div style="display:flex; flex-direction:column; gap:8px; padding:13px 14px; background:#12151A; border:1px solid var(--line,#1D2024); border-radius:2px;">
+          <div style="display:flex; flex-direction:column; gap:8px; padding:13px 14px; background:var(--sub,#12151A); border:1px solid var(--line,#1D2024); border-radius:2px;">
             <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; color:var(--dim,#7C817B);">BRIDGE HOST · PORT</div>
             <div style="display:flex; gap:8px;">
               <input type="text" value="{{ hostValue }}" onChange="{{ onHost }}" placeholder="localhost" style="{{ fieldStyle }}">
@@ -554,7 +645,7 @@
         </div>
 
         <sc-for list="{{ conn }}" as="c" hint-placeholder-count="4">
-          <div style="display:flex; align-items:center; gap:13px; padding:7px 13px; background:#12151A; border:1px solid var(--line,#1D2024); border-radius:2px;">
+          <div style="display:flex; align-items:center; gap:13px; padding:7px 13px; background:var(--sub,#12151A); border:1px solid var(--line,#1D2024); border-radius:2px;">
             <div style="width:22px; height:22px; flex:none; border-radius:50%; background:{{ c.dotBg }}; color:{{ c.dotFg }}; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700;">{{ c.n }}</div>
             <div style="flex:1; display:flex; flex-direction:column; gap:1px;">
               <div style="font-size:14px;">{{ c.title }}</div>
@@ -572,7 +663,7 @@
           </div>
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; line-height:1.5; color:{{ sourceColor }}; text-wrap:pretty;">{{ sourceNote }}</div>
         </div>
-        <div style="display:flex; align-items:center; gap:10px; padding:12px 14px; background:#0B0D10; border:1px solid var(--line,#1D2024); border-radius:2px;">
+        <div style="display:flex; align-items:center; gap:10px; padding:12px 14px; background:var(--sunk,#0B0D10); border:1px solid var(--line,#1D2024); border-radius:2px;">
           <div style="flex:1; min-width:0; font-family:'IBM Plex Mono',monospace; font-size:11px; line-height:1.5; color:var(--acc,#E8FF3A); overflow:hidden; text-overflow:ellipsis;">{{ cmdLine }}</div>
           <div onClick="{{ copyCmd }}" style="cursor:pointer; flex:none; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; padding:8px 11px; border:1px solid var(--line,#1D2024); border-radius:2px; color:var(--dim,#7C817B);">COPY</div>
         </div>
@@ -580,7 +671,7 @@
       </div>
     </div>
 
-    <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #FF5FD2 55%, transparent), inset 0 0 28px -19px #FF5FD2; border-radius:3px; display:flex; flex-direction:column; gap:12px; min-height:0;">
+    <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:12px; min-height:0;">
       <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">ENGINEER</div>
       <div style="display:flex; flex-direction:column; gap:7px;">
         <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; color:var(--dim,#7C817B);">CHATTER</div>
@@ -635,22 +726,22 @@
   <div style="display:grid; grid-template-columns:380px 1fr 400px; gap:12px; min-height:0;">
     <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, var(--acc,#E8FF3A) 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, var(--acc,#E8FF3A) 55%, transparent), inset 0 0 28px -19px var(--acc,#E8FF3A); border-radius:3px; display:flex; flex-direction:column; gap:12px; min-height:0;">
       <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:14px;">
-        <div style="display:flex; flex-direction:column; gap:4px;">
-          <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">{{ lapCountLabel }}</div>
-          <div style="font-size:26px; font-weight:600; letter-spacing:-0.01em;">This session</div>
+        <div style="display:flex; flex-direction:column; gap:4px; flex:none;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B); white-space:nowrap;">{{ lapCountLabel }}</div>
+          <div style="font-size:26px; font-weight:600; letter-spacing:-0.01em; white-space:nowrap;">This session</div>
         </div>
-        <div style="display:flex; gap:26px;">
+        <div style="display:flex; gap:12px; min-width:0;">
           <div style="display:flex; flex-direction:column; gap:2px;">
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">BEST</div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:600;">{{ bestLabel }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:600; white-space:nowrap; color:{{ bestLabelFg }};">{{ bestLabel }}</div>
           </div>
           <div style="display:flex; flex-direction:column; gap:2px;">
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">IDEAL — DERIVED</div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:600; color:var(--acc,#E8FF3A);">{{ idealLabel }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B); white-space:nowrap;">IDEAL</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:600; white-space:nowrap; color:{{ idealLabelFg }};">{{ idealLabel }}</div>
           </div>
           <div style="display:flex; flex-direction:column; gap:2px;">
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">{{ spreadLabel }}</div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:600;">{{ consistencyLabel }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:600; white-space:nowrap; color:{{ consistencyFg }};">{{ consistencyLabel }}</div>
           </div>
         </div>
       </div>
@@ -706,6 +797,12 @@
         </sc-for>
       </div>
 
+      <sc-if value="{{ noMap }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:none; padding:30px; background:#0A0C10; border:1px dashed var(--line,#1D2024); border-radius:2px; display:flex; align-items:center; justify-content:center;">
+        <div style="max-width:420px; text-align:center; font-size:17px; line-height:1.4; color:var(--dim,#7C817B); text-wrap:pretty;">The corner map draws itself from your own lap. Nothing traced yet.</div>
+      </div>
+      </sc-if>
+
       <sc-if value="{{ hasMap }}" hint-placeholder-val="{{ true }}">
       <div style="flex:none; background:#0A0C10; border:1px solid var(--line,#1D2024); border-radius:2px;">
         <svg viewBox="0 0 760 430" style="width:100%; height:auto; display:block;">
@@ -733,7 +830,7 @@
 
       <div style="flex:1; min-height:0; overflow-y:auto; display:grid; grid-template-columns:1fr 1fr; gap:6px; align-content:start;">
         <sc-for list="{{ cornerCards }}" as="c" hint-placeholder-count="8">
-          <div style="padding:8px 10px; background:#12151A; border-left:2px solid {{ c.color }}; border-radius:0 2px 2px 0; display:flex; flex-direction:column; gap:4px;">
+          <div style="padding:8px 10px; background:var(--sub,#12151A); border-left:2px solid {{ c.color }}; border-radius:0 2px 2px 0; display:flex; flex-direction:column; gap:4px;">
             <div style="display:flex; align-items:baseline; gap:8px;">
               <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600;">{{ c.name }}</div>
               <div style="flex:1; height:4px; background:#1B2027; border-radius:2px; overflow:hidden;">
@@ -774,13 +871,13 @@
       </div>
 
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-        <div style="display:flex; flex-direction:column; gap:6px; padding:10px 12px; background:#12151A; border:1px solid var(--line,#1D2024); border-radius:2px;">
+        <div style="display:flex; flex-direction:column; gap:6px; padding:10px 12px; background:var(--sub,#12151A); border:1px solid var(--line,#1D2024); border-radius:2px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">GRIP WINDOW</div>
           <div style="font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; line-height:1; color:{{ gripColor }};">{{ gripValue }}</div>
           <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.1em; color:var(--dim,#7C817B);">{{ gripUnit }}</div>
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; line-height:1.5; color:var(--dim,#7C817B); text-wrap:pretty;">{{ gripNote }}</div>
         </div>
-        <div style="display:flex; flex-direction:column; gap:6px; padding:10px 12px; background:#12151A; border:1px solid var(--line,#1D2024); border-radius:2px;">
+        <div style="display:flex; flex-direction:column; gap:6px; padding:10px 12px; background:var(--sub,#12151A); border:1px solid var(--line,#1D2024); border-radius:2px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">REPEATABILITY</div>
           <div style="font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; line-height:1; color:{{ repColor }};">{{ repValue }}</div>
           <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.1em; color:var(--dim,#7C817B);">{{ repUnit }}</div>
@@ -804,7 +901,7 @@
         <sc-for list="{{ cornerLoss }}" as="c" hint-placeholder-count="6">
           <div style="display:flex; align-items:center; gap:12px;">
             <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; width:36px; flex:none;">{{ c.n }}</div>
-            <div style="flex:1; height:20px; background:#12151A; border-radius:1px; overflow:hidden;">
+            <div style="flex:1; height:20px; background:var(--sub,#12151A); border-radius:1px; overflow:hidden;">
               <div style="height:100%; width:{{ c.w }}; background:{{ c.color }};"></div>
             </div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; width:48px; flex:none; text-align:right; color:{{ c.color }};">{{ c.v }}</div>
@@ -815,7 +912,7 @@
       <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">EVENTS DETECTED</div>
       <div style="display:flex; gap:6px; flex-wrap:wrap;">
         <sc-for list="{{ eventTags }}" as="e" hint-placeholder-count="5">
-          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; padding:7px 10px; background:#12151A; border:1px solid var(--line,#1D2024); border-radius:2px; color:var(--dim,#7C817B);">{{ e }}</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; padding:7px 10px; background:var(--sub,#12151A); border:1px solid var(--line,#1D2024); border-radius:2px; color:var(--dim,#7C817B);">{{ e }}</div>
         </sc-for>
       </div>
       <div style="margin-top:auto; padding:16px; background:#15170F; border:1px solid var(--acc,#E8FF3A); border-radius:2px; display:flex; flex-direction:column; gap:6px;">
@@ -828,11 +925,37 @@
 
   <sc-if value="{{ isRecords }}" hint-placeholder-val="{{ false }}">
   <div style="display:grid; grid-template-columns:1fr 520px; gap:12px; min-height:0;">
-    <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column; gap:12px; min-height:0;">
+    <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:12px; min-height:0;">
       <div style="display:flex; flex-direction:column; gap:4px;">
         <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">{{ recordsCount }}</div>
         <div style="font-size:26px; font-weight:600; letter-spacing:-0.01em;">Lap records</div>
         <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.12em; color:var(--dim,#7C817B);">{{ catLine }}</div>
+      </div>
+
+      <div style="flex:none; display:flex; flex-direction:column; gap:9px; padding:12px 13px; background:var(--sub,#12151A); border:1px solid var(--line,#1D2024); border-radius:2px;">
+        <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">DRIVERS ON THIS RIG</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim,#7C817B); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ seatNote }}</div>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center;">
+          <sc-for list="{{ seatChips }}" as="sc" hint-placeholder-count="2">
+            <div onClick="{{ sc.go }}" style="{{ sc.style }}">{{ sc.label }}</div>
+          </sc-for>
+          <input type="text" value="{{ seatDraft }}" onChange="{{ onSeatDraft }}" placeholder="add a driver" style="{{ seatField }}">
+          <div onClick="{{ addSeat }}" style="cursor:pointer; flex:none; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; padding:7px 10px; border:1px solid var(--acc,#E8FF3A); border-radius:2px; color:var(--acc,#E8FF3A);">ADD</div>
+        </div>
+        <sc-if value="{{ hasH2H }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; flex-direction:column; gap:6px; padding-top:8px; border-top:1px solid var(--line,#1D2024);">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">HEAD TO HEAD · {{ h2hTrackLabel }}</div>
+            <sc-for list="{{ h2hRows }}" as="r" hint-placeholder-count="2">
+              <div style="display:grid; grid-template-columns:minmax(0,1fr) 110px 86px; gap:8px; align-items:baseline; font-family:'IBM Plex Mono',monospace; font-size:11px;">
+                <div style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:{{ r.fg }};">{{ r.name }}</div>
+                <div style="text-align:right; font-weight:600; color:{{ r.fg }};">{{ r.time }}</div>
+                <div style="text-align:right; color:{{ r.gapFg }};">{{ r.gap }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
       </div>
       <sc-if value="{{ noSessions }}" hint-placeholder-val="{{ true }}">
         <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:24px; border:1px dashed var(--line,#1D2024); border-radius:2px;">
@@ -843,7 +966,7 @@
         <sc-for list="{{ trackGroups }}" as="g" hint-placeholder-count="3">
           <div style="border:1px solid var(--line,#1D2024); border-radius:2px; overflow:hidden; flex:none;">
 
-            <div onClick="{{ g.toggle }}" style="cursor:pointer; display:grid; grid-template-columns:4px 26px 52px minmax(0,1fr) auto; align-items:center; background:#12151A;">
+            <div onClick="{{ g.toggle }}" style="cursor:pointer; display:grid; grid-template-columns:4px 26px 52px minmax(0,1fr) auto; align-items:center; background:var(--sub,#12151A);">
               <div style="align-self:stretch; background:linear-gradient(180deg, {{ g.flagA }} 0 50%, {{ g.flagB }} 50% 100%);"></div>
               <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; text-align:center; color:{{ g.caretColor }};">{{ g.caret }}</div>
               <div style="padding:9px 0; display:flex; align-items:center; justify-content:center;">
@@ -869,7 +992,7 @@
 
             <sc-if value="{{ g.open }}" hint-placeholder-val="{{ true }}">
               <sc-for list="{{ g.days }}" as="day" hint-placeholder-count="1">
-                <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px; padding:7px 15px 7px 32px; background:#0B0D10; border-top:1px solid var(--line,#1D2024);">
+                <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px; padding:7px 15px 7px 32px; background:var(--sunk,#0B0D10); border-top:1px solid var(--line,#1D2024);">
                   <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--acc,#E8FF3A);">{{ day.label }}</div>
                   <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.12em; color:var(--dim,#7C817B);">{{ day.count }}</div>
                 </div>
@@ -963,14 +1086,14 @@
         </div>
         <div style="display:flex; align-items:center; gap:10px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; width:58px; flex:none; color:var(--dim,#7C817B);">YOURS</div>
-          <div style="flex:1; height:16px; background:#12151A; border-radius:1px; overflow:hidden;">
+          <div style="flex:1; height:16px; background:var(--sub,#12151A); border-radius:1px; overflow:hidden;">
             <div style="height:100%; width:{{ yoursW }}; background:{{ yoursBarColor }};"></div>
           </div>
           <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; width:88px; flex:none; text-align:right;">{{ selBest }}</div>
         </div>
         <div style="display:flex; align-items:center; gap:10px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; width:58px; flex:none; color:var(--dim,#7C817B);">{{ targetRowLabel }}</div>
-          <div style="flex:1; height:16px; background:#12151A; border-radius:1px; overflow:hidden;">
+          <div style="flex:1; height:16px; background:var(--sub,#12151A); border-radius:1px; overflow:hidden;">
             <div style="height:100%; width:{{ targetW }}; background:{{ targetBarColor }};"></div>
           </div>
           <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; width:88px; flex:none; text-align:right; color:var(--dim,#7C817B);">{{ targetLabel }}</div>
@@ -1034,7 +1157,7 @@
           <sc-for list="{{ graphEdges }}" as="g" hint-placeholder-count="9">
             <line x1="{{ g.x1 }}" y1="{{ g.y1 }}" x2="{{ g.x2 }}" y2="{{ g.y2 }}" stroke="{{ g.stroke }}" strokeWidth="{{ g.width }}" opacity="{{ g.opacity }}"></line>
           </sc-for>
-          <circle cx="{{ graphCx }}" cy="{{ graphCy }}" r="22" fill="#12151A" stroke="var(--acc,#E8FF3A)" strokeWidth="1.5"></circle>
+          <circle cx="{{ graphCx }}" cy="{{ graphCy }}" r="22" fill="var(--sub,#12151A)" stroke="var(--acc,#E8FF3A)" strokeWidth="1.5"></circle>
           <text x="{{ graphCx }}" y="{{ graphCy }}" textAnchor="middle" dominantBaseline="middle" fill="var(--acc,#E8FF3A)" style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.1em;">YOU</text>
           <sc-for list="{{ graphNodes }}" as="n" hint-placeholder-count="9">
             <circle cx="{{ n.cx }}" cy="{{ n.cy }}" r="{{ n.r }}" fill="{{ n.fill }}" stroke="{{ n.stroke }}" strokeWidth="1.2"></circle>
@@ -1054,7 +1177,7 @@
         <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">OBSERVED — YOUR OWN LAPS ONLY</div>
         <div style="font-size:21px; font-weight:600; letter-spacing:-0.01em;">How you drive</div>
       </div>
-      <div style="padding:13px 14px; background:#12151A; border-left:2px solid var(--acc,#E8FF3A); border-radius:0 2px 2px 0; font-size:15px; line-height:1.42; text-wrap:pretty;">{{ brainProfile }}</div>
+      <div style="padding:13px 14px; background:var(--sub,#12151A); border-left:2px solid var(--acc,#E8FF3A); border-radius:0 2px 2px 0; font-size:15px; line-height:1.42; text-wrap:pretty;">{{ brainProfile }}</div>
       <div style="flex:1; display:flex; flex-direction:column; gap:12px; overflow-y:auto; overflow-x:hidden; min-height:0;">
         <sc-for list="{{ brainTraits }}" as="x" hint-placeholder-count="5">
           <div style="display:flex; flex-direction:column; gap:5px; padding-bottom:11px; border-bottom:1px solid var(--line,#1D2024);">
@@ -1064,7 +1187,7 @@
             </div>
             <div style="font-size:17px; line-height:1.3; font-weight:600; letter-spacing:-0.01em; color:{{ x.verdictColor }};">{{ x.verdict }}</div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; line-height:1.5; color:var(--dim,#7C817B); text-wrap:pretty;">{{ x.detail }}</div>
-            <div style="height:3px; background:#12151A; border-radius:2px; overflow:hidden;">
+            <div style="height:3px; background:var(--sub,#12151A); border-radius:2px; overflow:hidden;">
               <div style="height:100%; width:{{ x.pctW }}; background:{{ x.barColor }};"></div>
             </div>
           </div>
@@ -1079,7 +1202,7 @@
       </sc-if>
       <div style="flex:1; display:flex; flex-direction:column; gap:9px; overflow-y:auto; overflow-x:hidden; min-height:0;">
         <sc-for list="{{ brainLog }}" as="e" hint-placeholder-count="4">
-          <div style="display:flex; flex-direction:column; gap:4px; padding:11px 12px; background:#12151A; border-radius:2px;">
+          <div style="display:flex; flex-direction:column; gap:4px; padding:11px 12px; background:var(--sub,#12151A); border-radius:2px;">
             <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px;">
               <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.12em; color:var(--acc,#E8FF3A);">{{ e.tag }}</div>
               <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--dim,#7C817B);">{{ e.when }}</div>
@@ -1152,7 +1275,7 @@
                 <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; line-height:1.45; color:var(--dim,#7C817B); text-wrap:pretty;">{{ e.requirement }}</div>
                 <sc-if value="{{ e.locked }}" hint-placeholder-val="{{ false }}">
                   <div style="display:flex; align-items:center; gap:10px;">
-                    <div style="flex:1; height:4px; background:#12151A; border-radius:2px; overflow:hidden;">
+                    <div style="flex:1; height:4px; background:var(--sub,#12151A); border-radius:2px; overflow:hidden;">
                       <div style="height:100%; width:{{ e.pctW }}; background:var(--dim,#7C817B);"></div>
                     </div>
                     <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--dim,#7C817B); flex:none;">{{ e.progressLabel }}</div>
@@ -1168,14 +1291,14 @@
       </div>
     </div>
 
-    <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #FF5FD2 55%, transparent), inset 0 0 28px -19px #FF5FD2; border-radius:3px; display:flex; flex-direction:column; gap:14px; min-height:0;">
+    <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:14px; min-height:0;">
       <div style="display:flex; flex-direction:column; gap:3px;">
         <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">ON THE RADIO</div>
         <div style="font-size:23px; font-weight:600; letter-spacing:-0.01em;">{{ curEngName }}</div>
         <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; color:var(--acc,#E8FF3A);">{{ curEngRole }}</div>
       </div>
 
-      <div style="padding:14px 15px; background:#12151A; border-left:2px solid var(--acc,#E8FF3A); border-radius:0 2px 2px 0; display:flex; flex-direction:column; gap:6px;">
+      <div style="padding:14px 15px; background:var(--sub,#12151A); border-left:2px solid var(--acc,#E8FF3A); border-radius:0 2px 2px 0; display:flex; flex-direction:column; gap:6px;">
         <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">OPENING CALL</div>
         <div style="font-size:16px; line-height:1.4; text-wrap:pretty;">{{ curEngCue }}</div>
       </div>
@@ -1211,10 +1334,32 @@
 
   <sc-if value="{{ isCoach }}" hint-placeholder-val="{{ false }}">
   <div style="display:grid; grid-template-columns:1fr 400px; gap:12px; min-height:0;">
-    <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #FF5FD2 55%, transparent), inset 0 0 28px -19px #FF5FD2; border-radius:3px; display:flex; flex-direction:column; gap:14px; min-height:0;">
+    <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:14px; min-height:0;">
       <div style="display:flex; flex-direction:column; gap:4px;">
         <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">LAP BY LAP COACHING</div>
         <div style="font-size:26px; font-weight:600; letter-spacing:-0.01em;">What the engineer saw, and what changed</div>
+      </div>
+
+      <div style="flex:none; display:flex; flex-direction:column; gap:8px; padding:13px 15px; background:var(--sub,#12151A); border:1px solid var(--line,#1D2024); border-radius:2px;">
+        <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--acc,#E8FF3A);">LAST DEBRIEF</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim,#7C817B);">{{ debriefWhen }}</div>
+        </div>
+        <sc-if value="{{ hasDebrief }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; flex-direction:column; gap:7px;">
+            <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px;">
+              <div style="font-size:18px; font-weight:600; letter-spacing:-0.01em; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ debriefHead }}</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:var(--acc,#E8FF3A); flex:none;">{{ debriefGain }}</div>
+            </div>
+            <div style="font-size:15px; line-height:1.4; text-wrap:pretty;">{{ debriefLine }}</div>
+            <sc-if value="{{ hasDebriefFocus }}" hint-placeholder-val="{{ false }}">
+              <div onClick="{{ setDebriefFocus }}" style="cursor:pointer; align-self:flex-start; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.12em; padding:7px 10px; border:1px solid var(--acc,#E8FF3A); border-radius:2px; color:var(--acc,#E8FF3A);">{{ debriefFocus }}</div>
+            </sc-if>
+          </div>
+        </sc-if>
+        <sc-if value="{{ noDebrief }}" hint-placeholder-val="{{ true }}">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; line-height:1.6; color:var(--dim,#7C817B); text-wrap:pretty;">{{ debriefEmpty }}</div>
+        </sc-if>
       </div>
       <sc-if value="{{ noCoach }}" hint-placeholder-val="{{ false }}">
         <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:24px; border:1px dashed var(--line,#1D2024); border-radius:2px;">
@@ -1223,7 +1368,7 @@
       </sc-if>
       <div style="flex:1; display:flex; flex-direction:column; gap:8px; overflow:hidden;">
         <sc-for list="{{ coaching }}" as="c" hint-placeholder-count="5">
-          <div style="display:grid; grid-template-columns:58px 1fr 108px; gap:16px; align-items:center; padding:14px 16px; background:#12151A; border-left:2px solid {{ c.accent }}; border-radius:0 2px 2px 0;">
+          <div style="display:grid; grid-template-columns:58px 1fr 108px; gap:16px; align-items:center; padding:14px 16px; background:var(--sub,#12151A); border-left:2px solid {{ c.accent }}; border-radius:0 2px 2px 0;">
             <div style="display:flex; flex-direction:column; gap:2px;">
               <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--dim,#7C817B);">LAP</div>
               <div style="font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:600;">{{ c.lap }}</div>
@@ -1245,7 +1390,7 @@
     </div>
 
     <div style="display:flex; flex-direction:column; gap:12px; min-height:0;">
-      <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column; gap:12px;">
+      <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:12px;">
         <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">{{ progressHead }}</div>
         <div style="display:flex; align-items:flex-end; gap:5px; height:96px;">
           <sc-for list="{{ progress }}" as="p" hint-placeholder-count="8">
@@ -1258,7 +1403,7 @@
         </div>
       </div>
 
-      <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column; gap:11px;">
+      <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:11px;">
         <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">STINT PLAN</div>
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim,#7C817B);">{{ planStops }}</div>
@@ -1270,16 +1415,24 @@
         </div>
 
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-          <div style="display:flex; flex-direction:column; gap:3px; padding:9px 11px; background:#12151A; border:1px solid var(--line,#1D2024); border-radius:2px;">
+          <div style="display:flex; flex-direction:column; gap:3px; padding:9px 11px; background:var(--sub,#12151A); border:1px solid var(--line,#1D2024); border-radius:2px;">
             <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.12em; color:var(--dim,#7C817B);">FUEL AT THE FLAG</div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:19px; font-weight:600; color:{{ planFuelColor }};">{{ planFuel }}</div>
           </div>
-          <div style="display:flex; flex-direction:column; gap:3px; padding:9px 11px; background:#12151A; border:1px solid var(--line,#1D2024); border-radius:2px;">
+          <div style="display:flex; flex-direction:column; gap:3px; padding:9px 11px; background:var(--sub,#12151A); border:1px solid var(--line,#1D2024); border-radius:2px;">
             <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.12em; color:var(--dim,#7C817B);">DEGRADATION</div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:19px; font-weight:600; color:var(--text,#E6E8E3);">{{ planDeg }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:19px; font-weight:600; color:{{ planDegColor }};">{{ planDeg }}</div>
           </div>
         </div>
         <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; line-height:1.5; color:{{ planNoteColor }}; text-wrap:pretty;">{{ planNote }}</div>
+
+        <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.12em; color:var(--dim,#7C817B);">PIT LOSS</div>
+          <div style="display:flex; align-items:baseline; gap:9px; min-width:0;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.12em; color:var(--dim,#7C817B); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ pitLossNote }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:17px; font-weight:600; color:{{ pitLossColor }}; flex:none;">{{ pitLossLabel }}</div>
+          </div>
+        </div>
 
         <div style="display:flex; gap:7px; align-items:center;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim,#7C817B); flex:none;">LAPS</div>
@@ -1290,7 +1443,7 @@
           </sc-for>
         </div>
 
-        <div onClick="{{ toggleGhost }}" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 12px; background:#12151A; border:1px solid {{ ghostBorder }}; border-radius:2px;">
+        <div onClick="{{ toggleGhost }}" style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 12px; background:var(--sub,#12151A); border:1px solid {{ ghostBorder }}; border-radius:2px;">
           <div style="display:flex; flex-direction:column; gap:2px; min-width:0;">
             <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; color:{{ ghostColor }};">GHOST COACH</div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; line-height:1.45; color:var(--dim,#7C817B); text-wrap:pretty;">{{ ghostNote }}</div>
@@ -1299,12 +1452,12 @@
         </div>
       </div>
 
-      <div style="flex:1; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column; gap:12px; min-height:0; overflow:hidden;">
+      <div style="flex:1; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:12px; min-height:0; overflow:hidden;">
         <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">STANDING NOTES</div>
         <sc-for list="{{ notes }}" as="n" hint-placeholder-count="3">
           <div style="display:flex; flex-direction:column; gap:4px; padding-bottom:12px; border-bottom:1px solid var(--line,#1D2024);">
             <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; color:{{ n.color }};">{{ n.tag }}</div>
-            <div style="font-size:16px; line-height:1.35;">{{ n.text }}</div>
+            <div style="font-size:16px; line-height:1.35; color:{{ n.textColor }};">{{ n.text }}</div>
           </div>
         </sc-for>
       </div>
@@ -1321,18 +1474,7 @@
   </sc-if>
 
   <sc-if value="{{ isBrief }}" hint-placeholder-val="{{ false }}">
-  <div style="display:grid; grid-template-rows:auto 166px 1fr; gap:14px; min-height:0;">
-
-    <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px;">
-      <div style="display:flex; align-items:baseline; gap:14px;">
-        <div style="font-size:27px; font-weight:600; letter-spacing:-0.015em;">Apexa</div>
-        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.18em; color:var(--dim,#7C817B);">EVERY APEX, READ AND ANSWERED — LIVE TELEMETRY AND AN AI RACE ENGINEER</div>
-      </div>
-      <div style="display:flex; align-items:center; gap:12px;">
-        <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; color:var(--dim,#7C817B);">{{ homeConn }}</div>
-        <div onClick="{{ radioChip.go }}" style="cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; padding:9px 13px; border-radius:2px; border:1px solid {{ radioChip.border }}; background:{{ radioChip.bg }}; color:{{ radioChip.fg }};">{{ radioChip.label }}</div>
-      </div>
-    </div>
+  <div style="display:grid; grid-template-rows:166px auto 1fr; gap:14px; min-height:0;">
 
     <div onClick="{{ goRace }}" onMouseEnter="{{ barIn }}" onMouseLeave="{{ barOut }}" style="cursor:pointer; display:flex; align-items:center; gap:22px; padding:0 24px; background:{{ barBg }}; border:1px solid {{ barBorder }}; border-radius:4px;">
       <div style="color:var(--acc,#E8FF3A); flex:none;"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style="display:block;"><circle cx="12" cy="13" r="8.2"></circle><path d="M12 13l4.6-3.4"></path><path d="M4.6 9.4l1.6.9"></path><path d="M19.4 9.4l-1.6.9"></path><path d="M12 4.8v1.9"></path></svg></div>
@@ -1348,11 +1490,11 @@
         </div>
         <div style="display:flex; flex-direction:column; gap:5px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">BEST</div>
-          <div style="font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; letter-spacing:-0.02em;">{{ bestLap }}</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; letter-spacing:-0.02em; color:{{ bestFg }};">{{ bestLap }}</div>
         </div>
         <div style="display:flex; flex-direction:column; gap:5px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">LAP</div>
-          <div style="font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; letter-spacing:-0.02em;">{{ lapLabel }}</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; letter-spacing:-0.02em; color:{{ timeFg }};">{{ lapLabel }}</div>
         </div>
       </div>
       <div style="flex:1; min-width:0;"></div>
@@ -1362,9 +1504,22 @@
       </div>
     </div>
 
+    <div style="display:flex; align-items:center; gap:16px;">
+      <div style="flex:1; height:1px; background:linear-gradient(90deg, transparent, var(--line,#1D2024));"></div>
+      <div style="flex:none; display:flex; align-items:center; gap:9px;">
+        <svg viewBox="0 0 40 30" width="30" height="23" fill="none" style="display:block; overflow:visible;">
+          <path d="M3.5 27.5 L20 3 L36.5 27.5" stroke="var(--dim,#7C817B)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M6.5 27.5 C14 24.5, 15.5 15, 27 12.5" stroke="var(--acc,#E8FF3A)" stroke-width="1.6" stroke-linecap="round"></path>
+          <path d="M14.5 27.5 L20 19 L25.5 27.5" stroke="var(--dim,#7C817B)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"></path>
+        </svg>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.26em; color:var(--dim,#7C817B);">RACE SMARTER. GO FURTHER.</div>
+      </div>
+      <div style="flex:1; height:1px; background:linear-gradient(270deg, transparent, var(--line,#1D2024));"></div>
+    </div>
+
     <div style="display:grid; grid-template-columns:600px 1fr; gap:14px; min-height:0;">
 
-      <div style="padding:20px 24px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #FF5FD2 55%, transparent), inset 0 0 28px -19px #FF5FD2; border-radius:4px; display:flex; flex-direction:column; gap:15px; min-height:0;">
+      <div style="padding:20px 24px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); border-radius:4px; display:flex; flex-direction:column; gap:15px; min-height:0;">
         <div style="display:flex; align-items:center; gap:13px;">
           <div style="color:var(--acc,#E8FF3A); flex:none;"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style="display:block;"><rect x="9" y="2.8" width="6" height="11" rx="3"></rect><path d="M5.5 11.5a6.5 6.5 0 0013 0"></path><path d="M12 18v3.2"></path></svg></div>
           <div style="display:flex; flex-direction:column; gap:2px; min-width:0;">
@@ -1438,42 +1593,42 @@
       </div>
 
       <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); grid-template-rows:1fr 1fr; gap:14px; min-height:0; min-width:0;">
-        <div onClick="{{ goSetup }}" style="min-width:0; cursor:pointer; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #FF5FD2 55%, transparent), inset 0 0 28px -19px #FF5FD2; border-radius:4px; display:flex; flex-direction:column; gap:12px; min-height:0;" style-hover="border:1px solid var(--acc,#E8FF3A); background:var(--line,#1D2024);">
+        <div onClick="{{ goSetup }}" style="min-width:0; cursor:pointer; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); border-radius:4px; display:flex; flex-direction:column; gap:12px; min-height:0;" style-hover="border:1px solid var(--acc,#E8FF3A); background:var(--line,#1D2024);">
           <div style="color:var(--acc,#E8FF3A);"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style="display:block;"><path d="M4 7h10"></path><path d="M18 7h2"></path><circle cx="16" cy="7" r="2"></circle><path d="M4 17h4"></path><path d="M12 17h8"></path><circle cx="10" cy="17" r="2"></circle></svg></div>
           <div style="margin-top:auto; display:flex; flex-direction:column; gap:3px;">
             <div style="font-size:18px; font-weight:600; letter-spacing:-0.01em;">Setup</div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; line-height:1.4; color:var(--dim,#7C817B); overflow-wrap:anywhere;">CONNECTION · ENGINEER · REFERENCE</div>
           </div>
         </div>
-        <div onClick="{{ goAnalysis }}" style="min-width:0; cursor:pointer; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:4px; display:flex; flex-direction:column; gap:12px; min-height:0;" style-hover="border:1px solid var(--acc,#E8FF3A); background:var(--line,#1D2024);">
+        <div onClick="{{ goAnalysis }}" style="min-width:0; cursor:pointer; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:4px; display:flex; flex-direction:column; gap:12px; min-height:0;" style-hover="border:1px solid var(--acc,#E8FF3A); background:var(--line,#1D2024);">
           <div style="color:var(--acc,#E8FF3A);"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style="display:block;"><path d="M4 4v16h16"></path><path d="M7 15l3.5-4 3 2.4L20 7"></path></svg></div>
           <div style="margin-top:auto; display:flex; flex-direction:column; gap:3px;">
             <div style="font-size:18px; font-weight:600; letter-spacing:-0.01em;">Analysis</div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; line-height:1.4; color:var(--dim,#7C817B); overflow-wrap:anywhere;">LAPS · CORNER LOSS · CONSISTENCY</div>
           </div>
         </div>
-        <div onClick="{{ goPro }}" style="min-width:0; cursor:pointer; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #FF5FD2 55%, transparent), inset 0 0 28px -19px #FF5FD2; border-radius:4px; display:flex; flex-direction:column; gap:12px; min-height:0;" style-hover="border:1px solid var(--acc,#E8FF3A); background:var(--line,#1D2024);">
+        <div onClick="{{ goPro }}" style="min-width:0; cursor:pointer; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); border-radius:4px; display:flex; flex-direction:column; gap:12px; min-height:0;" style-hover="border:1px solid var(--acc,#E8FF3A); background:var(--line,#1D2024);">
           <div style="color:var(--acc,#E8FF3A);"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style="display:block;"><path d="M3.5 16.5c3-9 6-9 8.5-2s5.5 7 8.5-4"></path><path d="M3.5 11c3.4 5 6.6 5 9 1"></path></svg></div>
           <div style="margin-top:auto; display:flex; flex-direction:column; gap:3px;">
             <div style="font-size:18px; font-weight:600; letter-spacing:-0.01em;">Pro traces</div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; line-height:1.4; color:var(--dim,#7C817B); overflow-wrap:anywhere;">TRACES · G-CIRCLE · BRAKES · TYRES</div>
           </div>
         </div>
-        <div onClick="{{ goRecords }}" style="min-width:0; cursor:pointer; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #FF5FD2 55%, transparent), inset 0 0 28px -19px #FF5FD2; border-radius:4px; display:flex; flex-direction:column; gap:12px; min-height:0;" style-hover="border:1px solid var(--acc,#E8FF3A); background:var(--line,#1D2024);">
+        <div onClick="{{ goRecords }}" style="min-width:0; cursor:pointer; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); border-radius:4px; display:flex; flex-direction:column; gap:12px; min-height:0;" style-hover="border:1px solid var(--acc,#E8FF3A); background:var(--line,#1D2024);">
           <div style="color:var(--acc,#E8FF3A);"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style="display:block;"><circle cx="12" cy="13.5" r="7"></circle><path d="M12 10v3.5l2.4 1.6"></path><path d="M9.5 3.5h5"></path><path d="M12 3.5v3"></path></svg></div>
           <div style="margin-top:auto; display:flex; flex-direction:column; gap:3px;">
             <div style="font-size:18px; font-weight:600; letter-spacing:-0.01em;">Records</div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; line-height:1.4; color:var(--dim,#7C817B); overflow-wrap:anywhere;">SESSIONS · PERSONAL BESTS · PROGRESS</div>
           </div>
         </div>
-        <div onClick="{{ goCoach }}" style="min-width:0; cursor:pointer; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #FF5FD2 55%, transparent), inset 0 0 28px -19px #FF5FD2; border-radius:4px; display:flex; flex-direction:column; gap:12px; min-height:0;" style-hover="border:1px solid var(--acc,#E8FF3A); background:var(--line,#1D2024);">
+        <div onClick="{{ goCoach }}" style="min-width:0; cursor:pointer; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); border-radius:4px; display:flex; flex-direction:column; gap:12px; min-height:0;" style-hover="border:1px solid var(--acc,#E8FF3A); background:var(--line,#1D2024);">
           <div style="color:var(--acc,#E8FF3A);"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style="display:block;"><path d="M5 13v-1a7 7 0 0114 0v1"></path><path d="M5 13h2.2v5H6.4A1.4 1.4 0 015 16.6z"></path><path d="M19 13h-2.2v5H18a1.4 1.4 0 001.4-1.4z"></path><path d="M16.8 18v1.2A1.8 1.8 0 0115 21h-2"></path></svg></div>
           <div style="margin-top:auto; display:flex; flex-direction:column; gap:3px;">
             <div style="font-size:18px; font-weight:600; letter-spacing:-0.01em;">Coach</div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; line-height:1.4; color:var(--dim,#7C817B); overflow-wrap:anywhere;">RADIO · QUESTIONS · SESSION NOTES</div>
           </div>
         </div>
-        <div onClick="{{ goThemes }}" style="min-width:0; cursor:pointer; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:4px; display:flex; flex-direction:column; gap:12px; min-height:0;" style-hover="border:1px solid var(--acc,#E8FF3A); background:var(--line,#1D2024);">
+        <div onClick="{{ goThemes }}" style="min-width:0; cursor:pointer; padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:4px; display:flex; flex-direction:column; gap:12px; min-height:0;" style-hover="border:1px solid var(--acc,#E8FF3A); background:var(--line,#1D2024);">
           <div style="color:var(--acc,#E8FF3A);"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style="display:block;"><circle cx="12" cy="12" r="8"></circle><path d="M12 4a8 8 0 010 16z" fill="currentColor" stroke="none"></path></svg></div>
           <div style="margin-top:auto; display:flex; flex-direction:column; gap:3px;">
             <div style="font-size:18px; font-weight:600; letter-spacing:-0.01em;">Themes</div>
@@ -1592,10 +1747,16 @@
       </div>
     </div>
 
+    <sc-if value="{{ noPro }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1; min-height:0; display:flex; align-items:center; justify-content:center; padding:30px; background:var(--panel,#0E1013); border:1px dashed var(--line,#1D2024); border-radius:3px;">
+      <div style="max-width:460px; text-align:center; font-size:17px; line-height:1.4; color:var(--dim,#7C817B); text-wrap:pretty;">No lap logged yet. Every channel on this page is written from your own laps — run one and the traces appear.</div>
+    </div>
+    </sc-if>
+
     <sc-if value="{{ isProTraces }}" hint-placeholder-val="{{ true }}">
     <div style="flex:1; display:flex; flex-direction:column; gap:8px; min-height:0;">
       <sc-for list="{{ traceCharts }}" as="c" hint-placeholder-count="4">
-        <div style="flex:1; min-height:0; padding:8px 14px 6px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column;">
+        <div style="flex:1; min-height:0; padding:8px 14px 6px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column;">
           <div style="display:flex; justify-content:space-between; align-items:baseline;">
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--acc,#E8FF3A);">{{ c.title }}</div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.12em; color:var(--dim,#7C817B);">{{ c.unit }} · {{ c.loLabel }} TO {{ c.hiLabel }}</div>
@@ -1660,7 +1821,7 @@
         </div>
       </div>
       <div style="display:flex; flex-direction:column; gap:10px; min-height:0;">
-        <div style="flex:1; padding:12px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column;">
+        <div style="flex:1; padding:12px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--acc,#E8FF3A);">BRAKE PRESSURE — THIS LAP AGAINST REFERENCE</div>
           <svg viewBox="0 0 1140 150" preserveAspectRatio="none" style="width:100%; flex:1; min-height:0; display:block;">
             <sc-for list="{{ brakeBands }}" as="b" hint-placeholder-count="10">
@@ -1670,7 +1831,7 @@
             <polyline points="{{ brakePts }}" fill="none" stroke="var(--acc,#E8FF3A)" strokeWidth="1.6" vectorEffect="non-scaling-stroke"></polyline>
           </svg>
         </div>
-        <div style="flex:1; padding:12px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column;">
+        <div style="flex:1; padding:12px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column;">
           <div style="display:flex; justify-content:space-between; align-items:baseline;">
             <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--acc,#E8FF3A);">BRAKE TEMPERATURE</div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.12em; color:var(--dim,#7C817B);">{{ brakeNote }}</div>
@@ -1687,7 +1848,7 @@
     <div style="flex:1; display:flex; flex-direction:column; gap:10px; min-height:0;">
       <div style="flex:1; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:10px; min-height:0;">
         <sc-for list="{{ thermCards }}" as="c" hint-placeholder-count="4">
-          <div style="padding:12px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column; min-height:0;">
+          <div style="padding:12px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; min-height:0;">
             <div style="display:flex; justify-content:space-between; align-items:baseline;">
               <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--acc,#E8FF3A);">{{ c.name }}</div>
               <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim,#7C817B);">{{ c.press }}</div>
@@ -1703,7 +1864,7 @@
           </div>
         </sc-for>
       </div>
-      <div style="flex:none; padding:12px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; align-items:flex-end; gap:16px;">
+      <div style="flex:none; padding:12px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; align-items:flex-end; gap:16px;">
         <div style="display:flex; flex-direction:column; gap:3px; width:250px; flex:none;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">PEAK SURFACE BY LAP</div>
           <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--acc,#E8FF3A);">{{ stintNote }}</div>
@@ -1724,7 +1885,7 @@
 
     <sc-if value="{{ isProMech }}" hint-placeholder-val="{{ false }}">
     <div style="flex:1; display:grid; grid-template-columns:1fr 1fr; gap:10px; min-height:0;">
-      <div style="padding:14px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column; gap:10px; min-height:0;">
+      <div style="padding:14px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:10px; min-height:0;">
         <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--acc,#E8FF3A);">DAMPER VELOCITY HISTOGRAM</div>
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim,#7C817B);">{{ dampMeta }}</div>
@@ -1745,10 +1906,10 @@
           </sc-for>
         </div>
         <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.12em; color:var(--dim,#7C817B);">MM/S · CENTRE IS BODY ROLL, TAILS ARE KERBS AND BUMPS</div>
-        <div style="margin-top:auto; padding:14px; background:#12151A; border-left:2px solid var(--acc,#E8FF3A); border-radius:0 2px 2px 0; font-size:15px; line-height:1.4; text-wrap:pretty;">{{ dampVerdict }}</div>
+        <div style="margin-top:auto; padding:14px; background:var(--sub,#12151A); border-left:2px solid var(--acc,#E8FF3A); border-radius:0 2px 2px 0; font-size:15px; line-height:1.4; text-wrap:pretty;">{{ dampVerdict }}</div>
         </sc-if>
       </div>
-      <div style="padding:14px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column; gap:8px; min-height:0;">
+      <div style="padding:14px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:8px; min-height:0;">
         <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--acc,#E8FF3A);">SUSPENSION TRAVEL — 0 TO 90 MM</div>
         <sc-for list="{{ suspTraces }}" as="s" hint-placeholder-count="4">
           <div style="flex:1; min-height:0; display:flex; flex-direction:column;">
@@ -1777,7 +1938,7 @@
         <div style="flex:1;"></div>
         <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.12em; color:var(--dim,#7C817B);">{{ microNote }}</div>
       </div>
-      <div style="flex:1; min-height:0; overflow-y:auto; padding:12px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #FF5FD2 55%, transparent), inset 0 0 28px -19px #FF5FD2; border-radius:3px;">
+      <div style="flex:1; min-height:0; overflow-y:auto; padding:12px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #FF5FD2 72%, var(--line,#1D2024)); border-radius:3px;">
         <div style="display:grid; grid-template-columns:48px 130px 96px 96px 52px 1fr 82px; gap:12px; padding:0 4px 8px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.14em; color:var(--dim,#7C817B);">SECTOR</div>
           <div style="font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:0.14em; color:var(--dim,#7C817B);">DISTANCE</div>
@@ -1789,7 +1950,7 @@
         </div>
         <div style="display:flex; flex-direction:column; gap:3px;">
           <sc-for list="{{ microRows }}" as="r" hint-placeholder-count="24">
-            <div style="display:grid; grid-template-columns:48px 130px 96px 96px 52px 1fr 82px; gap:12px; align-items:center; padding:7px 4px; background:#12151A; border-radius:2px;">
+            <div style="display:grid; grid-template-columns:48px 130px 96px 96px 52px 1fr 82px; gap:12px; align-items:center; padding:7px 4px; background:var(--sub,#12151A); border-radius:2px;">
               <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--dim,#7C817B);">{{ r.n }}</div>
               <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--dim,#7C817B);">{{ r.range }}</div>
               <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600;">{{ r.cur }}</div>
@@ -1808,14 +1969,14 @@
 
     <sc-if value="{{ isProExport }}" hint-placeholder-val="{{ false }}">
     <div style="flex:1; display:grid; grid-template-columns:1fr 420px; gap:10px; min-height:0;">
-      <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, #4DE5FF 55%, transparent), inset 0 0 28px -19px #4DE5FF; border-radius:3px; display:flex; flex-direction:column; gap:12px; min-height:0;">
+      <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, #4DE5FF 72%, var(--line,#1D2024)); border-radius:3px; display:flex; flex-direction:column; gap:12px; min-height:0;">
         <div style="display:flex; flex-direction:column; gap:4px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">{{ exportMeta }}</div>
           <div style="font-size:24px; font-weight:600; letter-spacing:-0.01em;">Channels in the file</div>
         </div>
         <div style="flex:1; min-height:0; overflow-y:auto; display:grid; grid-template-columns:repeat(4, 1fr); gap:5px; align-content:start;">
           <sc-for list="{{ exportChannels }}" as="c" hint-placeholder-count="20">
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; padding:8px 10px; background:#12151A; border:1px solid var(--line,#1D2024); border-radius:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ c.name }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; padding:8px 10px; background:var(--sub,#12151A); border:1px solid var(--line,#1D2024); border-radius:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ c.name }}</div>
           </sc-for>
         </div>
         <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; line-height:1.6; letter-spacing:0.06em; color:var(--dim,#7C817B); text-wrap:pretty;">{{ exportRate }}</div>
@@ -1898,7 +2059,7 @@
 </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;chatterLevel&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Minimal&quot;,&quot;Essential&quot;,&quot;Talkative&quot;],&quot;default&quot;:&quot;Essential&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Engineer&quot;},&quot;liveTelemetry&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Telemetry&quot;},&quot;telemetryUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;ws://localhost:8091&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Telemetry&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;chatterLevel&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Minimal&quot;,&quot;Essential&quot;,&quot;Talkative&quot;],&quot;default&quot;:&quot;Essential&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Engineer&quot;},&quot;liveTelemetry&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Telemetry&quot;},&quot;telemetryUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;ws://localhost:8091&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Telemetry&quot;},&quot;holdCuesForStraights&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Engineer&quot;}}">
 const THEMES = {
   "PIT WALL": { acc:"#E8FF3A", bg:"#07080A", panel:"#0E1013", line:"#1D2024", text:"#F4F5F2", dim:"#7C817B", desc:"Acid yellow on carbon. Highest contrast, the default." },
   "LE MANS":  { acc:"#FFB25C", bg:"#05070C", panel:"#0A0E16", line:"#1A2231", text:"#F0EDE6", dim:"#79808F", desc:"Amber on midnight. Built for the fourth hour after dark." },
@@ -1907,21 +2068,32 @@ const THEMES = {
   "TEAL":     { acc:"#00D6BE", bg:"#03080A", panel:"#071014", line:"#10262C", text:"#FFFFFF", dim:"#6E8A90", pos:"#00E676", neg:"#FF4438", wheel:true, desc:"Teal on near-black. The coldest of the four, easiest at night." },
   "PAPAYA":   { acc:"#FF7A18", bg:"#080604", panel:"#120C06", line:"#2B1B0E", text:"#FFFFFF", dim:"#9A8474", pos:"#4CE08A", neg:"#FF3B30", wheel:true, desc:"Papaya on warm black. Loudest accent, best in daylight." },
   "CRIMSON":  { acc:"#E8112D", bg:"#070506", panel:"#120A0C", line:"#2B1218", text:"#FFFFFF", dim:"#9A7A81", pos:"#3FE06A", neg:"#FF9F0A", wheel:true, desc:"Crimson. Time lost turns amber here so it never reads as accent." },
-  "CHALK":    { acc:"#F2F4F5", bg:"#04060A", panel:"#0C0F13", line:"#1C222A", text:"#FFFFFF", dim:"#79848F", pos:"#00E676", neg:"#FF3B30", wheel:true, desc:"Chalk white. No colour competes with the flags or the road." }
+  "CHALK":    { acc:"#F2F4F5", bg:"#04060A", panel:"#0C0F13", line:"#1C222A", text:"#FFFFFF", dim:"#79848F", pos:"#00E676", neg:"#FF3B30", wheel:true, desc:"Chalk white. No colour competes with the flags or the road." },
+  "NIGHT STINT":{ acc:"#FF7A2F", bg:"#000000", panel:"#070707", line:"#1F1A16", text:"#FFFFFF", dim:"#8A8279", sub:"#0C0B0A", sunk:"#050505", pos:"#FFFFFF", neg:"#FF7A2F", desc:"Ember on true black, everything secondary pushed down. For the third hour in a dark room." },
+  "DAYLIGHT": { acc:"#D8202A", bg:"#F4F3F0", panel:"#FFFFFF", line:"#C9C7C1", text:"#0A0A0A", dim:"#5E5C58", sub:"#EBE9E4", sunk:"#DFDCD6", pos:"#0A7D3C", neg:"#C01F16", light:true, desc:"Black ink on paper white, one racing red. Readable with sun on the screen." }
 };
-const T_GT3 = ["PIT WALL","GT3 CARBON","LE MANS","RALLY"];
-const T_F1  = ["TEAL","PAPAYA","CRIMSON","CHALK"];
-const T_ORDER = T_GT3.concat(T_F1);
+// State inks. Every warning, gain and heat colour comes from here so a light
+// theme is not left with dark-theme neons on paper white.
+let INK;
+const INKS = t => (t && t.light
+  ? { hot:"#9B3A06", cool:"#1F5FA8", good:"#0A7D3C", warn:"#7A5C00", bad:"#C01F16", hotbg:"#F7E2D0", hotline:"#C08050" }
+  : { hot:"#FF8A3D", cool:"#4EA8FF", good:"#3BE06A", warn:"#F5D93A", bad:"#F2564B", hotbg:"#170D02", hotline:"#5C3A12" });
+INK = INKS(null);
+const DEFAULT_SUB = { sub: "#12151A", sunk: "#0B0D10" };
+const VIEWS = ["HOME","RACE","SETUP","CREW","ENGINEER","ANALYSIS","PRO","RECORDS","COACH","THEMES"];
+const T_GT3 = ["PIT WALL","GT3 CARBON","LE MANS","RALLY","NIGHT STINT","DAYLIGHT"];
+const T_F1  = ["TEAL","PAPAYA","CRIMSON","CHALK","NIGHT STINT","DAYLIGHT"];
+const T_ORDER = T_GT3.concat(T_F1.filter(x => T_GT3.indexOf(x) < 0));
 const F1_DEFAULT = "TEAL";
 const T_LEGACY = { "F1":"TEAL", "FORMULA":"TEAL", "MIDNIGHT":"CHALK", "HERITAGE":"LE MANS", "GROUP C":"PIT WALL" };
 
 const GAMES = [
   { code:"GT",  name:"Gran Turismo 7", transport:"PS5 · UDP 33740 · direct to phone", state:"LINKED" },
   { code:"F1",  name:"F1 25", transport:"PS5 / PC · UDP 20777 · game pushes to this computer", state:"READY" },
-  { code:"ACC", name:"Assetto Corsa Competizione", transport:"PC · shared memory · helper", state:"HELPER" },
-  { code:"AC",  name:"Assetto Corsa", transport:"PC · shared memory · helper", state:"HELPER" },
-  { code:"iR",  name:"iRacing", transport:"PC · SDK 60 Hz · helper", state:"BETA" },
-  { code:"LMU", name:"Le Mans Ultimate", transport:"PC · native recording · helper", state:"BETA" }
+  { code:"ACC", name:"Assetto Corsa Competizione", transport:"PC · shared memory · helper", state:"HELPER", soon:true },
+  { code:"AC",  name:"Assetto Corsa", transport:"PC · shared memory · helper", state:"HELPER", soon:true },
+  { code:"iR",  name:"iRacing", transport:"PC · SDK 60 Hz · helper", state:"BETA", soon:true },
+  { code:"LMU", name:"Le Mans Ultimate", transport:"PC · native recording · helper", state:"BETA", soon:true }
 ];
 
 const CORNERS = [[0.05,110],[0.13,86],[0.21,158],[0.30,72],[0.39,138],[0.47,102],[0.56,176],[0.65,84],[0.73,148],[0.82,94],[0.91,128]];
@@ -1947,19 +2119,18 @@ class Component extends DCLogic {
     syncState: "", board: [],
     sourceMode: "", sourceNote: "", sourceBusy: false,
     raceLaps: "", targetStops: 1, pitLoss: 22, ghostOn: true, lastEvent: "",
+    cueHold: 0, pitLossMeas: null, pitLossN: 0, glance: false,
+    seats: [], seat: "", seatDraft: "", debriefs: [],
     traceCount: 0,
     sessions: [], selSes: null, trackDraft: "", targetDraft: "", carDraft: "",
     garage: {}, trackBook: {},
-    u: 0, lap: 6, pos: 3, speed: 0, gear: 1, rpm: 5200, throttle: 0, brake: 0, steer: 0,
-    delta: -0.31, lapT: 0, last: 84.884, best: 84.118,
-    fuel: 32.4, ers: 68, bias: 56, tyres: [92, 88, 87, 89], press: [1.78, 1.76, 1.80, 1.79],
-    wear: [8, 7, 6, 6], brakeTemp: 435, session: 863, radioOn: false,
-    micMode: "hold", listening: false, heard: "",
-    engineerLine: "Radio check. Tyres are in the window, fuel is good for eleven plus reserve. We reassess after lap three.",
+    u: 0, lap: 0, pos: 0, speed: 0, gear: 0, rpm: 0, throttle: 0, brake: 0, steer: 0,
+    delta: 0, lapT: 0, last: 0, best: 0,
+    fuel: 0, ers: 0, bias: 0, tyres: [0, 0, 0, 0], press: [0, 0, 0, 0],
+    wear: [0, 0, 0, 0], brakeTemp: 0, session: 0, radioOn: false,
+    micMode: "hold", listening: false, heard: "", pttPad: null, pttBind: false,
+    engineerLine: "No telemetry yet. Start the bridge and I'll be on the radio.",
     log: [
-      { tag: "L5 · TRAFFIC", text: "Traffic ahead, two cars fighting, four seconds. Don't get involved." },
-      { tag: "L4 · POSITION", text: "Clear. Nice move. P4." },
-      { tag: "L3 · COACHING", text: "Keep the minimum speed down by two kays through the long right." }
     ]
   };
 
@@ -1967,6 +2138,7 @@ class Component extends DCLogic {
     this.applyTheme();
     this.loadSettings();
     this.loadRecords();
+    this.loadDebriefs();
     this.initCloud();
     Promise.all([import("./race-catalogue.js"), import("./engineer-roster.js"), import("./engineer-brain.js")])
       .then(([K, R, B]) => {
@@ -1998,18 +2170,33 @@ class Component extends DCLogic {
       })
       .catch(e => this.setState({ engineError: "Delta engine failed to load: " + (e && e.message || e) }));
     this._iv = setInterval(() => this.tick(), 80);
-    this._fit = () => this.setState({ scale: Math.max(0.2, Math.min(window.innerWidth / 1600, window.innerHeight / 900)) });
     this._fit();
+    if (typeof ResizeObserver === "function") {
+      this._ro = new ResizeObserver(() => this._fit());
+      if (this._host) this._ro.observe(this._host);
+      this._ro.observe(document.documentElement);
+    }
     window.addEventListener("resize", this._fit);
+    this._keys = e => {
+      const tag = e.target && e.target.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+      const k = (e.key || "").toLowerCase();
+      if (k === "g") this.setState(s => ({ glance: !s.glance, view: s.glance ? s.view : "RACE" }));
+      else if (k === "escape" && this.state.glance) this.setState({ glance: false });
+    };
+    window.addEventListener("keydown", this._keys);
     this.connectLive();
     window.__dash = this;
     this.feed = d => { this.live = d; this.liveAt = performance.now(); this.everLive = true; this.applyLive(d); };
+    this._padTimer = setInterval(this.pollPads, 60);
   }
   componentDidUpdate(p, s) { if (!s || s.theme !== this.state.theme) this.applyTheme(); }
   componentWillUnmount() {
+    if (this._ro) { this._ro.disconnect(); this._ro = null; }
     clearInterval(this._iv);
     clearTimeout(this._retry);
     window.removeEventListener("resize", this._fit);
+    window.removeEventListener("keydown", this._keys);
     this.wantMic = false;
     try { this.rec && this.rec.stop(); } catch (e) {}
     try { this.ws && (this.ws.onclose = null, this.ws.close()); } catch (e) {}
@@ -2021,7 +2208,7 @@ class Component extends DCLogic {
     try { saved = JSON.parse(localStorage.getItem("gt7dash.settings") || "null"); } catch (e) {}
     const m = String(this.props.telemetryUrl || "ws://localhost:8091").match(/^wss?:\/\/([^:/]+)(?::(\d+))?/);
     const next = { bridgeHost: m ? m[1] : "localhost", bridgePort: m && m[2] ? m[2] : "8091" };
-    const keys = ["bridgeHost", "bridgePort", "psIp", "persona", "voiceName", "voiceSex", "refMode", "chatter", "theme", "raceLaps", "targetStops", "pitLoss", "ghostOn", "engineerPick", "speedUnit", "tempUnit"];
+    const keys = ["bridgeHost", "bridgePort", "psIp", "persona", "voiceName", "voiceSex", "refMode", "chatter", "theme", "raceLaps", "targetStops", "pitLoss", "ghostOn", "engineerPick", "speedUnit", "pttPad", "tempUnit", "seats", "seat"];
     if (saved) keys.forEach(k => { if (saved[k]) next[k] = saved[k]; });
     if (next.theme && !THEMES[next.theme]) next.theme = T_LEGACY[next.theme] || "PIT WALL";
     if (saved && saved.focus) next.focus = saved.focus;
@@ -2042,6 +2229,7 @@ class Component extends DCLogic {
         persona: s.persona, voiceName: s.voiceName, voiceSex: s.voiceSex, refMode: s.refMode,
         chatter: s.chatter, theme: s.theme, focus: s.focus, engineerPick: s.engineerPick,
         raceLaps: s.raceLaps, targetStops: s.targetStops, pitLoss: s.pitLoss, ghostOn: s.ghostOn,
+        seats: s.seats, seat: s.seat,
         speedUnit: s.speedUnit, tempUnit: s.tempUnit
       }));
     } catch (e) {}
@@ -2237,8 +2425,18 @@ class Component extends DCLogic {
     this._v = null;
     if (this.coach) this.coach.setPersona(p);
   }
+  targetForHere() {
+    const s = this.state;
+    const cur = (s.sessions || []).filter(x => x.id === s.selSes)[0] || (s.sessions || [])[0];
+    return cur && cur.targetMs ? cur.targetMs : null;
+  }
   setRefMode(m) {
     this.set({ refMode: m });
+    if (this.dx && m === "TARGET TIME") {
+      const ms = this.targetForHere();
+      this.dx.setTargetMs(ms);
+      if (!ms) this.say("No target time set for this track yet. Set one in Records and I'll pace you against it.");
+    }
     if (this.dx) this.dx.setReferenceMode(m);
   }
   voiceList() {
@@ -2284,6 +2482,11 @@ class Component extends DCLogic {
 
   applyLive(d) {
     const T = d.tyreTemp || [];
+    if (!this._autoJumped && (d.speed || 0) > 30) {
+      this._autoJumped = true;
+      const v = this.state.view;
+      if (v === "HOME" || v === "SETUP") this.setState({ view: "RACE" });
+    }
     if (d.f1 && !this._famSet) {
       this._famSet = true;
       const cur = THEMES[this.state.theme] || {};
@@ -2585,7 +2788,8 @@ class Component extends DCLogic {
           turns: id ? id.turns : null,
           start: this._startPos || null, outline: this._outline || null,
           carId, carName: known || this.catCar(carId) || "", carCat: cat, lenM: dist || null,
-          mode: this.state.mode || "Race", laps: [{ ms, at: now, dist }], targetMs: null });
+          mode: this.state.mode || "Race", seat: this.state.seat || "",
+          laps: [{ ms, at: now, dist }], targetMs: null });
         this.setState({ selSes: list[0].id });
       } else {
         head.laps = head.laps.concat([{ ms, at: now, dist }]).slice(-120);
@@ -2611,6 +2815,18 @@ class Component extends DCLogic {
     });
   }
   CORNERS = CORNERS;
+  _host = null;
+  _ro = null;
+  // Defined as a class field so the host ref callback, which fires during the
+  // first commit, can always call it.
+  _fit = () => {
+    const host = this._host;
+    const w = (host && host.clientWidth) || window.innerWidth;
+    const h = (host && host.clientHeight) || window.innerHeight;
+    if (!(w > 0) || !(h > 0)) return;
+    const scale = Math.max(0.2, Math.min(w / 1600, h / 900));
+    if (Math.abs(scale - (this.state.scale || 0)) > 0.0005) this.setState({ scale });
+  };
   PG = null;
   page(mod, fn, args) {
     const m = this.PG && this.PG[mod];
@@ -2631,13 +2847,17 @@ class Component extends DCLogic {
     if (this.liveNow()) return "LIVE";
     if (this.everLive) return "LOST";
     if (this.wsOpen) return "WAITING";
-    return "DEMO";
+    return "NO SIGNAL";
   }
 
   applyTheme() {
     const t = THEMES[this.state.theme] || THEMES["PIT WALL"];
     const r = document.documentElement.style;
-    ["acc","bg","panel","line","text","dim"].forEach(k => r.setProperty("--" + k, t[k]));
+    ["acc","bg","panel","line","text","dim","sub","sunk"].forEach(k => r.setProperty("--" + k, t[k] || DEFAULT_SUB[k] || t.panel));
+    INK = INKS(t);
+    Object.keys(INK).forEach(k => r.setProperty("--" + k, INK[k]));
+    r.setProperty("--pos", t.pos || t.acc);
+    r.setProperty("--neg", t.neg || INK.bad);
     if (t.panelA) r.setProperty("--panel", t.panelA);
     document.body.style.background = t.bg;
   }
@@ -2658,6 +2878,8 @@ class Component extends DCLogic {
       const d = this.liveNow();
       const dxs = this.dx ? this.dx.getState() : null;
       if (dxs) this.coachTick(d, dxs);
+      this.drainCues();
+      this.debriefWatch(dxs);
       if (dxs && (!this.diagLogAt || Date.now() - this.diagLogAt > 1000)) {
         this.diagLogAt = Date.now();
         console.log("[delta] " + this.deltaDiagLine(dxs, true, !!dxs.hasReference));
@@ -2665,39 +2887,6 @@ class Component extends DCLogic {
       this.setState(s => ({ session: s.session + 0.08, dxs }));
       return;
     }
-    const st = this.state, dt = 0.08;
-    let u = st.u + dt / LAP_SECONDS, lap = st.lap, last = st.last, best = st.best, lapT = st.lapT + dt, delta = st.delta;
-
-    if (u >= 1) {
-      u -= 1; lap += 1; last = lapT; lapT = 0;
-      if (last < best) { best = last; this.radio("SECTOR", "That's a new best. " + this.fmt(last) + ".", 30000); }
-      delta = -0.05 - Math.random() * 0.45;
-    }
-
-    const v = this.speedAt(u), dv = this.speedAt(u + 0.004) - v;
-    const throttle = Math.max(0, Math.min(100, dv > 0 ? 40 + dv * 26 : 8 + dv * 34));
-    const brake = Math.max(0, Math.min(100, dv < -0.4 ? -dv * 34 : 0));
-    const gear = v < 68 ? 2 : v < 104 ? 3 : v < 144 ? 4 : v < 192 ? 5 : v < 244 ? 6 : 7;
-    const band = [0, 0, 0, 68, 104, 144, 192, 244][gear];
-    const top = [0, 0, 68, 104, 144, 192, 244, 302][gear];
-    const frac = Math.max(0, Math.min(1, (v - band) / Math.max(1, top - band)));
-    const rpm = Math.round(5200 + frac * 4000);
-    const steer = Math.max(-100, Math.min(100, Math.sin(u * 47) * (brake > 20 ? 30 : 70) * (1 - v / 340)));
-
-    const heat = brake * 0.02 + Math.abs(steer) * 0.012;
-    const tyres = st.tyres.map((t, i) => {
-      const target = 88 + heat * (i === 0 ? 2.4 : i === 1 ? 1.6 : 1.1) + (i === 0 ? 6 : 0);
-      return t + (target - t) * 0.03;
-    });
-    const wear = st.wear.map((w, i) => Math.min(70, w + dt * (i === 0 ? 0.028 : 0.02)));
-    const brakeTemp = st.brakeTemp + ((360 + brake * 1.9) - st.brakeTemp) * 0.04;
-    const fuel = Math.max(0, st.fuel - dt * 0.0125);
-
-    this.setState({ u, lap, last, best, lapT, delta, speed: v, gear, rpm, throttle, brake, steer, tyres, wear, brakeTemp, fuel, session: st.session + dt });
-
-    if (tyres[0] > 103) this.radio("TYRE", "Front left's over the window, " + Math.round(tyres[0]) + ". Ease the steering through the long right.", 26000);
-    if (fuel / 2.62 < 3.2) this.radio("FUEL", "Fuel's tight. Save a tenth of a litre a lap from here.", 40000);
-    if (brake > 88 && v > 200) this.radio("COACHING", "Brake ten metres earlier there. Get the exit right.", 34000);
   }
 
   deltaDiagLine(dxs, onAir, hasRef) {
@@ -2745,9 +2934,12 @@ class Component extends DCLogic {
     const lap = d.lap || 0;
     if (lap !== this._planLap && this._planLap !== undefined && d.lastLapMs > 0) {
       this.plan.noteLap({ n: this._planLap, ms: d.lastLapMs, fuel: d.fuel, age: F ? F.tyreAge : null });
+      const aff = !!this._pitFlag;
+      this._pitFlag = !!this._pitOut; this._pitOut = false;
+      this.notePitLap(d.lastLapMs, aff);
     }
     if (lap !== this._planLap) this._planLap = lap;
-    if (d.inPit && !this._wasPit) this.plan.notePit();
+    if (d.inPit && !this._wasPit) { this.plan.notePit(); this._pitFlag = true; this._pitOut = true; }
     this._wasPit = !!d.inPit;
 
     const total = Number(this.state.raceLaps) || (F ? F.totalLaps : 0) || 0;
@@ -2764,17 +2956,191 @@ class Component extends DCLogic {
     return (p.calls || []).map(c => Object.assign({ tag: "STRATEGY" }, c));
   }
 
+  notePitLap(ms, affected) {
+    if (!(ms > 0)) return;
+    if (!affected) {
+      const g = (this._greenMs = this._greenMs || []);
+      g.push(ms); if (g.length > 20) g.shift();
+      return;
+    }
+    const q = (this._pitStopLaps = this._pitStopLaps || []);
+    q.push(ms);
+    if (q.length < 2) return;
+    this._pitStopLaps = [];
+    const g = this._greenMs || [];
+    if (g.length < 3) return;
+    const sorted = g.slice().sort((a, b) => a - b);
+    const med = sorted[Math.floor(sorted.length / 2)];
+    const loss = (q[0] - med + (q[1] - med)) / 1000;
+    if (!(loss > 4 && loss < 120)) return;
+    const prev = this.state.pitLossMeas;
+    const val = prev ? prev * 0.6 + loss * 0.4 : loss;
+    if (this.plan) this.plan.setPitLoss(val);
+    this.setState(s => ({ pitLossMeas: Math.round(val * 10) / 10, pitLossN: (s.pitLossN || 0) + 1 }));
+  }
+
+  frameAge() {
+    if (!this.liveAt) return null;
+    return (performance.now() - this.liveAt) / 1000;
+  }
+  ageLabel() {
+    const a = this.frameAge();
+    if (a === null) return "—";
+    return a < 1 ? Math.round(a * 1000) + " MS OLD"
+      : a < 90 ? a.toFixed(1) + " S OLD"
+      : Math.round(a / 60) + " MIN OLD";
+  }
+
+  loadDebriefs() {
+    let d = null;
+    try { d = JSON.parse(localStorage.getItem("gt7dash.debriefs") || "null"); } catch (e) {}
+    if (d && d.length) this.setState({ debriefs: d });
+  }
+  debriefWatch(dxs) {
+    const d = this.liveNow();
+    if (d) { this._debriefed = false; return; }
+    const age = this.frameAge();
+    if (!(age > 8) || this._debriefed) return;
+    this._debriefed = true;
+    const rep = this.buildDebrief(dxs || this.state.dxs);
+    if (!rep) return;
+    this.setState(s => {
+      const list = [rep].concat(s.debriefs || []).slice(0, 8);
+      try { localStorage.setItem("gt7dash.debriefs", JSON.stringify(list)); } catch (e) {}
+      return { debriefs: list };
+    });
+  }
+  buildDebrief(dxs) {
+    if (!dxs) return null;
+    const laps = dxs.laps || [];
+    const valid = laps.filter(l => l.valid);
+    if (valid.length < 2) return null;
+    const st = this.lapStats(dxs);
+    const bestLap = valid.reduce((a, b) => (b.lapMs < a.lapMs ? b : a));
+    const mb = dxs.miniBest || [];
+    let worst = null;
+    if (bestLap.miniMs) {
+      bestLap.miniMs.forEach((v, i) => {
+        const b = mb[i];
+        if (!(v > 0) || !(b > 0)) return;
+        const loss = (v - b) / 1000;
+        if (!worst || loss > worst.loss) worst = { i, loss };
+      });
+    }
+    const gain = dxs.optimalLapMs && bestLap.lapMs > dxs.optimalLapMs
+      ? (bestLap.lapMs - dxs.optimalLapMs) / 1000 : null;
+    const counts = {};
+    (this.state.coachLog || []).forEach(e => { if (e.event) counts[e.event] = (counts[e.event] || 0) + 1; });
+    const top = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0] || null;
+    const ses = (this.state.sessions || [])[0] || null;
+    const nm = ses ? this.nameOf(ses) : null;
+    return {
+      at: Date.now(),
+      track: nm ? nm.track : "UNNAMED TRACK",
+      car: nm ? nm.car : "",
+      seat: this.state.seat || "",
+      laps: laps.length, valid: valid.length,
+      bestMs: bestLap.lapMs,
+      spread: st.spread || 0,
+      gainS: gain,
+      zone: worst ? worst.i + 1 : null,
+      zonePct: worst ? Math.round((worst.i + 0.5) / 24 * 100) : null,
+      zoneLossS: worst ? worst.loss : null,
+      event: top
+    };
+  }
+  DEBRIEF_FOCUS = {
+    LATE_BRAKE: "BRAKING", FRONT_LOCK: "BRAKING", EARLY_BRAKE: "BRAKING",
+    WHEELSPIN_EXIT: "THROTTLE ON EXIT", SLOW_TO_THROTTLE: "THROTTLE ON EXIT",
+    UNDERSTEER: "CORNER ENTRY", OVERSTEER: "CORNER ENTRY",
+    TYRE_OVERHEAT: "TYRE MANAGEMENT", INCONSISTENT: "CONSISTENCY"
+  };
+
+  phase() {
+    const s = this.state;
+    const laps = (s.dxs && s.dxs.lapCount) || 0;
+    if (this.liveState() === "LIVE") {
+      const d = this.liveNow();
+      if (d && d.inPit) return "PIT LANE";
+      if (d && (d.speed || 0) < 5 && !laps) return "GARAGE";
+      return "ON TRACK";
+    }
+    if (this.everLive && laps > 0) return "DEBRIEF";
+    return "GARAGE";
+  }
+  phaseView() {
+    const p = this.phase();
+    return p === "ON TRACK" || p === "PIT LANE" ? "RACE" : p === "DEBRIEF" ? "ANALYSIS" : "SETUP";
+  }
+  seatMatch(ses) {
+    const seat = this.state.seat || "";
+    if (!seat) return true;
+    return !ses.seat || ses.seat === seat;
+  }
+  trackKeyOf(ses) {
+    return ses ? (ses.trackId || "len:" + (this.lenKey(ses.lenM) || "unknown")) : null;
+  }
+
   ghostTick(d) {
     if (!this.ghost || !this.state.ghostOn || !d) return [];
     const dist = this._td || (d.lapDist || 0);
     const m = this.ghost.at(dist, d.lap || 0);
     return m ? [m] : [];
   }
-  radioMsg(m, dxs) {
-    const label = "L" + this.state.lap + " · " + m.tag;
+  CUE_CRITICAL = /SAFETY|FLAG|INCIDENT|DAMAGE|BOX|PIT|FUEL|BLUE|OVERHEAT|BEST/;
+  cueHolding() { return this.props.holdCuesForStraights !== false; }
+  cueUrgent(m) {
+    const p = m.priority || 0;
+    return p >= 85 || (p >= 60 && this.CUE_CRITICAL.test(String(m.tag || "") + " " + String(m.id || "")));
+  }
+  quietWindow() {
+    const s = this.state, d = this.liveNow();
+    if (!d) return true;
+    if ((d.speed || 0) < 25) return true;
+    const g = typeof d.gLat === "number" ? Math.abs(d.gLat) : null;
+    const settled = Math.abs(s.steer || 0) < 12 && (g === null || g < 0.45);
+    return settled && s.brake < 3 && s.throttle > 55;
+  }
+  bargeIn() {
+    if (!this.speaking) return;
+    try { window.speechSynthesis.cancel(); } catch (e) {}
+    clearTimeout(this._gapT); clearTimeout(this._spkT);
+    this.speaking = false;
+  }
+  queueCue(m) {
+    const q = (this._cueQ = this._cueQ || []);
+    const i = q.findIndex(x => x.m.tag === m.tag);
+    if (i >= 0) q.splice(i, 1);
+    q.push({ m, at: Date.now() });
+    q.sort((a, b) => (b.m.priority || 0) - (a.m.priority || 0));
+    if (q.length > 3) q.length = 3;
+    this.setState({ cueHold: q.length });
+  }
+  drainCues() {
+    const q = this._cueQ;
+    if (!q || !q.length) return;
+    const now = Date.now();
+    for (let i = q.length - 1; i >= 0; i--) if (now - q[i].at > 15000) q.splice(i, 1);
+    if (!q.length) { this.setState({ cueHold: 0 }); return; }
+    if (this.speaking) return;
+    const stale = now - q[0].at > 7000;
+    if (!stale && !this.quietWindow()) return;
+    const e = q.shift();
+    this.setState({ cueHold: q.length });
+    this.emitRadio(e.m);
+  }
+  radioMsg(m) {
+    if (!this.cueHolding()) return this.emitRadio(m);
+    if (this.cueUrgent(m)) { this.bargeIn(); return this.emitRadio(m); }
+    if (this.quietWindow() && !this.speaking) return this.emitRadio(m);
+    this.queueCue(m);
+  }
+  emitRadio(m) {
     const meta = m.meta || {};
+    const lapN = typeof meta.lapN === "number" ? meta.lapN : this.state.lap;
+    const label = "L" + lapN + " · " + m.tag;
     const entry = {
-      lap: String(this.state.lap), corner: meta.corner || m.tag,
+      lap: String(lapN), corner: meta.corner || m.tag,
       event: meta.event || m.tag, said: m.text,
       change: typeof meta.change === "number" ? meta.change : null,
       peak: meta.peak, ms: meta.ms
@@ -2801,7 +3167,10 @@ class Component extends DCLogic {
   lapStats(dxs) {
     const V = ((dxs && dxs.laps) || []).filter(l => l.valid).map(l => l.lapMs);
     if (V.length < 2) return { spread: 0, consistency: null, best: V[0] || null, mean: V[0] || null };
-    const recent = V.slice(-5);
+    // The out-lap is never representative — leave it out of spread once there
+    // are enough laps to judge without it.
+    const pool = V.length > 3 ? V.slice(1) : V;
+    const recent = pool.slice(-5);
     const spread = (Math.max.apply(null, recent) - Math.min.apply(null, recent)) / 1000;
     return {
       spread,
@@ -2965,6 +3334,31 @@ class Component extends DCLogic {
 
   hands() { const m = this.state.micMode; return m === "always" || m === "wake"; }
 
+  pollPads = () => {
+    const pads = navigator.getGamepads ? Array.from(navigator.getGamepads()) : [];
+    if (this.state.pttBind) {
+      for (const p of pads) {
+        if (!p || !p.buttons) continue;
+        for (let b = 0; b < p.buttons.length; b++) {
+          if (p.buttons[b] && p.buttons[b].pressed) {
+            this._padDown = true;
+            this.set({ pttPad: { index: p.index, button: b, id: (p.id || "CONTROLLER").slice(0, 22) } });
+            this.setState({ pttBind: false });
+            return;
+          }
+        }
+      }
+      return;
+    }
+    const bind = this.state.pttPad;
+    if (!bind) return;
+    const p = pads[bind.index];
+    const on = !!(p && p.buttons && p.buttons[bind.button] && p.buttons[bind.button].pressed);
+    if (on === !!this._padDown) return;
+    this._padDown = on;
+    if ((this.state.micMode || "hold") === "hold") this.ptt(on);
+  };
+
   setMicMode(m) {
     this.setState({ micMode: m, heard: "" });
     clearTimeout(this._reopen);
@@ -3075,7 +3469,7 @@ class Component extends DCLogic {
 
     const cap = x => x.charAt(0).toUpperCase() + x.slice(1);
     const deltaLine = cap(!live
-      ? "Demo lap. Connect the bridge and this becomes your real delta."
+      ? "No signal yet. Connect the bridge and this becomes your real delta."
       : dNow === null
         ? (dxs && dxs.lapCount === 0
             ? "No reference yet. One clean lap and I can tell you where you stand."
@@ -3086,7 +3480,7 @@ class Component extends DCLogic {
 
     const gainLine = !CS.length
       ? (live ? "Nothing solid yet. Give me a lap or two against the reference and I'll point at a corner."
-              : "Demo lap — there is nothing real to analyse yet.")
+              : "No signal yet — there is nothing to analyse.")
       : (() => {
           const c = CS[0];
           const ev = (dxs.laps.slice(-1)[0] || { events: [] }).events.find(e => e.index === c.index);
@@ -3098,7 +3492,7 @@ class Component extends DCLogic {
         })();
 
     const timeLine = !live
-      ? "Demo lap. The real answer needs the bridge and a reference lap."
+      ? "No signal yet. The real answer needs the bridge and a reference lap."
       : dxs && dxs.sectorDeltas.some(v => typeof v === "number")
         ? (() => {
             const parts = dxs.sectorDeltas.map((v, i) => typeof v === "number" ? "sector " + (i + 1) + " " + T(v) + (v < 0 ? " up" : " down") : null).filter(Boolean);
@@ -3164,7 +3558,7 @@ class Component extends DCLogic {
 
   traceSample(d) {
     if (!this.rec || !this.LT) return;
-    const now = typeof d.t === "number" ? d.t : Date.now();
+    const now = typeof d.t === "number" ? d.t : typeof d.simT === "number" ? d.simT : Date.now();
     const F = d.f1 || null;
     let dist;
     if (F && F.lapDist > 0) {
@@ -3237,9 +3631,7 @@ class Component extends DCLogic {
     const real = this.rec ? this.rec.all() : [];
     const live = this.rec && this.rec.live ? this.rec.live() : null;
     const pool = live && !real.some(l => l.n === live.n) ? [live].concat(real) : real;
-    if (pool.length >= 1) return { laps: pool, demo: false };
-    if (!this._demoLaps) this._demoLaps = [4, 3, 2, 1].map(n => this.LT.demoLap(n));
-    return { laps: this._demoLaps, demo: true };
+    return { laps: pool, demo: false };
   }
   picked() {
     const { laps, demo } = this.lapPool();
@@ -3271,8 +3663,10 @@ class Component extends DCLogic {
     const hasRef = !!(dxs && dxs.hasReference);
     const F = ms => (this.DX ? this.DX.fmtLap(ms) : "—:——.———");
     const DF = (v, dp) => (this.DX ? this.DX.fmtDelta(v, dp) : "—.———");
-    const POS = t.pos || t.acc, NEG = t.neg || "#F2564B";
+    const POS = t.pos || t.acc, NEG = t.neg || INK.bad;
     const dcol = v => (typeof v !== "number" ? t.dim : v < -0.005 ? POS : v > 0.005 ? NEG : t.dim);
+    const has = v => typeof v === "number" && isFinite(v) && v > 0;
+    const mask = (v, fmt, fg) => (has(v) ? { text: fmt(v), fg: fg || t.text } : { text: "–", fg: t.dim });
     const laps = (dxs && dxs.laps) || [];
     const validLaps = laps.filter(l => l.valid);
     const stats = this.lapStats ? this.lapStats(dxs) : { spread: 0, consistency: null };
@@ -3280,12 +3674,13 @@ class Component extends DCLogic {
     const lit = Math.max(0, Math.min(24, Math.round(((s.rpm - 5200) / 4000) * 24)));
     const leds = [];
     for (let i = 0; i < 24; i++) {
-      const c = i < 10 ? "#3BE06A" : i < 16 ? "#F5D93A" : i < 21 ? "#F2564B" : "#4EA8FF";
-      leds.push({ bg: i < lit ? c : "#191D22" });
+      const c = i < 10 ? INK.good : i < 16 ? INK.warn : i < 21 ? INK.bad : INK.cool;
+      leds.push({ bg: i < lit ? c : (t.light ? "#DAD7D1" : "#191D22") });
     }
 
     const trace = [];
     for (let i = 0; i < 92; i++) {
+      if (!onAir) { trace.push({ h: "2%", bg: "#1B2027" }); continue; }
       const u = i / 92, v = this.speedAt(u);
       const cur = Math.abs(u - s.u) < 0.011;
       trace.push({
@@ -3303,15 +3698,17 @@ class Component extends DCLogic {
       return {
         up: typeof v === "number" && v <= 0 ? h + "%" : "0%",
         down: typeof v === "number" && v > 0 ? h + "%" : "0%",
-        bg: cur ? t.text : typeof v !== "number" ? "#1B2027" : v <= 0 ? POS : NEG
+        bg: cur ? t.text : typeof v !== "number" ? (t.light ? "#DAD7D1" : "#1B2027") : v <= 0 ? POS : NEG
       };
     });
 
     const TPOS = ["FL", "FR", "RL", "RR"];
     const tcol = tp => {
+      if (tp > 103) return INK.hot;
+      if (tp < 60) return INK.cool;
       const x = Math.max(0, Math.min(1, (tp - 62) / 46));
       const hue = 205 - x * 205;
-      return "oklch(0.78 " + (0.10 + x * 0.10).toFixed(3) + " " + hue.toFixed(1) + ")";
+      return "oklch(" + (t.light ? "0.46 " : "0.78 ") + (0.10 + x * 0.10).toFixed(3) + " " + hue.toFixed(1) + ")";
     };
     const tband = tp => tp < 60 ? "COLD" : tp < 78 ? "WARMING" : tp <= 103 ? "IN WINDOW" : "OVER WINDOW";
     const LDT = this.liveNow() || (this.everLive ? this.live : null);
@@ -3319,10 +3716,10 @@ class Component extends DCLogic {
     const slip = (LDT && LDT.slipRatio && LDT.speed > 8)
       ? LDT.slipRatio.map(x => Math.min(99, Math.abs(x - 1) * 100)) : null;
     const tyres = TPOS.map((p, i) => {
-      const tp = s.tyres[i], hot = tp > 103, cold = tp < 78;
-      const c = tcol(tp);
+      const tp = s.tyres[i], hot = onAir && tp > 103, cold = onAir && tp < 78;
+      const c = onAir ? tcol(tp) : t.dim;
       const shared = {
-        pos: p, temp: this.tempStr(tp), band: tband(tp),
+        pos: p, temp: onAir ? this.tempStr(tp) : "—", band: onAir ? tband(tp) : "NO SIGNAL",
         bandStyle: { fontFamily: "'IBM Plex Mono',monospace", fontSize: "8px", letterSpacing: "0.1em", color: c },
         tyre: {
           width: "26px", alignSelf: "stretch", minHeight: "34px", borderRadius: "6px/10px",
@@ -3331,20 +3728,20 @@ class Component extends DCLogic {
           boxShadow: "inset 0 0 0 1px rgba(0,0,0,.5)",
           transition: "background 220ms linear, opacity 220ms linear"
         },
-        fg: hot ? "#FF8A3D" : cold ? "#4EA8FF" : t.text,
-        bg: hot ? "#241606" : "#12151A",
-        border: hot ? "#5C3A12" : t.line
+        fg: !onAir ? t.dim : hot ? INK.hot : cold ? INK.cool : t.text,
+        bg: hot ? INK.hotbg : "var(--sub,#12151A)",
+        border: hot ? INK.hotline : t.line
       };
       if (FX && FX.press && FX.wear) return Object.assign({}, shared, {
         press: FX.press[i].toFixed(1) + " psi",
         wear: Math.round(FX.wear[i]) + "%",
         wearW: Math.round(Math.min(100, FX.wear[i])) + "%",
-        wearColor: FX.wear[i] > 55 ? "#F2564B" : FX.wear[i] > 35 ? "#FFC400" : c
+        wearColor: FX.wear[i] > 55 ? INK.bad : FX.wear[i] > 35 ? "#FFC400" : c
       });
       if (LDT) return {
-        pos: p, temp: this.tempStr(tp),
+        pos: p, temp: onAir ? this.tempStr(tp) : "—",
         press: slip ? Math.round(slip[i]) + "% slip" : "— rolling",
-        band: tband(tp),
+        band: onAir ? tband(tp) : "NO SIGNAL",
         bandStyle: { fontFamily: "'IBM Plex Mono',monospace", fontSize: "8px", letterSpacing: "0.1em", color: c },
         tyre: {
           width: "26px", alignSelf: "stretch", minHeight: "34px", borderRadius: "6px/10px",
@@ -3353,19 +3750,19 @@ class Component extends DCLogic {
           boxShadow: "inset 0 0 0 1px rgba(0,0,0,.5)",
           transition: "background 220ms linear, opacity 220ms linear"
         },
-        fg: hot ? "#FF8A3D" : cold ? "#4EA8FF" : t.text,
-        bg: hot ? "#241606" : "#12151A",
-        border: hot ? "#5C3A12" : t.line,
+        fg: !onAir ? t.dim : hot ? INK.hot : cold ? INK.cool : t.text,
+        bg: hot ? INK.hotbg : "var(--sub,#12151A)",
+        border: hot ? INK.hotline : t.line,
         wear: "PRESSURE NOT SENT",
         wearW: slip ? Math.round(Math.min(100, slip[i] * 4)) + "%" : "0%",
-        wearColor: slip && slip[i] > 12 ? "#F2564B" : c
+        wearColor: slip && slip[i] > 12 ? INK.bad : c
       };
       return {
-        pos: p, temp: this.tempStr(tp), press: s.press[i].toFixed(2) + " bar",
-        fg: hot ? "#FF8A3D" : cold ? "#4EA8FF" : t.text,
-        bg: hot ? "#241606" : "#12151A",
-        border: hot ? "#5C3A12" : t.line,
-        band: tband(tp),
+        pos: p, temp: onAir ? this.tempStr(tp) : "—", press: onAir ? s.press[i].toFixed(2) + " bar" : "—",
+        fg: !onAir ? t.dim : hot ? INK.hot : cold ? INK.cool : t.text,
+        bg: hot ? INK.hotbg : "var(--sub,#12151A)",
+        border: hot ? INK.hotline : t.line,
+        band: onAir ? tband(tp) : "NO SIGNAL",
         bandStyle: { fontFamily: "'IBM Plex Mono',monospace", fontSize: "8px", letterSpacing: "0.1em", color: c },
         tyre: {
           width: "26px", alignSelf: "stretch", minHeight: "34px", borderRadius: "6px/10px",
@@ -3374,11 +3771,15 @@ class Component extends DCLogic {
           boxShadow: "inset 0 0 0 1px rgba(0,0,0,.5)",
           transition: "background 220ms linear, opacity 220ms linear"
         },
-        wear: Math.round(s.wear[i]) + "%",
-        wearW: Math.round(s.wear[i]) + "%",
-        wearColor: s.wear[i] > 45 ? "#F2564B" : s.wear[i] > 25 ? "#F5D93A" : "#3BE06A"
+        wear: onAir ? Math.round(s.wear[i]) + "%" : "–",
+        wearW: onAir ? Math.round(s.wear[i]) + "%" : "0%",
+        wearColor: !onAir ? t.dim : s.wear[i] > 45 ? INK.bad : s.wear[i] > 25 ? INK.warn : INK.good
       };
-    });
+    }).map(x => Object.assign({}, x, {
+      sub: !onAir ? "NO SIGNAL"
+        : x.wear === "PRESSURE NOT SENT" ? x.press + " · NO WEAR"
+        : x.press + " · " + x.wear
+    }));
 
     const micOpts = [["hold", "HOLD"], ["always", "ALWAYS ON"], ["wake", "WAKE WORD"]].map(o => {
       const on = (s.micMode || "hold") === o[0];
@@ -3392,6 +3793,19 @@ class Component extends DCLogic {
       : s.micMode === "wake" ? "Say “engineer”, then your question."
       : s.listening ? "Listening — release to send."
       : "Hold TALK and speak, or tap a question.";
+    const padBound = !!s.pttPad;
+    const pttBtn = {
+      bound: padBound && !s.pttBind,
+      label: s.pttBind ? "PRESS A WHEEL BUTTON…" : padBound ? s.pttPad.id + " · BTN " + s.pttPad.button : "BIND PUSH-TO-TALK",
+      go: () => this.setState({ pttBind: !s.pttBind }),
+      clear: () => { this.set({ pttPad: null }); this.setState({ pttBind: false }); },
+      style: { cursor: "pointer", flex: "1", minWidth: "0", overflow: "hidden", textOverflow: "ellipsis",
+        whiteSpace: "nowrap", fontFamily: "'IBM Plex Mono',monospace", fontSize: "9px", letterSpacing: "0.1em",
+        padding: "7px 9px", borderRadius: "2px", textAlign: "center",
+        border: "1px solid " + (s.pttBind || padBound ? t.acc : t.line),
+        background: s.pttBind ? t.acc : "transparent",
+        color: s.pttBind ? t.bg : padBound ? t.acc : t.dim }
+    };
     const isHold = (s.micMode || "hold") === "hold";
     const talkBtn = {
       show: isHold,
@@ -3405,18 +3819,67 @@ class Component extends DCLogic {
 
     const NAV = [["HOME", "HOME"], ["RACE", "RACE"], ["SETUP", "SETUP"], ["ENGINEER", "CREW"],
       ["ANALYSIS", "ANALYSIS"], ["PRO", "PRO"], ["RECORDS", "RECORDS"], ["COACH", "COACH"], ["THEMES", "THEMES"]];
+    const phase = this.phase(), wantView = this.phaseView();
     const nav = NAV.map(([v, label]) => {
       const p = pill(s.view === v);
-      return { label, border: p.border, bg: p.bg, fg: p.fg, go: () => this.setState({ view: v }) };
+      const cue = v === wantView && s.view !== v;
+      return { label, border: p.border, bg: p.bg, fg: p.fg, go: () => this.setState({ view: v }),
+        dotStyle: cue
+          ? { position: "absolute", top: "3px", right: "3px", width: "4px", height: "4px",
+              borderRadius: "50%", background: t.acc }
+          : { display: "none" } };
+    });
+
+    const LAPF = ms => !(ms > 0) ? "—"
+      : Math.floor(ms / 60000) + ":" + String(Math.floor(ms % 60000 / 1000)).padStart(2, "0")
+        + "." + String(Math.round(ms % 1000)).padStart(3, "0");
+    const DB = (s.debriefs || [])[0] || null;
+    const DBF = DB && DB.event ? (this.DEBRIEF_FOCUS[DB.event] || null) : null;
+    const DBL = !DB ? "" : [
+      DB.valid + (DB.valid === 1 ? " valid lap of " : " valid laps of ") + DB.laps + ", best " + LAPF(DB.bestMs) + ".",
+      DB.spread > 0.02 ? "Your last five sat " + DB.spread.toFixed(2) + " seconds apart." : "",
+      DB.zone ? "The biggest single loss was zone " + DB.zone + " of 24, " + DB.zonePct
+        + "% into the lap — " + DB.zoneLossS.toFixed(2) + "s off your own best through there." : "",
+      DB.gainS ? "Stitching your best zones together gives " + DB.gainS.toFixed(2) + " seconds." : ""
+    ].filter(Boolean).join(" ");
+    const allSes = s.sessions || [];
+    const h2hSes = allSes.filter(x => x.id === s.selSes)[0] || allSes[0] || null;
+    const h2hKey = this.trackKeyOf(h2hSes);
+    const seatNames = (s.seats || []);
+    const bestForSeat = nm => {
+      const v = allSes
+        .filter(x => this.trackKeyOf(x) === h2hKey && (x.seat || "") === nm)
+        .reduce((a, x) => a.concat((x.laps || []).map(l => l.ms)), [])
+        .filter(x => x > 0);
+      return v.length ? Math.min.apply(null, v) : null;
+    };
+    const h2hRaw = seatNames.map(nm => ({ name: nm, ms: bestForSeat(nm) })).filter(x => x.ms);
+    const unseated = h2hKey ? bestForSeat("") : null;
+    if (unseated) h2hRaw.push({ name: "BEFORE DRIVERS WERE SET", ms: unseated });
+    h2hRaw.sort((a, b) => a.ms - b.ms);
+    const h2hLead = h2hRaw.length ? h2hRaw[0].ms : null;
+    const seatChips = seatNames.map(nm => {
+      const on = (s.seat || "") === nm;
+      return { label: nm.toUpperCase(), go: () => this.set({ seat: on ? "" : nm }),
+        style: { cursor: "pointer", fontFamily: "'IBM Plex Mono',monospace", fontSize: "9px",
+          letterSpacing: "0.1em", padding: "7px 10px", borderRadius: "2px", flex: "none",
+          border: "1px solid " + (on ? t.acc : t.line), background: on ? t.acc : "transparent",
+          color: on ? t.bg : t.dim } };
     });
 
     const games = GAMES.map(g => {
-      const on = g.name === s.game;
+      const on = !g.soon && g.name === s.game;
+      if (g.soon) return {
+        code: g.code, name: g.name, transport: g.transport, state: "COMING SOON", soon: true,
+        bg: "#0C0E11", border: t.line, tagBg: "transparent", tagFg: t.dim,
+        nameColor: t.dim, stateColor: t.dim, cursor: "default", opacity: "0.55",
+        pick: null
+      };
       return {
-        code: g.code, name: g.name, transport: g.transport, state: on ? "LINKED" : g.state,
-        bg: on ? "#15170F" : "#12151A", border: on ? t.acc : t.line,
+        code: g.code, name: g.name, transport: g.transport, state: on ? "LINKED" : g.state, soon: false,
+        bg: on ? "#15170F" : "var(--sub,#12151A)", border: on ? t.acc : t.line,
         tagBg: on ? t.acc : t.line, tagFg: on ? t.bg : t.text,
-        stateColor: on ? t.acc : t.dim,
+        nameColor: t.text, stateColor: on ? t.acc : t.dim, cursor: "pointer", opacity: "1",
         pick: () => this.setState({ game: g.name })
       };
     });
@@ -3440,7 +3903,7 @@ class Component extends DCLogic {
     ].map(c => ({ ...c, dotBg: c.ok ? t.acc : t.line, dotFg: c.ok ? t.bg : t.dim, color: c.ok ? t.acc : t.dim }));
 
     const fieldStyle = {
-      flex: 1, minWidth: 0, background: "#0B0D10", color: t.text,
+      flex: 1, minWidth: 0, background: "var(--sunk,#0B0D10)", color: t.text,
       border: "1px solid " + t.line, borderRadius: "2px", padding: "10px 11px",
       fontFamily: "'IBM Plex Mono',monospace", fontSize: "14px", letterSpacing: "0.04em", outline: "none"
     };
@@ -3464,13 +3927,13 @@ class Component extends DCLogic {
     ]).map(p => {
       const on = s.persona === p.id;
       return { id: p.id, name: p.name, line: p.line, pick: () => this.setPersona(p.id),
-        bg: on ? "#15170F" : "#12151A", border: on ? t.acc : t.line,
+        bg: on ? "#15170F" : "var(--sub,#12151A)", border: on ? t.acc : t.line,
         fg: on ? t.acc : t.text, tag: on ? "SELECTED" : "" };
     });
     const vlist = this.voiceList ? this.voiceList() : [];
     const voiceOpts = [{ value: "", label: "Automatic — best local English voice" }]
       .concat(vlist.map(v => ({ value: v.name, label: v.name + " · " + v.lang + (v.localService ? "" : " · network") })));
-    const refModes = ["PERSONAL BEST", "LAST LAP", "SESSION BEST"].map(m => {
+    const refModes = ["PERSONAL BEST", "LAST LAP", "SESSION BEST", "THEORETICAL BEST", "TARGET TIME"].map(m => {
       const p = pill(s.refMode === m);
       return { label: m, border: p.border, bg: p.bg, fg: p.fg, pick: () => this.setRefMode(m) };
     });
@@ -3500,7 +3963,7 @@ class Component extends DCLogic {
         d: !l.valid ? "SHORT" : d === 0 ? "0.000" : DF(d),
         dColor: l.valid ? dcol(d) : t.dim,
         s1: sc(0), s2: sc(1), s3: sc(2), c1: scol(0), c2: scol(1), c3: scol(2),
-        bg: isBest ? "#15170F" : "#12151A", border: isBest ? t.acc : t.line
+        bg: isBest ? "#15170F" : "var(--sub,#12151A)", border: isBest ? t.acc : t.line
       };
     });
 
@@ -3508,7 +3971,7 @@ class Component extends DCLogic {
     const worstLoss = CS.reduce((a, c) => Math.max(a, Math.abs(c.total)), 0.001);
     const cornerLoss = CS.filter(c => c.total > 0.02).slice(0, 6).map(c => ({
       n: c.name, w: Math.round((Math.abs(c.total) / worstLoss) * 100) + "%", v: c.total.toFixed(2),
-      color: c.total > 0.25 ? NEG : c.total > 0.12 ? "#F5D93A" : "#8A9A3A"
+      color: c.total > 0.25 ? NEG : c.total > 0.12 ? INK.warn : "#8A9A3A"
     }));
 
     const evCount = {};
@@ -3541,8 +4004,8 @@ class Component extends DCLogic {
         lap: e.lap, corner: e.corner, event: e.event, said: e.said,
         resultK: hasD ? (e.change < 0 ? "GAINED" : "LOST") : e.peak ? "PEAK" : e.ms ? "LAP" : "",
         result: hasD ? DF(e.change, 2) : e.peak ? e.peak + "°" : e.ms ? F(e.ms) : "",
-        resultColor: hasD ? dcol(e.change) : e.peak ? "#FF8A3D" : t.text,
-        accent: hasD ? dcol(e.change) : e.peak ? "#FF8A3D" : t.line
+        resultColor: hasD ? dcol(e.change) : e.peak ? INK.hot : t.text,
+        accent: hasD ? dcol(e.change) : e.peak ? INK.hot : t.line
       };
     });
 
@@ -3559,12 +4022,13 @@ class Component extends DCLogic {
     if (topLoss) notes.push({ tag: "RECURRING — " + topLoss.name, color: t.acc,
       text: topLoss.total.toFixed(2) + " s given away here over " + topLoss.count + " passes. Worst single pass " + topLoss.worst.toFixed(2) + " s." });
     const hotT = s.tyres.reduce((a, v, i) => (v > s.tyres[a] ? i : a), 0);
-    if (s.tyres[hotT] > 96) notes.push({ tag: "TYRES — " + ["FRONT LEFT", "FRONT RIGHT", "REAR LEFT", "REAR RIGHT"][hotT], color: "#FF8A3D",
+    if (s.tyres[hotT] > 96) notes.push({ tag: "TYRES — " + ["FRONT LEFT", "FRONT RIGHT", "REAR LEFT", "REAR RIGHT"][hotT], color: INK.hot,
       text: "Running " + Math.round(s.tyres[hotT]) + "°, the hottest corner of the four. Surface temperature is the only tyre figure GT7 sends." });
     if (typeof stats.consistency === "number") notes.push({ tag: "CONSISTENCY", color: t.dim,
       text: "Last five valid laps are spread over " + stats.spread.toFixed(2) + " s. " + (stats.spread < 0.5 ? "That is repeatable pace." : "Tighten that before chasing the lap record.") });
-    if (!notes.length) notes.push({ tag: "NOTHING YET", color: t.dim,
+    if (!notes.length) notes.push({ tag: "NOTHING YET", color: t.dim, textColor: t.dim,
       text: "Run a lap with the bridge connected. Notes here are built from the delta engine's own events, not from a script." });
+    notes.forEach(nt => { if (!nt.textColor) nt.textColor = t.text; });
 
     const WEAVE = [
       "linear-gradient(27deg, #171B22 5px, transparent 5px)",
@@ -3626,7 +4090,7 @@ class Component extends DCLogic {
       expBorder: hoverOn ? t.acc : t.line,
       barIn: () => this.setState({ barHover: true }),
       barOut: () => this.setState({ barHover: false }),
-      homeConn: "TELEMETRY " + this.liveState() + " · BRIDGE " + (this.wsOpen ? "OPEN" : "CLOSED"),
+      homeConn: (onAir ? "TELEMETRY " + this.liveState() : "NO SIGNAL") + " · BRIDGE " + (this.wsOpen ? "OPEN" : "CLOSED"),
       homeLine: s.engineerLine,
       engineerId: (s.persona || "CALM") + " · " + (s.voiceSex === "ANY" ? "EITHER VOICE" : (s.voiceSex || "ANY") + " VOICE") + " · " + (s.chatter || "Essential").toUpperCase(),
       radioChip: (() => { const p = pill(s.radioOn); return { label: s.radioOn ? "RADIO ON" : "RADIO OFF", bg: p.bg, fg: p.fg, border: p.border, go: this.toggleRadio }; })(),
@@ -3666,11 +4130,19 @@ class Component extends DCLogic {
 
     return {
       scale: s.scale || 1,
-      tex: s.theme === "GT3 CARBON" ? WEAVE : "none",
+      hostRef: el => {
+        if (!el || el === this._host) return;
+        this._host = el;
+        if (this._ro) this._ro.observe(el);
+        this._fit();
+      },      tex: s.theme === "GT3 CARBON" ? WEAVE : "none",
       texSize: s.theme === "GT3 CARBON" ? "20px 20px" : "auto",
       texPos: s.theme === "GT3 CARBON" ? "0 5px, 10px 0, 0 10px, 10px 5px, 0 0, 0 0" : "0 0",
-      carName: FX ? "FORMULA · 1.6 V6 HYBRID" : "GT3 · 4.0 FLAT-SIX",
-      trackName: FX && FX.track ? FX.track.toUpperCase() : "SPA-FRANCORCHAMPS",
+      carName: !onAir ? "–" : FX ? "FORMULA · 1.6 V6 HYBRID" : "GT3 · 4.0 FLAT-SIX",
+      carNameFg: onAir ? t.text : t.dim,
+      carClass: FX ? "F1" : "GR.3",
+      hasCar: onAir,
+      trackName: !onAir ? "–" : FX && FX.track ? FX.track.toUpperCase() : "SPA-FRANCORCHAMPS",
       gameName: s.game.toUpperCase(),
 
       isWheel: !!(THEMES[s.theme] && THEMES[s.theme].wheel),
@@ -3697,10 +4169,10 @@ class Component extends DCLogic {
       compoundLabel: FX ? FX.compound : "—",
       compoundColor: FX ? FX.compoundColor : t.dim,
       compoundSub: FX ? (FX.compoundActual ? FX.compoundActual + " · " : "") + FX.tyreAge + (FX.tyreAge === 1 ? " LAP" : " LAPS") : "NOT BROADCAST BY GT7",
-      lapLabel: (LD => LD ? (s.lap + (LD.totalLaps > 0 ? " / " + LD.totalLaps : "")) : s.lap + " / 24")(LDT),
+      lapLabel: (LD => LD ? (s.lap + (LD.totalLaps > 0 ? " / " + LD.totalLaps : "")) : "—")(LDT),
       posLabel: FX ? (FX.position > 0 ? FX.position + " / " + (LDT.carsOnTrack || "—") : "—")
-        : (LD => LD ? (LD.carsOnTrack > 1 ? "— / " + LD.carsOnTrack : "—") : s.pos + " / 20")(LDT),
-      sessionClock: this.clock(s.session),
+        : (LD => LD ? (LD.carsOnTrack > 1 ? "— / " + LD.carsOnTrack : "—") : "—")(LDT),
+      sessionClock: onAir ? this.clock(s.session) : "—:——",
       ...this.recordVals(t, F, DF, POS, NEG),
       ...this.rosterVals(t),
       ...this.brainVals(t),
@@ -3715,57 +4187,93 @@ class Component extends DCLogic {
       dropThemeNote: () => this.setState({ themeNote: "" }),
       goRace: () => this.setState({ view: "RACE" }),
       goSetup: () => this.setState({ view: "SETUP" }),
-      micOpts, micLine, talkBtn,
+      micOpts, micLine, talkBtn, pttBtn,
       micLineStyle: { fontFamily: "'IBM Plex Mono',monospace", fontSize: "10px", lineHeight: "1.5",
         color: s.listening ? t.acc : t.dim, textWrap: "pretty" },
       isRace: s.view === "RACE", isSetup: s.view === "SETUP", isAnalysis: s.view === "ANALYSIS",
       isCoach: s.view === "COACH", isThemes: s.view === "THEMES", isRecords: s.view === "RECORDS",
-      isBrief: s.view === "HOME",
+      isBrief: s.view === "HOME" || VIEWS.indexOf(s.view) < 0,
       isPro: s.view === "PRO",
       ...this.heavyVals(t),
       goRace: () => this.setState({ view: "RACE" }),
 
       linkLabel: (L => L === "LIVE" ? ("LIVE " + (s.game === "Gran Turismo 7" ? "GT7" : s.game) + " · " + (this.pps || 0) + " PKT/S")
-        : L === "LOST" ? "SIGNAL LOST · HOLDING LAST FRAME"
+        : L === "LOST" ? "SIGNAL LOST · FRAME " + this.ageLabel()
         : L === "WAITING" ? "BRIDGE UP · WAITING FOR GT7"
-        : "DEMO LAP · BRIDGE NOT FOUND")(this.liveState()),
+        : "NO SIGNAL · BRIDGE NOT FOUND")(this.liveState()),
       linkDot: (L => ({ width: "8px", height: "8px", borderRadius: "50%", flex: "none",
-        background: L === "LIVE" ? "#3BE06A" : L === "LOST" ? "#F2564B" : L === "WAITING" ? "#F5D93A" : "#4E524F" }))(this.liveState()),
-      linkFg: (L => L === "LIVE" ? "#3BE06A" : L === "LOST" ? "#F2564B" : L === "WAITING" ? "#F5D93A" : t.dim)(this.liveState()),
+        background: L === "LIVE" ? INK.good : L === "LOST" ? INK.bad : L === "WAITING" ? INK.warn : (t.light ? "#B4B1AA" : "#4E524F") }))(this.liveState()),
+      linkFg: (L => L === "LIVE" ? INK.good : L === "LOST" ? INK.bad : L === "WAITING" ? INK.warn : t.dim)(this.liveState()),
       deltaSub: onAir
         ? (hasRef ? "LIVE DELTA vs " + dxs.referenceLabel + " · " + F(dxs.referenceLapMs) : "NO REFERENCE YET — RECORDING")
-        : "DELTA TO BEST · DEMO LAP",
-      deltaLabel: onAir
-        ? (hasRef && typeof dxs.liveDelta === "number" ? DF(dxs.liveDelta) : "—.———")
-        : (s.delta < 0 ? "−" : "+") + Math.abs(s.delta).toFixed(3),
-      deltaColor: onAir ? (hasRef ? dcol(dxs.liveDelta) : t.dim) : (s.delta < 0 ? POS : NEG),
+        : "DELTA TO BEST · NO SIGNAL",
+      deltaLabel: onAir && hasRef && typeof dxs.liveDelta === "number" ? DF(dxs.liveDelta) : "–",
+      deltaColor: onAir && hasRef && typeof dxs.liveDelta === "number" ? dcol(dxs.liveDelta) : t.dim,
       deltaDiag: this.deltaDiagLine(dxs, onAir, hasRef),
+      miniBars: (() => {
+        const n = (dxs && dxs.miniCount) || 24;
+        const D = (dxs && dxs.miniDeltas) || [];
+        const here = dxs ? dxs.miniIndex : -1;
+        return Array.from({ length: n }, (_, i) => {
+          const v = D[i];
+          const has = onAir && typeof v === "number";
+          const h = has ? Math.min(100, (Math.abs(v) / 0.25) * 100) : 0;
+          return {
+            up: has && v <= 0 ? Math.max(6, h) + "%" : "0%",
+            down: has && v > 0 ? Math.max(6, h) + "%" : "0%",
+            bg: !onAir ? "#1B2027" : i === here ? t.text : !has ? "#1B2027" : v <= 0 ? POS : NEG
+          };
+        });
+      })(),
+      miniHead: onAir
+        ? (hasRef ? "MINI-SECTORS · " + ((dxs && dxs.miniCount) || 24) + " SEGMENTS vs " + dxs.referenceLabel : "MINI-SECTORS · NO REFERENCE YET")
+        : "MINI-SECTORS",
+      miniNote: onAir && dxs && typeof dxs.miniIndex === "number" && hasRef
+        ? "SEGMENT " + (dxs.miniIndex + 1) + " / " + dxs.miniCount
+        : "–",
+      optimalLabel: onAir && dxs && dxs.optimalLapMs ? F(dxs.optimalLapMs) : "–",
+      optimalFg: onAir && dxs && dxs.optimalLapMs ? t.acc : t.dim,
+      lapInvalid: !!(onAir && dxs && dxs.lapValid === false),
+      invalidLabel: dxs && dxs.invalidReason
+        ? (dxs.invalidEstimated ? "LAP INVALID — " + dxs.invalidReason + " (ESTIMATED, GT7 SENDS NO TRACK LIMITS)" : "LAP INVALID — " + dxs.invalidReason)
+        : "",
       deltaTrendLabel: onAir && hasRef ? (dxs.deltaTrend === "gaining" ? "GAINING" : dxs.deltaTrend === "losing" ? "LOSING" : "HOLDING") : "",
       deltaTrendColor: onAir && hasRef ? (dxs.deltaTrend === "gaining" ? POS : dxs.deltaTrend === "losing" ? NEG : t.dim) : t.dim,
-      predLabel: onAir ? (dxs && dxs.predictedLapMs ? F(dxs.predictedLapMs) : "—:——.———") : this.fmt(Math.max(0, s.best + s.delta)),
-      curLap: onAir && dxs ? F(dxs.currentLapMs) : this.fmt(s.lapT),
-      bestLap: onAir ? F((dxs && dxs.bestLapMs) || (s.best * 1000)) : this.fmt(s.best),
-      lastLap: onAir ? F((dxs && dxs.lastLapMs) || (s.last * 1000)) : this.fmt(s.last),
+      predLabel: mask(onAir && dxs ? dxs.predictedLapMs : null, F).text,
+      predFg: mask(onAir && dxs ? dxs.predictedLapMs : null, F).fg,
+      curLap: mask(onAir && dxs ? dxs.currentLapMs : null, F).text,
+      curFg: mask(onAir && dxs ? dxs.currentLapMs : null, F).fg,
+      bestLap: mask(onAir && dxs ? dxs.bestLapMs : null, F).text,
+      lastLap: mask(onAir && dxs ? dxs.lastLapMs : null, F).text,
+      lastFg: mask(onAir && dxs ? dxs.lastLapMs : null, F).fg,
+      timeFg: onAir ? t.text : t.dim,
+      planDegColor: onAir ? t.text : t.dim,
+      ersFg: onAir ? INK.cool : t.dim,
+      thrFg: onAir ? INK.good : t.dim,
+      brkFg: onAir ? INK.bad : t.dim,
+      bestFg: mask(onAir && dxs ? dxs.bestLapMs : null, F, t.acc).fg,
       sectorHead: onAir ? "SECTORS — DERIVED, THIRDS OF REFERENCE" : "SECTORS",
       sectors: onAir
         ? [0, 1, 2].map(i => ({
             n: (dxs && dxs.currentSector === i ? "▸" : "") + "S" + (i + 1),
-            t: dxs && dxs.sectorMs[i] > 0 ? F(dxs.sectorMs[i]) : "—",
+            t: dxs && dxs.sectorMs[i] > 0 ? F(dxs.sectorMs[i]) : "–",
+            tColor: dxs && dxs.sectorMs[i] > 0 ? t.text : t.dim,
             d: dxs && typeof dxs.sectorDeltas[i] === "number" ? DF(dxs.sectorDeltas[i]) : "—",
             color: dcol(dxs && dxs.sectorDeltas[i])
           }))
         : [
-            { n: "S1", t: "0:32.456", d: "−0.124", color: POS },
-            { n: "S2", t: "0:28.221", d: "−0.287", color: POS },
-            { n: "S3", t: "0:23.441", d: "+0.031", color: NEG }
+            { n: "S1", t: "–", d: "–", color: t.dim, tColor: t.dim },
+            { n: "S2", t: "–", d: "–", color: t.dim, tColor: t.dim },
+            { n: "S3", t: "–", d: "–", color: t.dim, tColor: t.dim }
           ],
-      gapAhead: FX ? (FX.gapAheadMs != null && FX.position > 1 ? "+" + (FX.gapAheadMs / 1000).toFixed(3) : "—")
-        : onAir ? "—" : "+" + (2.4 - s.delta).toFixed(3),
-      gapBehind: FX ? (FX.gapBehindMs != null ? "−" + (FX.gapBehindMs / 1000).toFixed(3) : "—")
-        : onAir ? "—" : "−0.876",
+      gapAhead: FX && FX.gapAheadMs != null && FX.position > 1 ? "+" + (FX.gapAheadMs / 1000).toFixed(3) : "–",
+      gapAheadFg: FX && FX.gapAheadMs != null && FX.position > 1 ? t.text : t.dim,
+      gapBehind: FX && FX.gapBehindMs != null ? "−" + (FX.gapBehindMs / 1000).toFixed(3) : "–",
+      gapBehindFg: FX && FX.gapBehindMs != null ? t.text : t.dim,
 
-      gear: String(s.gear),
-      speed: String(Math.round(this.cvSpeed(s.speed))),
+      gear: onAir ? String(s.gear) : "—",
+      hasGear: onAir, noGear: !onAir,
+      speed: onAir ? String(Math.round(this.cvSpeed(s.speed))) : "—",
       speedUnitLabel: this.speedUnitLabel(),
       signedIn: !!s.user && !s.userEdit,
       userForm: !s.user || !!s.userEdit,
@@ -3849,60 +4357,110 @@ class Component extends DCLogic {
         return { label, bg: on ? t.acc : "transparent", border: on ? t.acc : t.line, fg: on ? t.bg : t.dim,
           pick: () => this.set({ tempUnit: k }) };
       }),
-      rpmLabel: String(s.rpm),
-      rpmColor: s.rpm > 8600 ? "#F2564B" : t.text,
+      rpmLabel: onAir ? String(s.rpm) : "—",
+      rpmColor: !onAir ? t.dim : s.rpm > 8600 ? INK.bad : t.text,
       rpmGlow: String(Math.min(0.16, Math.max(0, (s.rpm - 3200) / 5800) * 0.13 + (s.rpm > 8600 ? 0.04 : 0))),
-      throttleLabel: Math.round(s.throttle) + "%",
+      throttleLabel: onAir ? Math.round(s.throttle) + "%" : "—",
       throttleW: Math.round(s.throttle) + "%",
-      brakeLabel: Math.round(s.brake) + "%",
+      brakeLabel: onAir ? Math.round(s.brake) + "%" : "—",
       brakeW: Math.round(s.brake) + "%",
       steerL: (50 + Math.min(0, s.steer) / 2) + "%",
       steerW: Math.abs(s.steer) / 2 + "%",
       traceLabel: onAir && dxs
         ? Math.round(dxs.lapDistance) + " m" + (dxs.referenceDistance ? " of " + Math.round(dxs.referenceDistance) + " m" : " — distance estimated from position")
-        : "LAP " + s.lap + " · " + Math.round(s.u * 6960) + " m",
+        : "NO SIGNAL",
       traceHead: onAir && hasRef ? "DELTA — TIME AGAINST REFERENCE OVER TRACK POSITION" : "LAP TRACE — SPEED OVER DISTANCE",
       showDeltaTrace: !!(onAir && hasRef),
       showSpeedTrace: !(onAir && hasRef),
       deltaTrace: dTrace,
 
-      fuelLabel: s.fuel.toFixed(1) + " L",
+      fuelLabel: onAir ? s.fuel.toFixed(1) + " L" : "— L",
       fuelW: Math.max(0, Math.min(100, (s.fuel / 60) * 100)) + "%",
       fuelNote: FX
         ? (FX.fuelLaps >= 0 ? "+" : "−") + Math.abs(FX.fuelLaps).toFixed(2) + " LAPS IN HAND · MIX " + (FX.fuelMix || 0)
         : onAir
         ? (this.fuelPerLap ? (s.fuel / this.fuelPerLap).toFixed(1) + " LAPS AT " + this.fuelPerLap.toFixed(2) + " L/LAP" : "— NEEDS ONE FULL LAP TO MEASURE")
-        : (s.fuel / 2.62).toFixed(1) + " LAPS LEFT",
-      ersLabel: FX ? Math.round(FX.ers * 100) + "%" : onAir ? "—" : s.ers + "%",
-      ersW: FX ? Math.round(FX.ers * 100) + "%" : onAir ? "0%" : s.ers + "%",
-      ersNote: FX ? FX.ersMode + " · " + (FX.ersDeployed * 4).toFixed(1) + " MJ THIS LAP" : onAir ? "NOT BROADCAST BY GT7" : "DEPLOY BALANCED",
-      biasLabel: FX ? FX.bias + "%" : onAir ? "—" : s.bias.toFixed(1) + "%",
-      biasW: FX ? FX.bias + "%" : onAir ? "0%" : s.bias + "%",
-      biasNote: FX ? "FRONT / REAR" : onAir ? "NOT BROADCAST BY GT7" : "FRONT / REAR",
+        : "—",
+      ersLabel: FX ? Math.round(FX.ers * 100) + "%" : "—",
+      ersW: FX ? Math.round(FX.ers * 100) + "%" : "0%",
+      ersNote: FX ? FX.ersMode + " · " + (FX.ersDeployed * 4).toFixed(1) + " MJ THIS LAP" : onAir ? "NOT BROADCAST BY GT7" : "—",
+      biasLabel: FX ? FX.bias + "%" : "—",
+      biasW: FX ? FX.bias + "%" : "0%",
+      biasNote: FX ? "FRONT / REAR" : onAir ? "NOT BROADCAST BY GT7" : "—",
 
-      tyreWarn: s.tyres[0] > 103 ? "FL OVER WINDOW"
-        : FX ? FX.compound + " · " + FX.tyreAge + (FX.tyreAge === 1 ? " LAP" : " LAPS")
-        : "ALL IN WINDOW",
-      tyreWarnColor: s.tyres[0] > 103 ? "#FF8A3D" : FX ? FX.compoundColor : t.dim,
+      tyreWarn: (() => {
+        const NM = ["FL", "FR", "RL", "RR"], TY = s.tyres || [];
+        const over = NM.filter((n, i) => TY[i] > 103);
+        if (over.length) return over.length === 4 ? "ALL FOUR OVER WINDOW" : over.join(" ") + " OVER WINDOW";
+        if (FX) return FX.compound + " · " + FX.tyreAge + (FX.tyreAge === 1 ? " LAP" : " LAPS");
+        if (!onAir) return "NO SIGNAL";
+        const cold = NM.filter((n, i) => TY[i] > 0 && TY[i] < 78);
+        if (cold.length === 4) return "ALL FOUR STILL COLD";
+        if (cold.length) return cold.join(" ") + " STILL COLD";
+        return "ALL IN WINDOW";
+      })(),
+      tyreWarnColor: (s.tyres || []).some(x => x > 103) ? INK.hot : FX ? FX.compoundColor : t.dim,
       carRows: (LD => [
-        LD ? { k: "OIL", v: Math.round(LD.oilTemp || 0) + "°C", color: (LD.oilTemp || 0) > 130 ? "#F2564B" : t.text }
-           : { k: "OIL", v: "109°C", color: t.text },
-        LD ? { k: "WATER", v: Math.round(LD.waterTemp || 0) + "°C", color: (LD.waterTemp || 0) > 112 ? "#F2564B" : t.text }
-           : { k: "WATER", v: "92°C", color: t.text },
+        LD ? { k: "OIL", v: Math.round(LD.oilTemp || 0) + "°C", color: (LD.oilTemp || 0) > 130 ? INK.bad : t.text }
+           : { k: "OIL", v: "—", color: t.dim },
+        LD ? { k: "WATER", v: Math.round(LD.waterTemp || 0) + "°C", color: (LD.waterTemp || 0) > 112 ? INK.bad : t.text }
+           : { k: "WATER", v: "—", color: t.dim },
         LD ? { k: "OIL PRESS", v: (LD.oilPressure || 0).toFixed(1) + " bar", color: t.text }
-           : { k: "GEARBOX", v: "98°C", color: t.text },
+           : { k: "GEARBOX", v: "—", color: t.dim },
         LD ? { k: "BOOST", v: (LD.boost || 0).toFixed(2) + " bar", color: t.text }
-           : { k: "BRAKE TEMP", v: this.tempStr(s.brakeTemp, true), color: s.brakeTemp > 520 ? "#F2564B" : t.text },
+           : { k: "BRAKE TEMP", v: onAir ? this.tempStr(s.brakeTemp, true) : "—", color: onAir && s.brakeTemp > 520 ? INK.bad : t.dim },
         LD ? { k: "BRAKE TEMP", v: "—  not sent", color: t.dim }
-           : { k: "DAMAGE", v: "NONE", color: t.acc }
+           : { k: "DAMAGE", v: "—", color: t.dim }
       ])(LDT),
 
       chatterLabel: this.chatter().toUpperCase(),
       engineerLine: s.engineerLine,
+      hasDebrief: !!DB,
+      noDebrief: !DB,
+      debriefWhen: DB ? new Date(DB.at).toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).toUpperCase() : "",
+      debriefHead: DB ? (DB.track || "UNNAMED TRACK").toUpperCase() + (DB.seat ? " · " + DB.seat.toUpperCase() : "") : "",
+      debriefLine: DB ? DBL : "",
+      debriefGain: DB && DB.gainS ? "−" + DB.gainS.toFixed(2) + "s AVAILABLE" : "NO STITCHED LAP YET",
+      debriefFocus: DBF ? "WORK ON " + DBF : "",
+      hasDebriefFocus: !!DBF,
+      setDebriefFocus: () => { if (DBF) this.set({ focus: DBF }); },
+      debriefEmpty: "A debrief writes itself when the signal drops after two valid laps: laps, spread, where the time sat and what to work on next time out.",
       engineerState: s.radioOn ? "ON AIR" : "MUTED",
+      cueHoldLabel: !this.cueHolding() ? ""
+        : s.cueHold > 0 ? "HOLDING " + s.cueHold + " FOR A STRAIGHT" : "",
+      phaseLabel: phase,
+      stale: this.liveState() === "LOST",
+      staleLabel: "HOLDING THE LAST FRAME — " + this.ageLabel()
+        + ". EVERY NUMBER BELOW IS FROZEN AT THAT MOMENT, NOT CURRENT.",
+      glanceOn: !!s.glance,
+      glanceRef: onAir && hasRef ? String(dxs.referenceLabel).toUpperCase() : onAir ? "NO REFERENCE YET" : "NO SIGNAL",
+      exitGlance: () => this.setState({ glance: false }),
+      enterGlance: () => this.setState({ glance: true, view: "RACE" }),
+      seatChips, seatDraft: s.seatDraft || "",
+      onSeatDraft: e => this.setState({ seatDraft: e.target.value }),
+      addSeat: () => {
+        const nm = (s.seatDraft || "").trim();
+        if (!nm || (s.seats || []).indexOf(nm) >= 0) { this.setState({ seatDraft: "" }); return; }
+        this.set({ seats: (s.seats || []).concat([nm]), seat: nm, seatDraft: "" });
+      },
+      seatField: { background: "transparent", border: "1px solid " + t.line, borderRadius: "2px",
+        padding: "6px 9px", color: t.text, fontFamily: "'IBM Plex Mono',monospace", fontSize: "10px",
+        outline: "none", width: "130px", boxSizing: "border-box" },
+      seatNote: !seatNames.length ? "ONE DRIVER — ADD A NAME TO SPLIT RECORDS"
+        : s.seat ? "SHOWING " + s.seat.toUpperCase() + " · TAP TO SHOW EVERYONE"
+        : seatNames.length + " DRIVERS · SHOWING EVERYONE",
+      hasH2H: h2hRaw.length > 1,
+      h2hTrackLabel: h2hSes ? (this.nameOf(h2hSes).track || "UNNAMED TRACK").toUpperCase() : "NO SESSION",
+      h2hRows: h2hRaw.map((r, i) => ({
+        name: r.name, time: LAPF(r.ms),
+        gap: i === 0 ? "LEADER" : "+" + ((r.ms - h2hLead) / 1000).toFixed(3),
+        fg: (s.seat || "") === r.name ? t.acc : t.text,
+        gapFg: i === 0 ? t.acc : t.dim
+      })),
       radioLabel: s.radioOn ? "RADIO ON" : "RADIO OFF",
       radioBorder: rp.border, radioBg: rp.bg, radioDot: s.radioOn ? t.bg : t.dim, radioFg: rp.fg,
       toggleRadio: this.toggleRadio,
+      noRadioLog: !s.log.length,
       radioLog: s.log.map(l => ({ tag: l.tag, text: l.text, tagColor: l.driver ? t.dim : t.acc, color: l.driver ? t.dim : t.text })),
       asks: [
         { label: "GAP", go: () => this.answer("gap") },
@@ -3918,10 +4476,13 @@ class Component extends DCLogic {
       hasLaps: laps.length > 0,
       noLaps: laps.length === 0,
       lapCountLabel: laps.length + " RECORDED · " + validLaps.length + " VALID",
-      bestLabel: bestMs ? F(bestMs) : "—:——.———",
-      idealLabel: idealMs ? F(idealMs) : "—:——.———",
-      consistencyLabel: typeof stats.consistency === "number" ? Math.round(stats.consistency * 100) + "%" : "—",
-      spreadLabel: validLaps.length > 1 ? "±" + stats.spread.toFixed(2) + " s OVER LAST 5" : "NEEDS TWO VALID LAPS",
+      bestLabel: bestMs ? F(bestMs) : "–",
+      bestLabelFg: bestMs ? t.text : t.dim,
+      idealLabel: idealMs ? F(idealMs) : "–",
+      idealLabelFg: idealMs ? t.acc : t.dim,
+      consistencyLabel: typeof stats.consistency === "number" ? Math.round(stats.consistency * 100) + "%" : "–",
+      consistencyFg: typeof stats.consistency === "number" ? t.text : t.dim,
+      spreadLabel: validLaps.length > 1 ? "±" + stats.spread.toFixed(2) + " s" : "SPREAD",
       oneThing,
       cornerNote: cornerLoss.length ? "SESSION TOTAL, WORST FIRST" : "NO CORNER EVENTS YET",
       analysisEmpty: laps.length === 0
@@ -3972,7 +4533,7 @@ class Component extends DCLogic {
       cmdLine,
       sources: [["auto", "AUTO"], ["gt7", "GRAN TURISMO 7"], ["f1", "F1 25"]].map(([id, label]) => {
         const on = s.sourceMode === id || (!s.sourceMode && id === "auto" && false);
-        return { label, border: on ? t.acc : t.line, bg: on ? "#15170F" : "#12151A",
+        return { label, border: on ? t.acc : t.line, bg: on ? "#15170F" : "var(--sub,#12151A)",
           fg: on ? t.acc : t.dim, pick: () => this.setSource(id) };
       }),
       sourceNote: s.sourceNote || "Switches the bridge for you. Needs bridge-supervisor.js running, not the listener on its own.",

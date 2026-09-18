@@ -1,7 +1,8 @@
 export function recordVals(C, t, F, DF, POS, NEG) {
   const real = C.state.sessions;
-  const demo = !real.length && !C.everLive;
-  const s = demo ? Object.assign({}, C.state, { sessions: C.demoSessions(), selSes: C.state.selSes || "d1" }) : C.state;
+  const demo = false;
+  const s = demo ? Object.assign({}, C.state, { sessions: C.demoSessions(), selSes: C.state.selSes || "d1" })
+    : Object.assign({}, C.state, { sessions: C.state.sessions.filter(x => C.seatMatch(x)) });
   const D = ms => { const x = new Date(ms); return x.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); };
   const H = ms => new Date(ms).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
   const bestOf = ses => { const v = ses.laps.map(l => l.ms).filter(x => x > 0); return v.length ? Math.min.apply(null, v) : null; };
@@ -73,9 +74,14 @@ export function recordVals(C, t, F, DF, POS, NEG) {
 
   const openMap = s.openTracks || {};
   const order = [], byTrack = {};
+  // A lap length only identifies a track once two full laps agree on it. Sessions
+  // that never completed two laps are pooled instead of inventing a track each.
+  const measured = ses => (ses.laps || []).filter(l => l.ms > 0).length >= 2;
   s.sessions.forEach(ses => {
     const nm = C.nameOf(ses);
-    const key = ses.trackId || (nm.named ? nm.track : "len:" + (C.lenKey(ses.lenM) || "unknown"));
+    const key = ses.trackId || (nm.named ? nm.track
+      : measured(ses) ? "len:" + (C.lenKey(ses.lenM) || "unknown")
+      : "len:unconfirmed");
     if (!byTrack[key]) { byTrack[key] = []; order.push(key); }
     byTrack[key].push({ ses, nm });
   });
@@ -118,8 +124,8 @@ export function recordVals(C, t, F, DF, POS, NEG) {
     }));
 
     return {
-      track: headName.track,
-      titleColor: headName.named ? t.text : t.dim,
+      track: key === "len:unconfirmed" ? "SHORT SESSIONS" : headName.track,
+      titleColor: headName.named && key !== "len:unconfirmed" ? t.text : t.dim,
       flagA: f[0], flagB: f[1],
       hasPath: !!path, noPath: !path, path: path || "",
       best: gBest ? F(gBest) : "—:——.———",
@@ -128,7 +134,9 @@ export function recordVals(C, t, F, DF, POS, NEG) {
       caretColor: open ? t.acc : t.dim,
       count: list.length + (list.length === 1 ? " SESSION" : " SESSIONS") + " · " + dayOrder.length + (dayOrder.length === 1 ? " DAY" : " DAYS"),
       toggle: () => C.toggleTrackGroup(key),
-      meta: [
+      meta: key === "len:unconfirmed"
+        ? "FEWER THAN TWO COMPLETE LAPS · TRACK NOT IDENTIFIED"
+        : [
         head.lenM ? (head.lenM / 1000).toFixed(3) + " KM MEASURED" : "LENGTH NOT MEASURED YET",
         head.turns ? head.turns + " TURNS" : null, headName.trackFrom
       ].filter(Boolean).join(" · "),

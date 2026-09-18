@@ -130,16 +130,25 @@ export function repeatability(laps) {
 }
 
 export function detectCorners(smp) {
-  const k = curvature(smp);
-  const th = 1 / 260;                      // radii under 260m count as a corner
+  const k = smoothCurvature(smp, 16);
+  const enter = 1 / 260;                   // radii under 260m count as a corner
+  const exit = 1 / 430;                    // hysteresis — a corner only ends when it really opens out
+  const OPEN_M = 30;                       // metres of open track needed to close a corner
   const out = [];
   let i = 0;
   while (i < smp.length) {
-    if (Math.abs(k[i]) < th) { i++; continue; }
-    let j = i;
-    let gap = 0;
-    while (j < smp.length && gap < 14) { if (Math.abs(k[j]) < th) gap++; else gap = 0; j++; }
-    const a = i, b = Math.min(smp.length - 1, j - gap);
+    if (Math.abs(k[i]) < enter) { i++; continue; }
+    const sign = Math.sign(k[i]);
+    let j = i, last = i, openFrom = null;
+    while (j < smp.length) {
+      const kk = k[j];
+      if (Math.abs(kk) >= exit && Math.sign(kk) === sign) { last = j; openFrom = null; j++; continue; }
+      if (Math.abs(kk) >= enter && Math.sign(kk) !== sign) break;   // direction change — split here
+      if (openFrom === null) openFrom = j;
+      if (smp[j].dist - smp[openFrom].dist > OPEN_M) break;
+      j++;
+    }
+    const a = i, b = Math.min(smp.length - 1, last);
     if (smp[b].dist - smp[a].dist > 25) {
       let ap = a;
       for (let q = a; q <= b; q++) if (Math.abs(k[q]) > Math.abs(k[ap])) ap = q;
@@ -152,7 +161,18 @@ export function detectCorners(smp) {
         minSpeed: Math.round(Math.min.apply(null, smp.slice(a, b + 1).map(s => s.speed || 0)))
       });
     }
-    i = j;
+    i = Math.max(j, i + 1);
+  }
+  return out;
+}
+
+function smoothCurvature(smp, win) {
+  const k = curvature(smp), n = k.length, out = new Array(n).fill(0);
+  for (let i = 0; i < n; i++) {
+    let acc = 0, c = 0;
+    for (let j = i; j >= 0 && smp[i].dist - smp[j].dist <= win / 2; j--) { acc += k[j]; c++; }
+    for (let j = i + 1; j < n && smp[j].dist - smp[i].dist <= win / 2; j++) { acc += k[j]; c++; }
+    out[i] = c ? acc / c : 0;
   }
   return out;
 }
@@ -317,7 +337,11 @@ function lineOffset(lap, ref, c) {
     }
     if (best !== null) { acc += best; n++; }
   });
-  return n ? acc / n : null;
+  if (!n) return null;
+  const mean = acc / n;
+  // A racing line sits within a few metres of its reference. Anything past a track
+  // width means the two laps are not in the same coordinate frame — say nothing.
+  return mean > 25 ? null : mean;
 }
 
 export function ribbon(lap, opts) {

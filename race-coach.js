@@ -29,6 +29,7 @@ function secs(x) {
 export class RaceCoach {
   constructor() {
     this.said = {};
+    this.magnitude = {};
     this.rot = {};
     this.lastId = null;
     this.lastAny = 0;
@@ -80,8 +81,8 @@ export class RaceCoach {
       return out;
     }
     if (e.best) {
-      out.push({ id: "best", tag: "LAP", priority: 72, cooldown: 8000,
-        meta: { corner: "LAP " + e.lapN, event: "NEW_BEST", ms: e.ms },
+      out.push({ id: "best", tag: "LAP", priority: 82, cooldown: 8000,
+        meta: { corner: "LAP " + e.lapN, event: "NEW_BEST", ms: e.ms, lapN: e.lapN },
         text: this.vary("best", [
           "New best. " + lapTime(e.ms) + ". That's the reference now.",
           lapTime(e.ms) + ". Best of the session. Do it again.",
@@ -91,7 +92,7 @@ export class RaceCoach {
       const worst = (e.sectorDeltas || []).reduce((a, v, i) => (fin(v) && (!a || v > a.v) ? { v, i } : a), null);
       const where = worst && worst.v > 0.08 ? " " + SECTOR[worst.i] + " is where it went, " + tenths(worst.v) + "." : "";
       out.push({ id: "lapdone", tag: "LAP", priority: 52, cooldown: 8000,
-        meta: { corner: "LAP " + e.lapN, event: "LAP_COMPLETE", change: e.delta, ms: e.ms },
+        meta: { corner: "LAP " + e.lapN, event: "LAP_COMPLETE", change: e.delta, ms: e.ms, lapN: e.lapN },
         text: lapTime(e.ms) + ", " + tenths(e.delta) + (e.delta > 0 ? " off the reference." : " up on the reference.") + where });
     }
     const losses = (e.events || []).filter(c => fin(c.deltaChange) && c.deltaChange > 0.12)
@@ -149,6 +150,7 @@ export class RaceCoach {
     if (hottest >= 0 && T[hottest] > 103) {
       const name = ["front left", "front right", "rear left", "rear right"][hottest];
       out.push({ id: "tyre", tag: "TYRE", priority: 68, cooldown: 40000, oncePerLap: true,
+        escalate: Math.round(T[hottest]), escalateBy: 4,
         meta: { corner: "TYRES", event: "TYRE_OVERHEAT", peak: Math.round(T[hottest]) },
         text: this.vary("tyre", [
           "The " + name + " is over the window at " + Math.round(T[hottest]) + ". Less steering angle, more patience.",
@@ -345,7 +347,8 @@ export class RaceCoach {
     const floor = CHATTER_FLOOR[ctx.chatter] !== undefined ? CHATTER_FLOOR[ctx.chatter] : 38;
     const gap = ctx.chatter === "Minimal" ? 26000 : ctx.chatter === "Talkative" ? 9000 : 16000;
     const tr = TRAITS[this.persona] || TRAITS.CALM;
-    if (now - this.lastAny < gap * tr.gap) return null;
+    const urgent = (msgs || []).some(m => m && m.text && m.priority >= 80);
+    if (!urgent && now - this.lastAny < gap * tr.gap) return null;
     const sec = typeof ctx.sectorsElapsed === "number" ? ctx.sectorsElapsed : null;
     const need = ctx.chatter === "Minimal" ? 3 : ctx.chatter === "Talkative" ? 1 : 2;
     const since = sec === null || this.lastAnySector === undefined ? 99 : sec - this.lastAnySector;
@@ -358,12 +361,21 @@ export class RaceCoach {
       const last = this.said[m.id] || 0;
       const mult = ctx.chatter === "Minimal" ? 1.8 : ctx.chatter === "Talkative" ? 0.6 : 1;
       if (now - last < (m.cooldown || 20000) * mult) return false;
+      // Escalate or shut up: a warning already given only comes back when the
+      // thing it warned about has got measurably worse.
+      if (typeof m.escalate === "number") {
+        const seen = this.magnitude[m.id];
+        if (seen !== undefined && m.escalate < seen + (m.escalateBy || 3)) return false;
+      }
       return true;
     });
     if (!ok.length) return null;
     ok.sort((a, b) => b.priority - a.priority);
     const m = ok[0];
     this.said[m.id] = now;
+    if (typeof m.escalate === "number") {
+      this.magnitude[m.id] = Math.max(this.magnitude[m.id] === undefined ? -Infinity : this.magnitude[m.id], m.escalate);
+    }
     this.lastAny = now;
     if (sec !== null) this.lastAnySector = sec;
     this.lastId = m.id;
