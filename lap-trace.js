@@ -12,23 +12,38 @@ export class LapRecorder {
     this.cur = [];
     this.curLap = null;
     this._lastAt = 0;
+    this.fromLine = false;
   }
   push(s) {
     if (!s || typeof s.dist !== "number" || !(s.dist >= 0)) return;
     const now = s.t == null ? Date.now() : s.t;
     if (now - this._lastAt < 1000 / (this.hz + 5)) return;
+    const prev = this.cur.length ? this.cur[this.cur.length - 1] : null;
+    if (prev && typeof s.x === "number" && typeof prev.x === "number") {
+      const jump = Math.hypot(s.x - prev.x, s.z - prev.z), dt = Math.min(5, Math.max(0.001, (now - this._lastAt) / 1000));
+      if (jump > ((s.speed || 0) / 3.6) * dt * 3 + 60) { this.cur = []; this.fromLine = false; }
+    }
     this._lastAt = now;
-    if (this.curLap == null) this.curLap = s.lap || 1;
-    if (s.lap != null && s.lap !== this.curLap) { this.close(s.lapMs); this.curLap = s.lap; }
-    else if (this.cur.length && s.dist + 30 < this.cur[this.cur.length - 1].dist) { this.close(s.lapMs); }
+    if (this.curLap == null) { this.curLap = s.lap || 1; this.fromLine = false; }
+    if (s.lap != null && s.lap !== this.curLap) {
+      const up = s.lap > this.curLap;
+      if (up) this.close(s.lapMs); else this.cur = [];
+      this.curLap = s.lap;
+      this.fromLine = up;
+    }
+    else if (this.cur.length && s.dist + 30 < this.cur[this.cur.length - 1].dist) { this.close(s.lapMs); this.fromLine = true; }
     this.cur.push(s);
-    if (this.cur.length > 20000) this.cur.shift();
+    if (this.cur.length > 45000) this.cur.shift();
   }
   close(ms) {
     const smp = this.cur;
     this.cur = [];
     if (smp.length < 40) return null;
-    const lap = buildLap(smp, { n: this.curLap, ms: ms || null });
+    if (!this.fromLine) return null;
+    const span = smp[smp.length - 1].t - smp[0].t;
+    if (ms && Math.abs(span - ms) > Math.max(2000, ms * 0.03)) return null;
+    const k = Math.ceil(smp.length / 20000);
+    const lap = buildLap(k > 1 ? smp.filter((_, i) => i % k === 0) : smp, { n: this.curLap, ms: ms || null });
     this.laps.push(lap);
     while (this.laps.length > this.maxLaps) this.laps.shift();
     return lap;

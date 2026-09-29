@@ -18,6 +18,10 @@ function lapTime(ms) {
   return m + ":" + (r < 10 ? "0" : "") + r.toFixed(3);
 }
 const SECTOR = ["Sector one", "Sector two", "Sector three"];
+const sectorName = i => SECTOR[i] || "Sector " + (i + 1);
+
+const TYRE_NAMES = ["front left", "front right", "rear left", "rear right"];
+const tyreBand = tp => (!fin(tp) ? null : tp < 60 ? "cold" : tp < 78 ? "warming" : tp <= 103 ? "window" : "hot");
 
 function secs(x) {
   if (!fin(x)) return "no gap";
@@ -40,6 +44,7 @@ export class RaceCoach {
     this.lastPen = 0;
     this.gaps = [];
     this.lapMsHint = 90000;
+    this.refSaid = 0;
   }
   setPersona(p) { this.persona = p || "CALM"; }
   noteLap(n) { if (n !== this.lap) { this.lap = n; this.lapFlags = {}; } }
@@ -54,7 +59,7 @@ export class RaceCoach {
     (events || []).forEach(e => {
       if (e.kind === "reference") {
         out.push({ id: "ref", tag: "SYSTEM", priority: 70, cooldown: 20000,
-          text: "That's your reference. " + lapTime(e.lapMs) + ". Delta's live from here." });
+          text: this.refSaid++ ? "Reference is now " + lapTime(e.lapMs) + "." : "Got a clean lap on record, " + lapTime(e.lapMs) + ". Delta's live from here." });
       }
       if (e.kind === "lap") out.push.apply(out, this.lapMessages(e, ctx));
       if (e.kind === "sector") {
@@ -63,9 +68,9 @@ export class RaceCoach {
         out.push({ id: "sector" + e.index, tag: "SECTOR", priority: 42, cooldown: 25000,
           meta: { corner: "S" + (e.index + 1), event: "SECTOR_DELTA", change: e.delta },
           text: this.vary("sector", [
-            SECTOR[e.index] + ", " + tenths(e.delta) + (up ? " up." : " down."),
+            sectorName(e.index) + ", " + tenths(e.delta) + (up ? " up." : " down."),
             (up ? "Good sector, " : "Lost time there, ") + tenths(e.delta) + (up ? " to the good." : " away."),
-            SECTOR[e.index] + " " + (up ? "green" : "red") + " by " + tenths(e.delta) + "."
+            sectorName(e.index) + " " + (up ? "green" : "red") + " by " + tenths(e.delta) + "."
           ]) });
       }
       if (e.kind === "corner") out.push.apply(out, this.cornerMessages(e, ctx));
@@ -75,6 +80,7 @@ export class RaceCoach {
 
   lapMessages(e, ctx) {
     const out = [];
+    out.push.apply(out, this.tyreCheck(e, ctx));
     if (!e.valid) {
       out.push({ id: "invalid", tag: "LAP", priority: 45, cooldown: 20000,
         text: "That one won't count, distance was short. Next one clean." });
@@ -90,7 +96,7 @@ export class RaceCoach {
         ]) });
     } else if (fin(e.delta)) {
       const worst = (e.sectorDeltas || []).reduce((a, v, i) => (fin(v) && (!a || v > a.v) ? { v, i } : a), null);
-      const where = worst && worst.v > 0.08 ? " " + SECTOR[worst.i] + " is where it went, " + tenths(worst.v) + "." : "";
+      const where = worst && worst.v > 0.08 ? " " + sectorName(worst.i) + " is where it went, " + tenths(worst.v) + "." : "";
       out.push({ id: "lapdone", tag: "LAP", priority: 52, cooldown: 8000,
         meta: { corner: "LAP " + e.lapN, event: "LAP_COMPLETE", change: e.delta, ms: e.ms, lapN: e.lapN },
         text: lapTime(e.ms) + ", " + tenths(e.delta) + (e.delta > 0 ? " off the reference." : " up on the reference.") + where });
@@ -103,6 +109,32 @@ export class RaceCoach {
               ". Work on " + losses[0].name + " first, that's " + tenths(losses[0].deltaChange) + "." });
     }
     return out;
+  }
+
+  // every 2nd lap: are the tyres actually in the window (ambient() handles overheat alerts)
+  tyreCheck(e, ctx) {
+    const T = ctx.tyres;
+    if (!Array.isArray(T) || T.length !== 4 || !fin(e.lapN) || e.lapN % 2 !== 0) return [];
+    const bands = T.map(tyreBand);
+    if (bands.some(b => b === null)) return [];
+    const bad = bands.map((b, i) => ({ i, b, tp: T[i] })).filter(x => x.b !== "window");
+    if (!bad.length) {
+      return [{ id: "tyrecheck-ok", tag: "TYRE", priority: 50, cooldown: 15000,
+        meta: { corner: "TYRES", event: "TYRES_OPTIMAL", lapN: e.lapN },
+        text: this.vary("tyreok", [
+          "Tyres are in the window, all four corners. Optimal.",
+          "Tyre temps look good across the board.",
+          "All four in the window. Keep doing what you're doing."
+        ]) }];
+    }
+    bad.sort((a, b) => Math.abs(b.tp - 90) - Math.abs(a.tp - 90));
+    const w = bad[0];
+    const name = TYRE_NAMES[w.i];
+    const why = w.b === "cold" ? "still cold" : w.b === "warming" ? "still building heat" : "over the window";
+    return [{ id: "tyrecheck-bad", tag: "TYRE", priority: 54, cooldown: 15000,
+      meta: { corner: "TYRES", event: "TYRES_NOT_OPTIMAL", lapN: e.lapN, worst: w.i, temp: Math.round(w.tp) },
+      text: "Tyres aren't optimal yet. " + name.charAt(0).toUpperCase() + name.slice(1) + "'s " + why +
+            ", " + Math.round(w.tp) + " degrees." + (bad.length > 1 ? " Others are settling too." : "") }];
   }
 
   cornerMessages(e, ctx) {

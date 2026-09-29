@@ -124,9 +124,10 @@ export class ReferenceLap {
     const a = S[lo], b = S[hi];
     return a.t + (b.t - a.t) * ((d - a.d) / Math.max(0.001, b.d - a.d));
   }
-  sectorBounds() {
-    const D = this.distance || 0;
-    return [D / 3, (2 * D) / 3, D];
+  sectorBounds(n) {
+    const D = this.distance || 0, N = n > 3 ? n : 3, out = [];
+    for (let i = 1; i <= N; i++) out.push((D * i) / N);
+    return out;
   }
   eventAt(index) { return this.events.find(e => e.index === index) || null; }
 }
@@ -135,6 +136,10 @@ export class LiveDeltaEngine {
   constructor(opts) {
     const o = opts || {};
     this.mode = o.mode || "PERSONAL BEST";
+    this.sectorCount = 3;
+    this.bestSectorMs = new Array(this.sectorCount).fill(null);
+    this.prevLapSectorMs = new Array(this.sectorCount).fill(null);
+    this.sectorColors = new Array(this.sectorCount).fill(null);
     this.selectedId = null;
     this.laps = [];
     this.reference = null;
@@ -180,9 +185,10 @@ export class LiveDeltaEngine {
     this.deltaHist = [];
     this.trace = new Array(TRACE_BUCKETS).fill(null);
     this.sector = 0;
-    this.sectorDeltas = [null, null, null];
-    this.sectorEntry = [0, null, null];
-    this.sectorMs = [null, null, null];
+    this.sectorDeltas = new Array(this.sectorCount).fill(null);
+    this.sectorEntry = [0].concat(new Array(this.sectorCount - 1).fill(null));
+    this.sectorMs = new Array(this.sectorCount).fill(null);
+    this.sectorColors = new Array(this.sectorCount).fill(null);
     this.cornerIndex = 0;
     this.corner = null;
     this.cornerFrames = 0;
@@ -200,7 +206,42 @@ export class LiveDeltaEngine {
       this.lapStartMs = null;
       this.bestMs = null;
       this.lastMs = null;
+      this.bestSectorMs = new Array(this.sectorCount).fill(null);
+      this.prevLapSectorMs = new Array(this.sectorCount).fill(null);
     }
+  }
+  setSectorCount(n) {
+    const c = Math.max(3, Math.min(12, Math.round(n) || 3));
+    if (c === this.sectorCount) return;
+    this.sectorCount = c;
+    this.sector = 0;
+    this.sectorDeltas = new Array(c).fill(null);
+    this.sectorEntry = [0].concat(new Array(c - 1).fill(null));
+    this.sectorMs = new Array(c).fill(null);
+    this.sectorColors = new Array(c).fill(null);
+    this.bestSectorMs = new Array(c).fill(null);
+    this.prevLapSectorMs = new Array(c).fill(null);
+    this.enterDelta = null;
+    for (const l of this.laps) { l.sectorMs = new Array(c).fill(null); l.sectorDeltas = new Array(c).fill(null); }
+  }
+  markSectorColor(i, ms) {
+    if (!fin(ms)) { this.sectorColors[i] = null; return; }
+    const prev = this.prevLapSectorMs[i];
+    const best = this.bestSectorMs[i];
+    let color;
+    if (prev === null) color = "white";
+    else if (best !== null && ms <= best) color = "purple";
+    else if (ms < prev) color = "green";
+    else color = "yellow";
+    if (best === null || ms < best) this.bestSectorMs[i] = ms;
+    this.sectorColors[i] = color;
+  }
+  abandonLap(f) {
+    this.resetLap(false);
+    this.lapFromLine = false;
+    this.lapMs = 0;
+    this.prev = f;
+    this.abandoned = (this.abandoned || 0) + 1;
   }
   reset(hard) {
     if (hard) {
@@ -262,8 +303,10 @@ export class LiveDeltaEngine {
 
     const finished = p && fin(f.lastLapMs) && f.lastLapMs > 0 && f.lastLapMs !== p.lastLapMs
       && this.dist > MIN_LAP_M;
-    const counted = fin(f.lap) && fin(this.curLap) && f.lap !== this.curLap;
+    const restarted = fin(f.lap) && fin(this.curLap) && f.lap < this.curLap;
+    const counted = fin(f.lap) && fin(this.curLap) && f.lap !== this.curLap && !restarted;
     const looped = !fin(f.lap) && !fin(f.lastLapMs) && this.lineByPos(f);
+    if (restarted) { this.abandonLap(f); this.curLap = f.lap; return this.getState(); }
     if (counted || finished || looped) {
       this.finalizeLap(f, p);
       this.curLap = fin(f.lap) ? f.lap : this.curLap;
@@ -275,6 +318,11 @@ export class LiveDeltaEngine {
     let dt = (f.tMs - p.tMs) / 1000;
     if (!fin(dt) || dt <= 0) return this.getState();
     const bigGap = dt > MAX_DT;
+    if (f.pos && p.pos && !f.paused) {
+      const jx = f.pos.x - p.pos.x, jy = (f.pos.y || 0) - (p.pos.y || 0), jz = f.pos.z - p.pos.z;
+      const jump = Math.sqrt(jx * jx + jy * jy + jz * jz);
+      if (fin(jump) && jump > num(f.speedMs, 0) * Math.min(dt, 5) * 3 + 60) { this.abandonLap(f); return this.getState(); }
+    }
 
     const rolling = num(f.speedMs, 0) > 0.5;
     if (f.paused) { this.todStart = null; return this.getState(); }
@@ -373,7 +421,7 @@ export class LiveDeltaEngine {
       if (R.distance && this.refD > R.distance * 1.03) {
         this.noDelta("PAST-END");
         this.pastEnd = (this.pastEnd || 0) + 1;
-        if (this.pastEnd > 150) this.rejectReference();
+        if (this.pastEnd > 150) { this.pastEnd = 0; this.abandonLap(f); }
         return;
       }
       refMs = R.timeAt(this.refD);
@@ -398,13 +446,15 @@ export class LiveDeltaEngine {
 
   trackSectors() {
     const R = this.reference; if (!R || !R.distance) return;
-    const [b1, b2] = R.sectorBounds();
+    const B = R.sectorBounds(this.sectorCount);
     const d = this.refD || this.dist;
-    const s = d >= b2 ? 2 : d >= b1 ? 1 : 0;
+    let s = 0;
+    while (s < B.length - 1 && d >= B[s]) s++;
     if (s === this.sector) return;
     const i = this.sector;
     const exitDelta = this.rawDelta;
     this.sectorMs[i] = this.lapMs - this.sectorEntry[i];
+    this.markSectorColor(i, this.sectorMs[i]);
     if (fin(exitDelta) && (i === 0 || fin(this.enterDelta))) {
       const gained = i === 0 ? exitDelta : exitDelta - this.enterDelta;
       this.sectorDeltas[i] = gained;
@@ -510,9 +560,11 @@ export class LiveDeltaEngine {
 
   finalizeLap(f, p) {
     const R = this.reference;
-    if (this.sector === 2 && fin(this.rawDelta)) {
-      this.sectorMs[2] = this.lapMs - this.sectorEntry[2];
-      if (fin(this.enterDelta)) this.sectorDeltas[2] = this.rawDelta - this.enterDelta;
+    const lastSec = this.sectorCount - 1;
+    if (this.sector === lastSec && fin(this.rawDelta)) {
+      this.sectorMs[lastSec] = this.lapMs - this.sectorEntry[lastSec];
+      this.markSectorColor(lastSec, this.sectorMs[lastSec]);
+      if (fin(this.enterDelta)) this.sectorDeltas[lastSec] = this.rawDelta - this.enterDelta;
     }
     const gameMs = fin(f.lastLapMs) && f.lastLapMs > 0 ? f.lastLapMs : null;
     this.calibrateClock(gameMs);
@@ -524,7 +576,9 @@ export class LiveDeltaEngine {
       : this.samples.slice();
     const avgMs = lapMs ? dist / (lapMs / 1000) : 0;
     const plausible = !!lapMs && lapMs > 4000 && dist > MIN_LAP_M && avgMs > MIN_LAP_AVG_MS;
-    const done = this.samples.length > 8 && plausible;
+    const gameClock = p && fin(p.lapMs) ? p.lapMs : this.lapMs;
+    const clockOk = !gameMs || Math.abs(gameClock - gameMs) <= Math.max(1500, gameMs * 0.015);
+    const done = this.samples.length > 8 && plausible && this.lapFromLine && clockOk;
     let lap = null;
 
     if (done) {
@@ -540,6 +594,7 @@ export class LiveDeltaEngine {
         events: this.events.slice(),
         sectorMs: this.sectorMs.slice(),
         sectorDeltas: this.sectorDeltas.slice(),
+        sectorColors: this.sectorColors.slice(),
         deltaEnd: this.rawDelta,
         trace: this.trace.slice(),
         spikes: this.spikes,
@@ -548,6 +603,7 @@ export class LiveDeltaEngine {
       };
       this.lastResidual = lap.deltaResidual;
       this.trainAxisBias(lap);
+      this.prevLapSectorMs = this.sectorMs.slice();
       this.laps.push(lap);
       if (this.laps.length > 40) this.laps.shift();
       this.pruneLaps();
@@ -642,8 +698,10 @@ export class LiveDeltaEngine {
       trackProgress: D ? Math.min(1.2, (this.refD || this.dist) / D) : null,
       referenceDistance: D || null,
       currentSector: this.sector,
+      sectorCount: this.sectorCount,
       sectorDeltas: this.sectorDeltas.slice(),
       sectorMs: this.sectorMs.slice(),
+      sectorColors: this.sectorColors.slice(),
       currentSectorDelta: this.sectorDeltas[Math.max(0, this.sector - 1)],
       deltaTrend: this.trend(),
       deltaTrace: this.trace,

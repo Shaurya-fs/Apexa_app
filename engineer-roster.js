@@ -131,3 +131,20 @@ export function nextUnlock(sessions) {
   r.sort((a, b) => (b.at / b.need) - (a.at / a.need));
   return r[0];
 }
+
+const WAKE_ALIASES = {
+  wren: ["wren", "ren", "wrenn"],
+  marchetti: ["marchetti", "marketti", "marchette", "marquetti", "marcheti"],
+  adeola: ["adeola", "adiola", "adeolah", "odeola"],
+  sato: ["sato", "satoh", "sado", "sahto", "satto"]
+};
+
+// "Wren, how are my tyres" / "hey engineer gap" -> { rest: "how are my tyres" }. Only the selected engineer's
+// name (or the generic "engineer"/"coach") wakes the radio, and it must open the sentence, like a smart speaker.
+export function wakeMatch(text, id) {
+  const e = byId(id);
+  const names = (WAKE_ALIASES[e.id] || [e.name.toLowerCase()]).concat(["engineer", "engineeer", "enginear", "coach"]);
+  const alt = names.map(n => n.replace(/[^a-z]/g, "")).join("|");
+  const m = String(text || "").match(new RegExp("^\\W*(?:hey|ok|okay)?\\W*(?:" + alt + ")\\b[,:.!?\\s]*(.*)$", "i"));
+  return m ? { name: e.name, rest: (m[1] || "").trim() } : null;
+}

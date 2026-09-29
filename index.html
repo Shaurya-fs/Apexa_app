@@ -7,8 +7,8 @@
 <meta name="theme-color" content="#07080A">
 <meta name="description" content="Live race engineer and instrument cluster for Gran Turismo 7.">
 <link rel="manifest" href="./manifest.json">
-<link rel="icon" href="./icons/icon-192.png">
-<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<link rel="icon" href="./icons/apexa-logo-mark.png">
+<link rel="apple-touch-icon" href="./icons/apexa-logo-mark.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -37,6 +37,7 @@
   <div style="display:flex; flex-direction:column; gap:11px; min-width:0;">
 
     <div style="display:flex; align-items:baseline; gap:14px; min-width:0;">
+      <img src="./icons/apexa-logo-mark.png" alt="" style="width:28px; height:28px; border-radius:7px; flex:none; align-self:center; box-shadow:0 0 0 1px var(--line,#1D2024);">
       <div style="font-size:30px; font-weight:600; letter-spacing:-0.015em; line-height:1; flex:none;">Apexa</div>
       <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.16em; color:var(--dim,#7C817B); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">EVERY APEX, READ AND ANSWERED — LIVE TELEMETRY AND AN AI RACE ENGINEER</div>
     </div>
@@ -141,9 +142,10 @@
 
         <div style="flex:1; min-height:132px; padding:14px 16px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, var(--acc,#E8FF3A) 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, var(--acc,#E8FF3A) 55%, transparent), inset 0 0 28px -19px var(--acc,#E8FF3A); border-radius:3px; display:flex; flex-direction:column; gap:9px;">
           <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; line-height:1.4; color:var(--dim,#7C817B);">{{ sectorHead }}</div>
-          <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px;">
+          <div style="display:grid; grid-template-columns:repeat({{ sectorCols }}, minmax(0,1fr)); gap:8px;">
             <sc-for list="{{ sectors }}" as="sc" hint-placeholder-count="3">
-              <div style="display:flex; flex-direction:column; gap:1px; min-width:0;">
+              <div style="display:flex; flex-direction:column; gap:3px; min-width:0;">
+                <div style="height:3px; border-radius:2px; background:{{ sc.statusBar }}; transition:background 150ms linear;"></div>
                 <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim,#7C817B);">{{ sc.n }}</div>
                 <div style="font-family:'IBM Plex Mono',monospace; font-size:15px; line-height:1.1; color:{{ sc.tColor }};">{{ sc.t }}</div>
                 <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; line-height:1.1; color:{{ sc.color }};">{{ sc.d }}</div>
@@ -746,6 +748,14 @@
         </div>
       </div>
 
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:0 2px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B); flex:none;">COMPARE TO</div>
+        <sc-for list="{{ compareModes }}" as="p" hint-placeholder-count="2">
+          <div onClick="{{ p.pick }}" style="cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.05em; padding:6px 10px; border-radius:2px; border:1px solid {{ p.border }}; background:{{ p.bg }}; color:{{ p.fg }};">{{ p.label }}</div>
+        </sc-for>
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; line-height:1.5; color:{{ compareColor }}; padding:0 2px; text-wrap:pretty;">{{ compareLine }}</div>
+
       <div style="display:grid; grid-template-columns:52px 1fr 1fr 1fr 1fr 1fr; gap:10px; padding:0 12px;">
         <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">LAP</div>
         <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--dim,#7C817B);">TIME</div>
@@ -850,6 +860,21 @@
     </div>
 
     <div style="padding:18px 20px; background:var(--panel,#0E1013); border:1px solid color-mix(in oklch, var(--acc,#E8FF3A) 72%, var(--line,#1D2024)); box-shadow:0 0 18px -6px color-mix(in oklch, var(--acc,#E8FF3A) 55%, transparent), inset 0 0 28px -19px var(--acc,#E8FF3A); border-radius:3px; display:flex; flex-direction:column; gap:14px; min-height:0;">
+
+      <div style="display:flex; flex-direction:column; gap:7px; padding:13px 15px; background:var(--sub,#12151A); border:1px solid var(--line,#1D2024); border-radius:2px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--acc,#E8FF3A);">SESSION SUMMARY</div>
+          <sc-if value="{{ canListen }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ listenFeedback }}" style="cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.08em; padding:6px 10px; border:1px solid var(--acc,#E8FF3A); border-radius:2px; color:var(--acc,#E8FF3A); flex:none; white-space:nowrap;">{{ listenLabel }}</div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ hasDebrief }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:14px; line-height:1.45; text-wrap:pretty;">{{ debriefLine }}</div>
+        </sc-if>
+        <sc-if value="{{ noDebrief }}" hint-placeholder-val="{{ true }}">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; line-height:1.6; color:var(--dim,#7C817B); text-wrap:pretty;">{{ debriefEmpty }}</div>
+        </sc-if>
+      </div>
 
       <div style="display:flex; flex-direction:column; gap:8px;">
         <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.16em; color:var(--dim,#7C817B);">COMMITMENT · COASTING THIS LAP</div>
@@ -2076,8 +2101,8 @@ const THEMES = {
 // theme is not left with dark-theme neons on paper white.
 let INK;
 const INKS = t => (t && t.light
-  ? { hot:"#9B3A06", cool:"#1F5FA8", good:"#0A7D3C", warn:"#7A5C00", bad:"#C01F16", hotbg:"#F7E2D0", hotline:"#C08050" }
-  : { hot:"#FF8A3D", cool:"#4EA8FF", good:"#3BE06A", warn:"#F5D93A", bad:"#F2564B", hotbg:"#170D02", hotline:"#5C3A12" });
+  ? { hot:"#9B3A06", cool:"#1F5FA8", good:"#0A7D3C", warn:"#7A5C00", bad:"#C01F16", hotbg:"#F7E2D0", hotline:"#C08050", purple:"#7A1FA2" }
+  : { hot:"#FF8A3D", cool:"#4EA8FF", good:"#3BE06A", warn:"#F5D93A", bad:"#F2564B", hotbg:"#170D02", hotline:"#5C3A12", purple:"#C061FF" });
 INK = INKS(null);
 const DEFAULT_SUB = { sub: "#12151A", sunk: "#0B0D10" };
 const VIEWS = ["HOME","RACE","SETUP","CREW","ENGINEER","ANALYSIS","PRO","RECORDS","COACH","THEMES"];
@@ -2526,6 +2551,18 @@ class Component extends DCLogic {
     }
     this.setState(next);
 
+    // car id change = new race (GT7 sends no such event); reset engine + track
+    if (d.carId > 0) {
+      if (this._raceCarId != null && d.carId !== this._raceCarId) {
+        if (this.dx) this.dx.reset(true);
+        if (this.LT) this.rec = new this.LT.LapRecorder({ maxLaps: 8, hz: 30 });
+        this._liveTrack = "";
+        this._startPos = null;
+        this._outline = null;
+      }
+      this._raceCarId = d.carId;
+    }
+
     if (this.dx && this.DX) {
       const f = this.DX.normalizeGt7(d, typeof d.simT === "number" ? d.simT : performance.now());
       this.lastFrame = f;
@@ -2592,10 +2629,29 @@ class Component extends DCLogic {
       })
       .catch(() => this.setState({ catNote: "OFFLINE — USING THE CACHED TABLES" }));
   }
+  sessionCue() {
+    const d = this.live;
+    if (!d || !(d.lap > 1 || d.bestLapMs > 0)) return "";
+    const F = ms => (this.DX ? this.DX.fmtLap(ms) : "");
+    const best = d.bestLapMs > 0 ? " Your best so far is " + F(d.bestLapMs) + "." : "";
+    return "Radio check. I'm with you on lap " + d.lap + "." + best + " I'll watch this one, and the delta comes online from the next.";
+  }
+  liveCarLabel() {
+    const id = this.live && this.live.carId > 0 ? this.live.carId : null;
+    const name = id ? ((this.state.garage || {})[id] || this.catCar(id)) : "";
+    const cat = this.live && this.live.carCategory ? String(this.live.carCategory).trim() : "";
+    return ((name || (id ? "CAR " + id : "GT7 CAR")) + (cat ? " \u00b7 " + cat : "")).toUpperCase();
+  }
+  liveCarClass() {
+    const c = this.live && this.live.carCategory ? String(this.live.carCategory).trim().toUpperCase() : "";
+    return c ? c.replace(/^GR(\d)$/, "GR.$1") : "GT7";
+  }
   catIdentify(ses) {
     if (!this.CAT || !ses) return null;
     const start = ses.start && typeof ses.start.x === "number" ? ses.start : null;
-    return this.CAT.identify({ lenM: ses.lenM, start }, this.cat && this.cat.tracks);
+    let full = null;
+    try { full = ((this.dx && this.dx.getState().laps) || []).filter(l => l.valid && l.lineStart).pop() || null; } catch (e) {}
+    return this.CAT.identify({ lenM: full ? full.distance : ses.lenM, start, samples: full ? full.samples : null }, this.cat && this.cat.tracks);
   }
   catCar(carId) {
     if (!this.CAT || !carId) return null;
@@ -2791,6 +2847,8 @@ class Component extends DCLogic {
           mode: this.state.mode || "Race", seat: this.state.seat || "",
           laps: [{ ms, at: now, dist }], targetMs: null });
         this.setState({ selSes: list[0].id });
+        this._liveTrack = list[0].track || "";
+        if (id && id.lenM) { try { this.dx.setSectorCount(id.lenM / 1750); } catch (e) {} }
       } else {
         head.laps = head.laps.concat([{ ms, at: now, dist }]).slice(-120);
         head.lastAt = now;
@@ -2799,6 +2857,8 @@ class Component extends DCLogic {
         if (!head.outline && this._outline) head.outline = this._outline;
         if (!head.start && this._startPos) head.start = this._startPos;
         if (!head.carName) head.carName = this.catCar(head.carId) || "";
+        if (head.track) this._liveTrack = head.track;
+        if (head.trackId) { const ent = this.catTrack(head.trackId); if (ent && ent.lenM) { try { this.dx.setSectorCount(ent.lenM / 1750); } catch (e) {} } }
         if (!head.track && head.lenM) {
           const nm = (this.state.trackBook || {})[this.lenKey(head.lenM)];
           if (nm) { head.track = nm; head.trackConf = "typed"; head.trackHow = "named by you"; }
@@ -2807,6 +2867,8 @@ class Component extends DCLogic {
             if (id && id.confidence !== "low") {
               head.track = id.name; head.cc = id.cc; head.trackId = id.id;
               head.turns = id.turns; head.trackHow = id.how; head.trackConf = id.confidence;
+              this._liveTrack = id.name;
+              if (id.lenM) { try { this.dx.setSectorCount(id.lenM / 1750); } catch (e) {} }
             }
           }
         }
@@ -3244,6 +3306,24 @@ class Component extends DCLogic {
     this._spkGuard = setTimeout(() => { this.speaking = false; }, 25000);
     next();
   }
+  // on-demand replay of the debrief, separate from the live radio's speak()
+  speakFeedback(text) {
+    const S = window.speechSynthesis;
+    if (!S || !text) return;
+    try { S.cancel(); } catch (e) {}
+    const v = this.voice ? this.voice() : null;
+    const u = new SpeechSynthesisUtterance(text);
+    if (v) { u.voice = v; u.lang = v.lang; }
+    u.rate = 1; u.pitch = 1;
+    u.onend = () => this.setState({ analysisSpeaking: false });
+    u.onerror = () => this.setState({ analysisSpeaking: false });
+    this.setState({ analysisSpeaking: true });
+    try { S.speak(u); } catch (e) { this.setState({ analysisSpeaking: false }); }
+  }
+  stopFeedback() {
+    try { window.speechSynthesis.cancel(); } catch (e) {}
+    this.setState({ analysisSpeaking: false });
+  }
   wantSex(v) {
     const x = String(v == null ? this.state.voiceSex : v).toUpperCase();
     if (x === "F" || x === "FEMALE") return "FEMALE";
@@ -3317,7 +3397,7 @@ class Component extends DCLogic {
     if (on) {
       const S = window.speechSynthesis;
       if (S) { try { const p = new SpeechSynthesisUtterance(" "); p.volume = 0; S.speak(p); S.resume(); } catch (e) {} }
-      const cue = (this.ROS && this.ROS.byId(this.state.engineerPick || "wren").radioCue)
+      const cue = this.sessionCue() || (this.ROS && this.ROS.byId(this.state.engineerPick || "wren").radioCue)
         || "Radio check. Loud and clear.";
       setTimeout(() => this.say(cue), 120);
     } else { try { window.speechSynthesis.cancel(); } catch (e) {} }
@@ -3431,9 +3511,9 @@ class Component extends DCLogic {
     let q = (this.heardText || "").trim();
     if (!q) return;
     if (this.state.micMode === "wake") {
-      const m = q.match(/\b(?:hey\s+)?(?:engineer|engineeer|enginear|coach)\b[,:\s]*(.*)$/i);
-      if (!m) { this.setState({ heard: "…" }); return; }
-      q = (m[1] || "").trim();
+      const w = this.ROS && this.ROS.wakeMatch ? this.ROS.wakeMatch(q, this.state.engineerPick || "wren") : null;
+      if (!w) { this.setState({ heard: "…" }); return; }
+      q = w.rest;
       if (!q) { this.setState({ heard: "Go ahead." }); return; }
     }
     if (q.replace(/[^a-z]/gi, "").length < 3) return;
@@ -3790,7 +3870,7 @@ class Component extends DCLogic {
     });
     const micLine = s.heard ? s.heard
       : s.micMode === "always" ? "Channel open — just talk."
-      : s.micMode === "wake" ? "Say “engineer”, then your question."
+      : s.micMode === "wake" ? "Say “" + ((this.ROS && this.ROS.byId(s.engineerPick || "wren").name) || "engineer") + "”, then your question."
       : s.listening ? "Listening — release to send."
       : "Hold TALK and speak, or tap a question.";
     const padBound = !!s.pttPad;
@@ -3948,11 +4028,12 @@ class Component extends DCLogic {
     });
 
     const bestMs = validLaps.length ? Math.min.apply(null, validLaps.map(l => l.lapMs)) : null;
-    const bestSectors = [0, 1, 2].map(i => {
+    const NSEC = (this.dx && this.dx.sectorCount) || 3;
+    const bestSectors = Array.from({ length: NSEC }, (_, i) => i).map(i => {
       const v = validLaps.map(l => l.sectorMs && l.sectorMs[i]).filter(x => typeof x === "number" && x > 0);
       return v.length ? Math.min.apply(null, v) : null;
     });
-    const idealMs = bestSectors.every(x => x) ? bestSectors[0] + bestSectors[1] + bestSectors[2] : null;
+    const idealMs = bestSectors.every(x => x) ? bestSectors.reduce((a, b) => a + b, 0) : null;
     const lapRows = laps.slice().reverse().slice(0, 9).map(l => {
       const d = bestMs ? (l.lapMs - bestMs) / 1000 : null;
       const sc = i => (l.sectorMs && l.sectorMs[i] > 0 ? F(l.sectorMs[i]) : "—");
@@ -3965,6 +4046,40 @@ class Component extends DCLogic {
         s1: sc(0), s2: sc(1), s3: sc(2), c1: scol(0), c2: scol(1), c3: scol(2),
         bg: isBest ? "#15170F" : "var(--sub,#12151A)", border: isBest ? t.acc : t.line
       };
+    });
+
+    // personal best vs the cloud leaderboard (real Apexa drivers, not scraped GT7 data)
+    const compareMode = s.compareMode === "COMMUNITY BEST" ? "COMMUNITY BEST" : "PERSONAL BEST";
+    const cloudReady = !!(this.AUTH && this.AUTH.configured());
+    const signedIn = !!s.account;
+    const boardLeader = (s.board || [])[0] || null;
+    const curBoardKey = this.boardKey ? this.boardKey() : null;
+    let compareLine, compareColor;
+    if (compareMode === "PERSONAL BEST") {
+      compareLine = bestMs ? "Measured against your own best this session, " + F(bestMs) + "." : "Complete a lap to set a personal best.";
+      compareColor = t.dim;
+    } else if (!cloudReady) {
+      compareLine = "No cloud project connected yet — showing your own best until it is.";
+      compareColor = t.dim;
+    } else if (!signedIn) {
+      compareLine = "Sign in (SETUP → account) to compare against other Apexa drivers on this track.";
+      compareColor = t.dim;
+    } else if (!curBoardKey) {
+      compareLine = "Drive a full lap so the circuit can be identified first.";
+      compareColor = t.dim;
+    } else if (!boardLeader) {
+      compareLine = "Nobody's logged a time for this track yet — you could be first.";
+      compareColor = t.dim;
+    } else {
+      const gap = bestMs && boardLeader.bestMs ? (bestMs - boardLeader.bestMs) / 1000 : null;
+      compareLine = (boardLeader.driver || "Leader") + " leads at " + F(boardLeader.bestMs)
+        + (gap !== null ? " — you're " + DF(gap) + " off." : ".");
+      compareColor = gap !== null ? dcol(gap) : t.text;
+    }
+    const compareModes = ["PERSONAL BEST", "COMMUNITY BEST"].map(m => {
+      const on = compareMode === m;
+      return { label: m, border: on ? t.acc : t.line, bg: on ? t.acc : "transparent", fg: on ? t.bg : t.dim,
+        pick: () => { this.setState({ compareMode: m }); if (m === "COMMUNITY BEST") this.loadBoard(); } };
     });
 
     const CS = (dxs && dxs.cornerStats) || [];
@@ -4138,11 +4253,11 @@ class Component extends DCLogic {
       },      tex: s.theme === "GT3 CARBON" ? WEAVE : "none",
       texSize: s.theme === "GT3 CARBON" ? "20px 20px" : "auto",
       texPos: s.theme === "GT3 CARBON" ? "0 5px, 10px 0, 0 10px, 10px 5px, 0 0, 0 0" : "0 0",
-      carName: !onAir ? "–" : FX ? "FORMULA · 1.6 V6 HYBRID" : "GT3 · 4.0 FLAT-SIX",
+      carName: !onAir ? "–" : FX ? "FORMULA · 1.6 V6 HYBRID" : this.liveCarLabel(),
       carNameFg: onAir ? t.text : t.dim,
-      carClass: FX ? "F1" : "GR.3",
+      carClass: FX ? "F1" : this.liveCarClass(),
       hasCar: onAir,
-      trackName: !onAir ? "–" : FX && FX.track ? FX.track.toUpperCase() : "SPA-FRANCORCHAMPS",
+      trackName: !onAir ? "–" : FX && FX.track ? FX.track.toUpperCase() : (this._liveTrack || "TRACK NOT IDENTIFIED YET").toUpperCase(),
       gameName: s.game.toUpperCase(),
 
       isWheel: !!(THEMES[s.theme] && THEMES[s.theme].wheel),
@@ -4252,19 +4367,27 @@ class Component extends DCLogic {
       thrFg: onAir ? INK.good : t.dim,
       brkFg: onAir ? INK.bad : t.dim,
       bestFg: mask(onAir && dxs ? dxs.bestLapMs : null, F, t.acc).fg,
-      sectorHead: onAir ? "SECTORS — DERIVED, THIRDS OF REFERENCE" : "SECTORS",
+      sectorHead: onAir ? (dxs && dxs.sectorCount > 3 ? "SECTORS — " + dxs.sectorCount + " EQUAL-LENGTH SECTORS" : "SECTORS — DERIVED, THIRDS OF REFERENCE") : "SECTORS",
+      sectorCols: dxs && dxs.sectorCount > 6 ? 4 : 3,
       sectors: onAir
-        ? [0, 1, 2].map(i => ({
-            n: (dxs && dxs.currentSector === i ? "▸" : "") + "S" + (i + 1),
-            t: dxs && dxs.sectorMs[i] > 0 ? F(dxs.sectorMs[i]) : "–",
-            tColor: dxs && dxs.sectorMs[i] > 0 ? t.text : t.dim,
-            d: dxs && typeof dxs.sectorDeltas[i] === "number" ? DF(dxs.sectorDeltas[i]) : "—",
-            color: dcol(dxs && dxs.sectorDeltas[i])
-          }))
+        ? Array.from({ length: (dxs && dxs.sectorCount) || 3 }, (_, i) => i).map(i => {
+            // white/yellow/green/purple, F1-broadcast style — see markSectorColor()
+            const status = dxs && dxs.sectorColors && dxs.sectorColors[i];
+            const STATUS_COLOR = { white: t.text, yellow: INK.warn, green: INK.good, purple: INK.purple };
+            const has = dxs && dxs.sectorMs[i] > 0;
+            return {
+              n: (dxs && dxs.currentSector === i ? "▸" : "") + "S" + (i + 1),
+              t: has ? F(dxs.sectorMs[i]) : "–",
+              tColor: has ? (STATUS_COLOR[status] || t.text) : t.dim,
+              d: dxs && typeof dxs.sectorDeltas[i] === "number" ? DF(dxs.sectorDeltas[i]) : "—",
+              color: dcol(dxs && dxs.sectorDeltas[i]),
+              statusBar: has ? (STATUS_COLOR[status] || "transparent") : "transparent"
+            };
+          })
         : [
-            { n: "S1", t: "–", d: "–", color: t.dim, tColor: t.dim },
-            { n: "S2", t: "–", d: "–", color: t.dim, tColor: t.dim },
-            { n: "S3", t: "–", d: "–", color: t.dim, tColor: t.dim }
+            { n: "S1", t: "–", d: "–", color: t.dim, tColor: t.dim, statusBar: "transparent" },
+            { n: "S2", t: "–", d: "–", color: t.dim, tColor: t.dim, statusBar: "transparent" },
+            { n: "S3", t: "–", d: "–", color: t.dim, tColor: t.dim, statusBar: "transparent" }
           ],
       gapAhead: FX && FX.gapAheadMs != null && FX.position > 1 ? "+" + (FX.gapAheadMs / 1000).toFixed(3) : "–",
       gapAheadFg: FX && FX.gapAheadMs != null && FX.position > 1 ? t.text : t.dim,
@@ -4489,6 +4612,15 @@ class Component extends DCLogic {
         ? (onAir ? "Telemetry is live. Complete a lap and it lands here with its sectors, its delta and the corners that cost you time."
                  : "Nothing recorded. Start the bridge, get on track, and every lap you complete is stored here.")
         : "",
+      compareModes, compareLine, compareColor,
+
+      canListen: !!DB && !!DBL,
+      listenLabel: s.analysisSpeaking ? "■ STOP" : "🔊 LISTEN TO FEEDBACK",
+      listenFeedback: () => {
+        if (s.analysisSpeaking) return this.stopFeedback();
+        const text = [DB && DB.track ? "Debrief for " + DB.track + "." : "", DBL].filter(Boolean).join(" ");
+        if (text) this.speakFeedback(text);
+      },
 
       hasCoach: (s.coachLog || []).length > 0,
       noCoach: (s.coachLog || []).length === 0,

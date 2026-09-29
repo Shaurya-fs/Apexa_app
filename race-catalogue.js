@@ -1,5 +1,5 @@
 
-export const CATALOGUE_URL = "https://catalogue.raceengineer.app/gt7/v1.json";
+export const CATALOGUE_URL = "./gt7-catalogue.json";
 
 export const TRACK_SEED = [
   { id: "suzuka",        name: "Suzuka Circuit",              cc: "JP", lenM: 5807,  turns: 18, conf: "exact" },
@@ -55,7 +55,106 @@ function startMatch(entry, start) {
   return d < 500 ? d : null;
 }
 
+const PROBE_MAX = 300, HIT_M = 30, COVER_M = 45;
+const boxes = new WeakMap();
+
+function nearest(path, x, z) {
+  let best = Infinity;
+  for (let i = 1; i < path.length; i++) {
+    const ax = path[i - 1][0], az = path[i - 1][1], vx = path[i][0] - ax, vz = path[i][1] - az;
+    const L = vx * vx + vz * vz;
+    let u = L > 0 ? ((x - ax) * vx + (z - az) * vz) / L : 0;
+    u = u < 0 ? 0 : u > 1 ? 1 : u;
+    const dx = x - (ax + vx * u), dz = z - (az + vz * u), d = dx * dx + dz * dz;
+    if (d < best) best = d;
+  }
+  return Math.sqrt(best);
+}
+
+function boxOf(e) {
+  let b = boxes.get(e);
+  if (b) return b;
+  let x0 = Infinity, x1 = -Infinity, z0 = Infinity, z1 = -Infinity;
+  for (const p of e.path) { if (p[0] < x0) x0 = p[0]; if (p[0] > x1) x1 = p[0]; if (p[1] < z0) z0 = p[1]; if (p[1] > z1) z1 = p[1]; }
+  b = [x0 - HIT_M, x1 + HIT_M, z0 - HIT_M, z1 + HIT_M];
+  boxes.set(e, b);
+  return b;
+}
+
+function probesFrom(samples) {
+  const pts = (samples || []).filter(s => s && isFinite(s.x) && isFinite(s.z));
+  if (pts.length < 20) return null;
+  const step = Math.max(1, Math.floor(pts.length / PROBE_MAX));
+  const out = [];
+  for (let i = 0; i < pts.length; i += step) out.push([pts[i].x, pts[i].z]);
+  return out;
+}
+
+// How well a driven lap follows a circuit's racing line: a = share of the lap that sits on the line,
+// b = share of the circuit the lap actually covered. Layout variants that share corners differ in b.
+function shapeScore(probes, e) {
+  const bx = boxOf(e);
+  let inside = 0;
+  for (const p of probes) if (p[0] >= bx[0] && p[0] <= bx[1] && p[1] >= bx[2] && p[1] <= bx[3]) inside++;
+  if (inside < probes.length * 0.9) return null;
+  let hit = 0;
+  for (const p of probes) if (nearest(e.path, p[0], p[1]) <= HIT_M) hit++;
+  const a = hit / probes.length;
+  if (a < 0.9) return null;
+  let cov = 0;
+  for (const q of e.path) {
+    for (const p of probes) { const dx = p[0] - q[0], dz = p[1] - q[1]; if (dx * dx + dz * dz <= COVER_M * COVER_M) { cov++; break; } }
+  }
+  return { a, b: cov / e.path.length };
+}
+
+// +1 when the lap runs along the circuit's recorded direction, -1 against it.
+function direction(e, probes) {
+  const n = probes.length;
+  if (n < 8) return 0;
+  const idx = p => { let bi = 0, bd = Infinity; for (let i = 0; i < e.path.length; i++) { const dx = e.path[i][0] - p[0], dz = e.path[i][1] - p[1], d = dx * dx + dz * dz; if (d < bd) { bd = d; bi = i; } } return bi; };
+  const L = e.path.length;
+  let d = idx(probes[Math.floor(n * 0.4)]) - idx(probes[Math.floor(n * 0.2)]);
+  if (d > L / 2) d -= L; if (d < -L / 2) d += L;
+  return d > 0 ? 1 : d < 0 ? -1 : 0;
+}
+
 export function identify(query, tracks) {
+  const table = tracks && tracks.length ? tracks : TRACK_SEED;
+  const shaped = table.filter(e => Array.isArray(e.path) && e.path.length > 10);
+  if (!shaped.length) return identifyByLength(query, table);
+
+  const probes = probesFrom(query && query.samples);
+  if (probes) {
+    const scored = [];
+    for (const e of shaped) { const r = shapeScore(probes, e); if (r) scored.push({ e, s: r.a * r.b }); }
+    scored.sort((x, y) => y.s - x.s);
+    const top = scored[0];
+    if (top && top.s >= 0.8) {
+      const group = scored.filter(x => top.s - x.s < 0.08);
+      if (group.length === 1) return decorate(top.e, top.s >= 0.9 ? "high" : "medium", "lap shape, " + Math.round(top.s * 100) + "% match");
+      // near-identical layouts (with/without a chicane, short course, clockwise/counterclockwise): settle by direction, then length
+      let cand = group;
+      const fwd = cand.filter(x => direction(x.e, probes) > 0);
+      if (fwd.length && fwd.length < cand.length) cand = fwd;
+      if (cand.length > 1 && query.lenM > 400) {
+        const errs = cand.map(x => ({ x, err: Math.abs(query.lenM - x.e.lenM) / x.e.lenM })).sort((p, q) => p.err - q.err);
+        if (errs[0].err <= 0.02 && errs[1].err - errs[0].err >= 0.004) cand = [errs[0].x];
+      }
+      if (cand.length === 1) return decorate(cand[0].e, "medium", "lap shape, direction and length");
+    }
+  }
+
+  const st = query && query.start;
+  if (st && (st.x !== 0 || st.z !== 0) && isFinite(st.x) && isFinite(st.z)) {
+    const len = query.lenM;
+    const near = shaped.filter(e => nearest(e.path, st.x, st.z) <= HIT_M && (!(len > 400) || Math.abs(e.lenM - len) / e.lenM <= 0.05));
+    if (near.length === 1) return decorate(near[0], "medium", "start line and lap length");
+  }
+  return null;
+}
+
+function identifyByLength(query, tracks) {
   const len = query && query.lenM;
   if (!(len > 400)) return null;
   const table = tracks && tracks.length ? tracks : TRACK_SEED;
