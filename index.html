@@ -16,6 +16,15 @@
   if ("serviceWorker" in navigator) {
     addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
   }
+  // public Firebase web config — safe to ship, security is enforced by Firestore rules, not by hiding this
+  window.GT7_FIREBASE = {
+    apiKey: "AIzaSyC55k90j7eHu9i1YudJ3oraqFSH-Ij2ebE",
+    authDomain: "apexa-9cb4b.firebaseapp.com",
+    projectId: "apexa-9cb4b",
+    storageBucket: "apexa-9cb4b.firebasestorage.app",
+    messagingSenderId: "762394339426",
+    appId: "1:762394339426:web:ff1050d47007308b88493b"
+  };
 </script>
 <script src="./support.js"></script>
 </head>
