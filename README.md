@@ -1,11 +1,16 @@
-# Apexa — AI Race Engineer
+# Apexa — your AI race engineer
 
-Live telemetry dashboard and voice-coached race engineer for Gran Turismo 7
-(and F1 24/25). Static site, source of truth is a separate design project;
-this folder is its exported build.
+Apexa reads live telemetry from Gran Turismo 7 and tells you what a real race
+engineer would: a live delta against your best lap, F1-style coloured sector
+times, and a voice that calls out where you're losing time. It recognises the
+car and circuit on its own, keeps your lap history, and compares you against
+other Apexa drivers on the same track. F1 24/25 telemetry is supported too.
 
-**Live app:** https://clever-macaron-4dccb7.netlify.app
+**Live app:** https://apexa-ai.netlify.app
 **Deploy:** push to `main` — Netlify builds and deploys automatically.
+
+This is a static site; the UI is authored in a separate design project and
+this folder is its exported build.
 
 ## Live telemetry
 
