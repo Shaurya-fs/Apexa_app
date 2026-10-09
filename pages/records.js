@@ -151,7 +151,7 @@ export function recordVals(C, t, F, DF, POS, NEG) {
     noSessions: s.sessions.length === 0,
     hasSessions: s.sessions.length > 0,
     recordsCount: demo ? "DEMO ARCHIVE — NOT YOUR DATA" : s.sessions.length + (s.sessions.length === 1 ? " SESSION" : " SESSIONS") + " ARCHIVED",
-    recordsEmpty: "Nothing archived yet. Every lap the bridge sees is written here — track a lap and it appears, named and timed.",
+    recordsEmpty: "No laps yet. Drive one and it appears here.",
     hasSel: !!cur,
     selTrack: cur ? C.nameOf(cur).track : "—",
     selMeta: cur ? D(cur.at) + " · " + H(cur.at) + " · " + cur.mode + " · " + cur.game : "",
@@ -159,7 +159,7 @@ export function recordVals(C, t, F, DF, POS, NEG) {
     selTrackFrom: cur ? C.nameOf(cur).trackFrom : "",
     carDraft: s.carDraft,
     onCarDraft: e => C.setState({ carDraft: e.target.value }),
-    carNote: cur ? C.nameOf(cur).carFrom + (cur.carId ? " — NAME IT ONCE AND EVERY SESSION IN THIS CAR PICKS IT UP" : "") : "NO CAR CODE IN THIS SESSION",
+    carNote: cur ? C.nameOf(cur).carFrom : "NO CAR CODE IN THIS SESSION",
     saveCar: () => {
       const v = (s.carDraft || "").trim();
       C.editSel(demo, s, x => { x.carName = v; });
@@ -171,16 +171,16 @@ export function recordVals(C, t, F, DF, POS, NEG) {
     miniStartX: cur && cur.outline ? (10 + cur.outline[0][0] * 80).toFixed(1) : "50",
     miniStartY: cur && cur.outline ? (10 + cur.outline[0][1] * 80).toFixed(1) : "50",
     miniNote: miniPath
-      ? "SHAPE TRACED FROM YOUR OWN LAP · PLAN VIEW, NO ELEVATION ARCHIVED"
-      : "NO SHAPE ARCHIVED — GT7 SENT NO POSITION DURING THIS SESSION",
+      ? "TRACED FROM YOUR OWN LAP"
+      : "NO MAP FOR THIS LAP",
     lapPickNote: selL
       ? "LAP " + selRec + " · " + F(selL.ms) + " · " + (selL.dist ? Math.round(selL.dist) + " m MEASURED" : "DISTANCE NOT SENT")
       : "PICK A LAP BELOW TO INSPECT IT",
     hasTrace: !!traceMatch, noTrace: !traceMatch,
     openTrace: () => { if (traceMatch) C.setState({ selLap: traceMatch.n, view: "ANALYSIS" }); },
     traceNote: traceMatch
-      ? "FULL TRACE STILL IN MEMORY FOR THIS LAP"
-      : selL ? "ONLY THE LAP TIME IS ARCHIVED. CORNER-BY-CORNER TRACES LIVE IN THE RUNNING SESSION ONLY." : "",
+      ? "FULL TRACE AVAILABLE"
+      : selL ? "LAP TIME ONLY" : "",
     selBest: curBest ? F(curBest) : "—:——.———",
     selLaps,
     pbLabel: pb ? F(pb) : "—:——.———",
@@ -188,7 +188,7 @@ export function recordVals(C, t, F, DF, POS, NEG) {
     targetLabel: target ? F(target) : "—:——.———",
     gapLabel: gap === null ? "—" : DF(gap, 3),
     gapColor: gap === null ? t.dim : gap < 0 ? POS : NEG,
-    gapNote: gap === null ? (curBest ? "No benchmark yet. Type a time, or run this track again and the earlier best becomes the reference." : "Type a benchmark to compare against.")
+    gapNote: gap === null ? (curBest ? "No benchmark yet. Type a time to set one." : "Type a benchmark to compare against.")
       : gap < 0 ? "You are under the benchmark by " + Math.abs(gap).toFixed(3) + "s."
       : "The benchmark is " + gap.toFixed(3) + "s clear of your best.",
     yoursW: wOf(curBest), targetW: wOf(target), winLabel,
@@ -223,7 +223,7 @@ export function recordVals(C, t, F, DF, POS, NEG) {
       C.setState({ selSes: out[0] ? out[0].id : null });
       return out;
     }),
-    benchNote: "BENCHMARK — TYPED IN BY YOU. GT7 BROADCASTS NO LEADERBOARD.",
+    benchNote: "BENCHMARK — TYPED IN BY YOU",
     inputStyle: { background: "transparent", border: "1px solid " + t.line, borderRadius: "2px",
       padding: "10px 12px", color: t.text, fontFamily: "'IBM Plex Mono',monospace", fontSize: "14px", outline: "none", width: "100%", boxSizing: "border-box" },
     recBtn: { background: "transparent", border: "1px solid " + t.acc, borderRadius: "2px", color: t.acc,

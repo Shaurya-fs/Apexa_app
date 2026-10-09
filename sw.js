@@ -1,12 +1,12 @@
 // Network first, cache as fallback: a git push shows up on the next launch,
 // and the app still opens with no signal.
-const CACHE = "race-engineer-v2";
+const CACHE = "race-engineer-v3";
 const SHELL = [
   "./", "./index.html", "./manifest.json", "./support.js", "./image-slot.js",
   "./auth.js", "./race-catalogue.js", "./engineer-roster.js", "./engineer-brain.js",
   "./live-delta.js", "./race-coach.js", "./lap-trace.js", "./race-strategy.js",
   "./pages/crew.js", "./pages/records.js", "./pages/analysis.js",
-  "./pages/pro.js", "./pages/strategy.js",
+  "./pages/pro.js", "./pages/strategy.js", "./pages/skins.js",
   "./portraits/wren.png", "./portraits/marchetti.png",
   "./portraits/sato.png", "./portraits/adeola.png",
   "./icons/icon-192.png", "./icons/icon-512.png"

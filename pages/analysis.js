@@ -26,7 +26,7 @@ export function mapVals(C, t) {
     mapPins: rb ? rb.labels : [],
     mapStartX: rb ? rb.start.x : 0, mapStartY: rb ? rb.start.y : 0,
     mapNote: rb
-      ? (rb.synthetic ? "PATH DEAD-RECKONED — GAME SENT NO POSITION" : "BUILT FROM YOUR OWN LAP · HEIGHT ×" + (C.state.mapVert || 1) + " · WIDTH EXAGGERATED")
+      ? (rb.synthetic ? "ESTIMATED PATH" : "BUILT FROM YOUR OWN LAP")
       : "",
     vertLabel: "HEIGHT ×" + (C.state.mapVert || 1),
     bumpVert: () => C.setState(st => ({ mapVert: st.mapVert >= 8 ? 1 : (st.mapVert || 1) + (st.mapVert >= 4 ? 2 : 1) })),

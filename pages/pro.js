@@ -104,8 +104,8 @@ export function proVals(C, t) {
     out.brakeTempPts = lap.channels.brakeTemp ? line(lap, s => s.bt0, BH, 100, 900) : "";
     out.brakeH = BH;
     out.brakeNote = lap.channels.brakeTemp
-      ? "FRONT-LEFT DISC, 100–900 °C · F1 BROADCASTS BRAKE TEMPERATURE"
-      : "BRAKE TEMPERATURE NOT BROADCAST BY GT7";
+      ? "FRONT-LEFT DISC, 100–900 °C"
+      : "NO BRAKE TEMPERATURE DATA";
     out.brakeBands = cornerBands(BH);
   }
 
@@ -136,7 +136,7 @@ export function proVals(C, t) {
     });
     out.thermNote = lap.channels.inner
       ? "SURFACE IN ACCENT, CARCASS IN GREEN · WINDOW 50–130 °C"
-      : "GT7 SENDS ONE SURFACE TEMPERATURE PER TYRE AND NO PRESSURE. CARCASS AND PRESSURE PANELS FILL UNDER F1.";
+      : "SURFACE TEMPERATURE ONLY IN GT7";
     out.stintRow = laps.slice().reverse().map(l => {
       const mx = l.samples.reduce((a, s) => Math.max(a, s.t0 || 0, s.t1 || 0, s.t2 || 0, s.t3 || 0), 0);
       return {
@@ -175,7 +175,7 @@ export function proVals(C, t) {
       color: i < 2 ? t.acc : "#5BE38C"
     }));
     out.suspH = SH;
-    out.mechEmpty = "Suspension position, damper velocity and wheel slip come from F1's MotionEx packet. GT7 broadcasts none of them, so this page fills only under F1 25. Everything else in the app works on both.";
+    out.mechEmpty = "Suspension and wheel-slip data is only available in F1 25.";
   }
 
   if (v === "SECTORS") {
@@ -219,7 +219,7 @@ export function proVals(C, t) {
       !lap.channels.brakeTemp ? "Brake temperature — F1 only" : null,
       !lap.channels.pos ? "World position — game sent none" : null
     ].filter(x => x).map(x => ({ name: x }));
-    out.exportRate = "LOGGED AT THE PACKET RATE. GT7 SENDS 60 HZ, F1 25 UP TO 60 HZ — NEITHER GAME CAN GIVE YOU THE 100 HZ+ A REAL CAR LOGS AT.";
+    out.exportRate = "LOGGED AT 60 HZ";
   }
   return out;
 }

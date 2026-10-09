@@ -92,9 +92,9 @@ export function brainVals(C, t) {
     brainStage: "STAGE " + lv.n + " OF 5",
     brainStageLabel: lv.label,
     brainStageSays: lv.says,
-    brainEstablished: lv.established + " OF 9 DOMAINS HAVE ENOUGH SAMPLES TO ADVISE FROM",
-    brainNext: lv.next ? "Next stage — " + lv.next + ", once two more domains fill up." : "Every domain is established. Advice is weighted entirely to your own data now.",
-    brainProfile: C.brain.profile() || "Not enough observed yet to characterise how you drive. It will not guess.",
+    brainEstablished: lv.established + " OF 9 AREAS LEARNED",
+    brainNext: lv.next ? "Next stage — " + lv.next + ", once two more domains fill up." : "Fully learned.",
+    brainProfile: C.brain.profile() || "Not enough laps yet to describe your driving.",
     graphSize: G.size,
     graphEdges: G.nodes.map(n => ({
       x1: G.cx.toFixed(1), y1: G.cy.toFixed(1), x2: n.x.toFixed(1), y2: n.y.toFixed(1),
@@ -134,7 +134,7 @@ export function brainVals(C, t) {
       { k: "TO MEDIAN", v: cmp.toMedian === null ? "—" : (cmp.toMedian > 0 ? "+" : "") + cmp.toMedian.toFixed(3), c: cmp.toMedian > 0 ? "#FF6B5C" : "#7CFF8A" }
     ] : [],
     cmpNote: cmp.have
-      ? cmp.samples + " LAPS FROM OTHER DRIVERS · SOMEBODY ELSE'S LAP, NOT A TARGET"
+      ? cmp.samples + " LAPS FROM OTHER DRIVERS"
       : (s.commNote || "NOTHING CACHED FOR THIS CIRCUIT YET"),
     pullCommunity: () => C.pullCommunity()
   });
