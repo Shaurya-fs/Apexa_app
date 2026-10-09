@@ -26,6 +26,7 @@
     appId: "1:762394339426:web:ff1050d47007308b88493b"
   };
 </script>
+<script src="./gt7-core.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -2616,13 +2617,27 @@ class Component extends DCLogic {
     return (S.getVoices() || []).filter(v => /^en/i.test(v.lang || "") && !NOVELTY.test(v.name || "")).slice(0, 24);
   }
 
+  nativeUdp() {
+    const C = window.Capacitor;
+    if (!(C && C.isNativePlatform && C.isNativePlatform() && window.GT7Core)) return null;
+    try { return C.registerPlugin ? C.registerPlugin("ApexaUdp") : C.Plugins && C.Plugins.ApexaUdp; } catch (e) { return null; }
+  }
+  webOnly() {
+    return location.protocol === "https:" && !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) && !this.nativeUdp();
+  }
+  openLink(url) {
+    const P = this.nativeUdp();
+    if (P) return new window.GT7Core.Gt7Link(window.GT7Core.nativeTransport(P), { ip: this.state.psIp });
+    return new WebSocket(url);
+  }
+
   connectLive() {
     if (this.props.liveTelemetry === false) return;
     const url = this.wsUrl();
     clearTimeout(this._retry);
     try { this.ws && (this.ws.onclose = null, this.ws.onmessage = null, this.ws.close()); } catch (e) {}
     try {
-      const ws = new WebSocket(url); this.ws = ws;
+      const ws = this.openLink(url); this.ws = ws;
       ws.onopen = () => { this.wsOpen = true; this._retryN = 0; this.forceUpdate(); };
       ws.onmessage = e => {
         let d; try { d = JSON.parse(e.data); } catch (x) { return; }
@@ -4788,7 +4803,7 @@ class Component extends DCLogic {
       sourceColor: /No supervisor/.test(s.sourceNote || "") ? "#FFB25C" : t.dim,
       copyCmd: () => { try { navigator.clipboard.writeText(cmdLine); this.say("Command copied. Run it in a terminal on this machine."); } catch (e) {} },
       targetNote: M.ip ? "Aimed at " + M.ip : "Searching for your console.",
-      bridgeNote: "",
+      bridgeNote: this.nativeUdp() ? "Built into this app. Nothing to set up here." : this.webOnly() && !this.wsOpen ? "A browser tab cannot hear your console. Use the Apexa app on Windows, Mac or Android." : "",
       engineError: s.engineError || "",
       engineNote: this.dx ? "Delta engine loaded · reference: " + (hasRef ? dxs.referenceLabel : "none yet") : "Delta engine loading…"
     };
