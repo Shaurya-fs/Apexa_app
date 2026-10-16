@@ -80,7 +80,7 @@ function corners(pts, win, minsep, maxn) {
 }
 function circuit(C, W, H, pad) {
   const head = (C.state.sessions || [])[0];
-  const id = head && head.trackId;
+  const id = C._liveTrackId || (C._liveTrack && head && head.trackId) || null;
   if (!id) return null;
   const key = id + "|" + W + "x" + H;
   if (C._skMap && C._skMap.key === key) return C._skMap;

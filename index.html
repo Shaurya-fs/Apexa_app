@@ -2631,6 +2631,21 @@ class Component extends DCLogic {
     return new WebSocket(url);
   }
 
+  partialIdent() {
+    if (this._liveTrackId || !this.CAT || !this.CAT.identifyPartial || !this.rec) return;
+    const now = performance.now();
+    if (this._pAt && now - this._pAt < 2000) return;
+    this._pAt = now;
+    const cur = this.rec.cur;
+    if (!cur || cur.length < 200) return;
+    let r = null;
+    try { r = this.CAT.identifyPartial({ samples: cur }, this.cat && this.cat.tracks); } catch (e) {}
+    if (!r) return;
+    this._partial = r; this._liveTrackId = r.id; this._liveTrack = r.name;
+    if (r.lenM) { try { this.dx.setSectorCount(r.lenM / 1750); } catch (e) {} }
+    this.forceUpdate();
+  }
+
   connectLive() {
     if (this.props.liveTelemetry === false) return;
     const url = this.wsUrl();
@@ -2710,6 +2725,7 @@ class Component extends DCLogic {
         if (this.dx) this.dx.reset(true);
         if (this.LT) this.rec = new this.LT.LapRecorder({ maxLaps: 8, hz: 30 });
         this._liveTrack = "";
+        this._liveTrackId = null; this._partial = null;
         this._startPos = null;
         this._outline = null;
       }
@@ -2722,6 +2738,7 @@ class Component extends DCLogic {
       this.dx.update(f);
     }
     this.traceSample(d);
+    this.partialIdent();
 
     if (d.lastLapMs > 0 && d.lastLapMs !== this._lastLogged) {
       this._lastLogged = d.lastLapMs;
@@ -2987,7 +3004,7 @@ class Component extends DCLogic {
         const known = carId ? (this.state.garage || {})[carId] : null;
         const lk = this.lenKey(dist);
         const seed = { lenM: dist || null, start: this._startPos || null };
-        const id = this.catIdentify(seed);
+        const id = this.catIdentify(seed) || this._partial;
         const named = (lk && (this.state.trackBook || {})[lk]) || "";
         list.unshift({ id: "s" + now, at: now, lastAt: now, game: "GT7",
           track: named || (id && id.confidence !== "low" ? id.name : ""),
@@ -3012,11 +3029,11 @@ class Component extends DCLogic {
         if (!head.carName) head.carName = this.catCar(head.carId) || "";
         if (head.track) this._liveTrack = head.track;
         if (head.trackId) { const ent = this.catTrack(head.trackId); if (ent && ent.lenM) { try { this.dx.setSectorCount(ent.lenM / 1750); } catch (e) {} } }
-        if (!head.track && head.lenM) {
+        if ((!head.track || head.trackHow === "partial lap") && head.lenM) {
           const nm = (this.state.trackBook || {})[this.lenKey(head.lenM)];
           if (nm) { head.track = nm; head.trackConf = "typed"; head.trackHow = "named by you"; }
           else {
-            const id = this.catIdentify(head);
+            const id = this.catIdentify(head) || (head.track ? null : this._partial);
             if (id && id.confidence !== "low") {
               head.track = id.name; head.cc = id.cc; head.trackId = id.id;
               head.turns = id.turns; head.trackHow = id.how; head.trackConf = id.confidence;
@@ -3430,9 +3447,33 @@ class Component extends DCLogic {
     flush(0);
     return out.length ? out : [{ t: t, pause: 0 }];
   }
+  nativeTts() {
+    const C = window.Capacitor;
+    if (!(C && C.isNativePlatform && C.isNativePlatform() && C.registerPlugin)) return null;
+    if (!this._tts) {
+      try {
+        this._tts = C.registerPlugin("ApexaTts");
+        this._tts.addListener("done", () => {
+          if (this._ttsFeedback) { this._ttsFeedback = false; this.setState({ analysisSpeaking: false }); return; }
+          clearTimeout(this._spkGuard); clearTimeout(this._spkT); this._spkT = setTimeout(() => { this.speaking = false; }, 350);
+        });
+      } catch (e) { this._tts = null; }
+    }
+    return this._tts;
+  }
   speak(text) {
     if (!this.state.radioOn) return;
     if (this.speaking) return;
+    const T = this.nativeTts();
+    if (T) {
+      const plan = this.vPlan();
+      this.speaking = true;
+      clearTimeout(this._spkGuard);
+      this._spkGuard = setTimeout(() => { this.speaking = false; }, 25000);
+      T.speak({ text: this.humanise(text), rate: plan.rate, pitch: plan.pitch, volume: plan.volume, female: plan.sex !== "MALE" })
+        .catch(() => { this.speaking = false; });
+      return;
+    }
     const S = window.speechSynthesis; if (!S) return;
     try { S.resume(); } catch (e) {}
     if (S.speaking || S.pending) return;
@@ -3462,6 +3503,13 @@ class Component extends DCLogic {
   }
   // on-demand replay of the debrief, separate from the live radio's speak()
   speakFeedback(text) {
+    const T = this.nativeTts();
+    if (T && text) {
+      this.setState({ analysisSpeaking: true });
+      this._ttsFeedback = true;
+      T.speak({ text, rate: 1, pitch: 1, volume: 1, female: true }).catch(() => this.setState({ analysisSpeaking: false }));
+      return;
+    }
     const S = window.speechSynthesis;
     if (!S || !text) return;
     try { S.cancel(); } catch (e) {}
@@ -3476,6 +3524,7 @@ class Component extends DCLogic {
   }
   stopFeedback() {
     try { window.speechSynthesis.cancel(); } catch (e) {}
+    try { const T = this.nativeTts(); T && T.stop(); } catch (e) {}
     this.setState({ analysisSpeaking: false });
   }
   wantSex(v) {
@@ -3554,7 +3603,7 @@ class Component extends DCLogic {
       const cue = this.sessionCue() || (this.ROS && this.ROS.byId(this.state.engineerPick || "wren").radioCue)
         || "Radio check. Loud and clear.";
       setTimeout(() => this.say(cue), 120);
-    } else { try { window.speechSynthesis.cancel(); } catch (e) {} }
+    } else { try { window.speechSynthesis.cancel(); } catch (e) {} try { const T = this.nativeTts(); T && T.stop(); } catch (e) {} this.speaking = false; }
   };
   say(text) {
     this.setState(s => ({ engineerLine: text, log: [{ tag: "L" + s.lap + " · RADIO", text }].concat(s.log).slice(0, 4) }));

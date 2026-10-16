@@ -154,6 +154,40 @@ export function identify(query, tracks) {
   return null;
 }
 
+// Early identification from the part of the lap driven so far: one circuit has to fit clearly and the rest clearly not.
+export function identifyPartial(query, tracks) {
+  const table = tracks && tracks.length ? tracks : TRACK_SEED;
+  const shaped = table.filter(e => Array.isArray(e.path) && e.path.length > 10);
+  const pts = ((query && query.samples) || []).filter(s => s && isFinite(s.x) && isFinite(s.z));
+  if (!shaped.length || pts.length < 200) return null;
+  let run = 0;
+  for (let i = 1; i < pts.length; i++) run += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].z - pts[i - 1].z);
+  if (run < 1200) return null;
+  const probes = probesFrom(pts);
+  if (!probes) return null;
+  const fit = [];
+  for (const e of shaped) {
+    const bx = boxOf(e);
+    let inside = 0;
+    for (const p of probes) if (p[0] >= bx[0] && p[0] <= bx[1] && p[1] >= bx[2] && p[1] <= bx[3]) inside++;
+    if (inside < probes.length * 0.9) continue;
+    let hit = 0, loose = 0;
+    for (const p of probes) { const d = nearest(e.path, p[0], p[1]); if (d <= HIT_M) hit++; if (d <= HIT_M * 2) loose++; }
+    fit.push({ e, a: hit / probes.length, wide: loose / probes.length });
+  }
+  fit.sort((x, y) => y.a - x.a);
+  const top = fit[0];
+  if (!top || top.a < 0.93) return null;
+  // layouts that share their roads fit just as well: wait until the car reaches the part that tells them apart
+  if (fit.slice(1).some(o => o.wide >= 0.9)) return null;
+  if (top.wide < 0.97) return null;
+  // and it must fit the first half of what was driven as well as the second, not just one lucky stretch
+  const half = Math.floor(probes.length / 2);
+  const on = ps => ps.filter(p => nearest(top.e.path, p[0], p[1]) <= HIT_M).length / ps.length;
+  if (on(probes.slice(0, half)) < 0.9 || on(probes.slice(half)) < 0.9) return null;
+  return decorate(top.e, "medium", "partial lap");
+}
+
 function identifyByLength(query, tracks) {
   const len = query && query.lenM;
   if (!(len > 400)) return null;

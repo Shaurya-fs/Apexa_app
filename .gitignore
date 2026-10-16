@@ -1,3 +1,9 @@
 .DS_Store
 node_modules/
 .netlify/
+
+# sibling projects that live inside this folder (own repos or local only, never part of the site)
+/apexa-desktop/
+/apexa-android/
+/design-renders/
+/apk/
