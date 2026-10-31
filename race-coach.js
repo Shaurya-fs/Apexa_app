@@ -63,6 +63,7 @@ export class RaceCoach {
       }
       if (e.kind === "lap") out.push.apply(out, this.lapMessages(e, ctx));
       if (e.kind === "sector") {
+        out.push.apply(out, this.previewTips(e, ctx));
         if (!fin(e.delta) || Math.abs(e.delta) < 0.15) return;
         const up = e.delta < 0;
         out.push({ id: "sector" + e.index, tag: "SECTOR", priority: 42, cooldown: 25000,
@@ -73,7 +74,7 @@ export class RaceCoach {
             sectorName(e.index) + " " + (up ? "green" : "red") + " by " + tenths(e.delta) + "."
           ]) });
       }
-      if (e.kind === "corner") out.push.apply(out, this.cornerMessages(e, ctx));
+      if (e.kind === "corner") { out.push.apply(out, this.cornerMessages(e, ctx)); out.push.apply(out, this.techniqueNow(e, ctx)); }
     });
     return out;
   }
@@ -490,3 +491,118 @@ export const PERSONAS = [
   { id: "DIRECT", name: "Direct", line: "Short, blunt, no softening. Race pace only." },
   { id: "TECHNICAL", name: "Technical", line: "Numbers first. Speeds, deltas, temperatures." }
 ];
+
+// ---- driving tips ---------------------------------------------------------------------------------------------
+// Two kinds. techniqueNow(): a corner has just finished and the driver did something worth a word (locked the
+// fronts, spun the rears, braked harder than they needed to). previewTips(): a sector has just finished, so look
+// at the corners of the sector that is coming and warn about the one the driver has been getting wrong.
+// Everything is judged against the driver's own best pass through the same corner, so there is no opinion about
+// the car or the circuit here, only "you did it better before".
+const median = a => { const s = a.slice().sort((x, y) => x - y); return s.length ? s[Math.floor(s.length / 2)] : null; };
+const KMH = v => Math.round(v);
+
+RaceCoach.prototype.noteCorner = function (e, ctx) {
+  const c = e && e.corner; if (!c || !fin(c.deltaChange) || !fin(c.startDistance)) return null;
+  const d = (ctx && ctx.delta) || {};
+  const lapD = d.referenceDistance || d.lapDistance || 0;
+  // The engine numbers corners afresh every lap and merges or splits them differently from lap to lap, so a
+  // corner is recognised by where it is on the circuit, not by its number.
+  this.ch = this.ch || new Map();
+  let key = null, near = 60;
+  this.ch.forEach((list, k) => {
+    const l = list[list.length - 1], gap = Math.abs(l.start - c.startDistance);
+    if (gap < near) { near = gap; key = k; }
+  });
+  if (key === null) key = "c" + Math.round(c.startDistance);
+  const rec = { key, lapN: e.lapN, name: c.name, start: c.startDistance, frac: lapD > 0 ? c.startDistance / lapD : null,
+    brake: fin(c.maxBrake) ? c.maxBrake : 0, brakeM: fin(c.brakeDistance) ? c.brakeDistance : null,
+    entry: c.entrySpeed, min: c.minSpeed, wait: fin(c.throttleWait) ? c.throttleWait : 0,
+    spin: c.wheelspin || 0, lock: fin(c.lock) ? c.lock : 1, dc: c.deltaChange };
+  // the reference lap's own pass through this corner is the baseline until the driver has a best pass of their own
+  const rf = e.ref;
+  if (rf && fin(rf.startDistance) && Math.abs(rf.startDistance - c.startDistance) < 60 && fin(rf.minSpeed) && fin(rf.entrySpeed))
+    rec.base = { lapN: -1, brake: fin(rf.maxBrake) ? rf.maxBrake : 0, brakeM: fin(rf.brakeDistance) ? rf.brakeDistance : null, entry: rf.entrySpeed, min: rf.minSpeed,
+      wait: fin(rf.throttleWait) ? rf.throttleWait : 0, dc: -1 };
+  const list = this.ch.get(key) || [];
+  list.push(rec); if (list.length > 8) list.shift();
+  this.ch.set(key, list);
+  return rec;
+};
+
+// the best earlier pass through this corner: the one that lost least against the reference
+RaceCoach.prototype.bestPass = function (key, notLapN) {
+  const l = ((this.ch && this.ch.get(key)) || []).filter(r => r.lapN !== notLapN);
+  return l.length >= 1 ? l.reduce((a, r) => (r.dc < a.dc ? r : a)) : null;
+};
+
+// What is wrong with one pass through a corner, worst first. Each finding has the spoken tip and a weight.
+RaceCoach.prototype.diagnose = function (r) {
+  const best = this.bestPass(r.key, r.lapN) || r.base || null, out = [];
+  if (r.lock < 0.82 && r.brake > 0.3)
+    out.push({ w: 9, kind: "lock", tip: "Easy on the brake pedal into " + r.name + ", the fronts are locking. Squeeze it on, then release gradually." });
+  if (best) {
+    const dMin = r.min - best.min, dBrake = r.brake - best.brake, dEntry = r.entry - best.entry;
+    if (dBrake > 0.12 && dMin < -3)
+      out.push({ w: 7 + Math.min(2, -dMin / 8), kind: "overbrake", tip: "Go easy on the brakes into " + r.name + ". You're braking harder than your best lap and ending up " + KMH(-dMin) + " k p h slower in the middle." });
+    else if (dEntry > 6 && r.dc > best.dc + 0.06)
+      out.push({ w: 6, kind: "hot", tip: "You're arriving at " + r.name + " " + KMH(dEntry) + " k p h hotter than your best lap. Brake a touch earlier and you'll be on the power sooner." });
+    if (r.brakeM !== null && best.brakeM !== null && r.brakeM > best.brakeM + 12 && dEntry < 3)
+      out.push({ w: 4, kind: "early", tip: "You're on the brakes " + KMH(r.brakeM - best.brakeM) + " metres earlier than your best lap into " + r.name + ". Hold it a little longer." });
+  }
+  if (r.spin > 1.15)
+    out.push({ w: 6, kind: "spin", tip: "Wheelspin out of " + r.name + ". Squeeze the throttle on, don't stamp it." });
+  if (best && r.wait > 0.8 && r.wait > best.wait + 0.25)
+    out.push({ w: 5, kind: "late", tip: "You're late back on the power at " + r.name + ". Get the throttle down as soon as the car is pointing at the exit." });
+  return out.sort((a, b) => b.w - a.w);
+};
+
+RaceCoach.prototype.techniqueNow = function (e, ctx) {
+  const r = this.noteCorner(e, ctx); if (!r) return [];
+  const f = this.diagnose(r)[0]; if (!f) return [];
+  // a repeat of the same fault in the same corner stays quiet for a few laps; the preview below covers it
+  this.tipSaid = this.tipSaid || {};
+  const key = f.kind + r.key;
+  if (this.tipSaid[key] && r.lapN - this.tipSaid[key] < 3) return [];
+  this.tipSaid[key] = r.lapN;
+  return [{ id: "tip-" + f.kind + r.key, tag: "COACHING", priority: f.kind === "lock" ? 66 : 50 + f.w / 2, cooldown: 40000, oncePerLap: true,
+    meta: { corner: r.name, event: "TECHNIQUE_" + f.kind.toUpperCase() }, text: f.tip }];
+};
+
+// A sector has just finished: say what to watch in the next one.
+RaceCoach.prototype.previewTips = function (e, ctx) {
+  const d = (ctx && ctx.delta) || {}, N = d.sectorCount || 3;
+  if (!fin(e.index) || !this.ch || this.ch.size === 0) return [];
+  const next = (e.index + 1) % N, lo = next / N, hi = (next + 1) / N;
+  const latest = [];
+  this.ch.forEach(list => {
+    const r = list[list.length - 1];
+    if (r && r.frac !== null && r.frac >= lo && r.frac < hi) latest.push(r);
+  });
+  if (!latest.length) return [];
+  // is this the quick sector of the lap? (highest typical mid-corner speed)
+  const mins = [];
+  for (let s = 0; s < N; s++) {
+    const m = []; this.ch.forEach(list => { const r = list[list.length - 1]; if (r && r.frac !== null && Math.floor(r.frac * N) === s) m.push(r.min); });
+    mins.push(m.length ? median(m) : null);
+  }
+  const mine = mins[next];
+  const quick = N > 1 && mine !== null && mins.every(v => v === null || v <= mine) && mins.filter(v => v !== null).length > 1;
+  let top = null;
+  this.prevSaid = this.prevSaid || {};
+  const lapNow = (ctx && ctx.lap) || 0;
+  // the same warning about the same corner is not read out every lap: once, then again only after a few laps
+  latest.forEach(r => { const f = this.diagnose(r)[0]; const k = f ? f.kind + r.key : ""; if (f && !(this.prevSaid[k] !== undefined && lapNow - this.prevSaid[k] < 4) && (!top || f.w > top.f.w)) top = { r, f, k }; });
+  const sec = ["one", "two", "three", "four", "five", "six", "seven", "eight"][next] || String(next + 1);
+  if (top) {
+    this.prevSaid[top.k] = lapNow;
+    return [{ id: "tip-prev" + next, tag: "COACHING", priority: 53, cooldown: 60000,
+      meta: { corner: top.r.name, event: "TECHNIQUE_PREVIEW" },
+      text: "Sector " + sec + " next" + (quick ? ", the quick one" : "") + ". " + top.f.tip }];
+  }
+  if (quick && !(this.quickLap !== undefined && lapNow - this.quickLap < 4)) {
+    this.quickLap = lapNow;
+    return [{ id: "tip-quick" + next, tag: "COACHING", priority: 40, cooldown: 90000, oncePerLap: true,
+      text: "Quick sector next. Light on the brakes, keep it smooth, and let the speed carry." }];
+  }
+  return [];
+};

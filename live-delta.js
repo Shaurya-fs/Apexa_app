@@ -527,7 +527,7 @@ export class LiveDeltaEngine {
       st.count++; st.total += c.deltaChange; st.last = c.deltaChange;
       st.worst = Math.max(st.worst, c.deltaChange);
       this.cornerStats.set(c.index, st);
-      const ref = this.reference && this.reference.eventAt(c.index);
+      const ref = this.reference && (this.reference.events.reduce((b, ev) => { const g = Math.abs(ev.startDistance - c.startDistance); return g < 60 && (!b || g < b.g) ? { ev, g } : b; }, null) || {}).ev || (this.reference && this.reference.eventAt(c.index));
       this.queue.push({ kind: "corner", corner: c, ref, lapN: this.curLap });
     }
   }
