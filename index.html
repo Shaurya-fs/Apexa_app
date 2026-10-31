@@ -314,18 +314,11 @@
       </div>
       <div style="display:flex; align-items:center; gap:6px;">
   <div class="sk-lbl" style="flex:none;">MIC</div>
-  <div style="flex:1; min-width:0; display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px;">
-    <sc-for list="{{ micOpts }}" as="m" hint-placeholder-count="3">
+  <div style="flex:1; min-width:0; display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+    <sc-for list="{{ micOpts }}" as="m" hint-placeholder-count="2">
       <div onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</div>
     </sc-for>
   </div>
-  <div onClick="{{ pttBtn.go }}" style="{{ pttBtn.style }}">{{ pttBtn.label }}</div>
-  <sc-if value="{{ pttBtn.bound }}" hint-placeholder-val="{{ false }}">
-    <div onClick="{{ pttBtn.clear }}" style="cursor:pointer; flex:none; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; padding:7px 9px; border-radius:2px; border:1px solid var(--line,#1D2024); color:var(--dim,#7C817B);">CLEAR</div>
-  </sc-if>
-  <sc-if value="{{ talkBtn.show }}" hint-placeholder-val="{{ true }}">
-    <div onMouseDown="{{ talkBtn.down }}" onMouseUp="{{ talkBtn.up }}" onMouseLeave="{{ talkBtn.up }}" onTouchStart="{{ talkBtn.down }}" onTouchEnd="{{ talkBtn.up }}" style="{{ talkBtn.style }}">{{ talkBtn.label }}</div>
-  </sc-if>
 </div>
 <div style="{{ micLineStyle }}">{{ micLine }}</div>
 <div style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px;">
@@ -389,18 +382,11 @@
     <div style="display:flex; flex-direction:column; gap:6px;">
       <div style="display:flex; align-items:center; gap:6px;">
   <div class="sk-lbl" style="flex:none;">MIC</div>
-  <div style="flex:1; min-width:0; display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px;">
-    <sc-for list="{{ micOpts }}" as="m" hint-placeholder-count="3">
+  <div style="flex:1; min-width:0; display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+    <sc-for list="{{ micOpts }}" as="m" hint-placeholder-count="2">
       <div onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</div>
     </sc-for>
   </div>
-  <div onClick="{{ pttBtn.go }}" style="{{ pttBtn.style }}">{{ pttBtn.label }}</div>
-  <sc-if value="{{ pttBtn.bound }}" hint-placeholder-val="{{ false }}">
-    <div onClick="{{ pttBtn.clear }}" style="cursor:pointer; flex:none; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; padding:7px 9px; border-radius:2px; border:1px solid var(--line,#1D2024); color:var(--dim,#7C817B);">CLEAR</div>
-  </sc-if>
-  <sc-if value="{{ talkBtn.show }}" hint-placeholder-val="{{ true }}">
-    <div onMouseDown="{{ talkBtn.down }}" onMouseUp="{{ talkBtn.up }}" onMouseLeave="{{ talkBtn.up }}" onTouchStart="{{ talkBtn.down }}" onTouchEnd="{{ talkBtn.up }}" style="{{ talkBtn.style }}">{{ talkBtn.label }}</div>
-  </sc-if>
 </div>
 <div style="{{ micLineStyle }}">{{ micLine }}</div>
 <div style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px;">
@@ -536,18 +522,11 @@
       </div>
       <div style="display:flex; align-items:center; gap:6px;">
   <div class="sk-lbl" style="flex:none;">MIC</div>
-  <div style="flex:1; min-width:0; display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px;">
-    <sc-for list="{{ micOpts }}" as="m" hint-placeholder-count="3">
+  <div style="flex:1; min-width:0; display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+    <sc-for list="{{ micOpts }}" as="m" hint-placeholder-count="2">
       <div onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</div>
     </sc-for>
   </div>
-  <div onClick="{{ pttBtn.go }}" style="{{ pttBtn.style }}">{{ pttBtn.label }}</div>
-  <sc-if value="{{ pttBtn.bound }}" hint-placeholder-val="{{ false }}">
-    <div onClick="{{ pttBtn.clear }}" style="cursor:pointer; flex:none; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; padding:7px 9px; border-radius:2px; border:1px solid var(--line,#1D2024); color:var(--dim,#7C817B);">CLEAR</div>
-  </sc-if>
-  <sc-if value="{{ talkBtn.show }}" hint-placeholder-val="{{ true }}">
-    <div onMouseDown="{{ talkBtn.down }}" onMouseUp="{{ talkBtn.up }}" onMouseLeave="{{ talkBtn.up }}" onTouchStart="{{ talkBtn.down }}" onTouchEnd="{{ talkBtn.up }}" style="{{ talkBtn.style }}">{{ talkBtn.label }}</div>
-  </sc-if>
 </div>
 <div style="{{ micLineStyle }}">{{ micLine }}</div>
 <div style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px;">
@@ -645,18 +624,11 @@
       </div>
       <div style="display:flex; align-items:center; gap:6px;">
   <div class="sk-lbl" style="flex:none;">MIC</div>
-  <div style="flex:1; min-width:0; display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px;">
-    <sc-for list="{{ micOpts }}" as="m" hint-placeholder-count="3">
+  <div style="flex:1; min-width:0; display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+    <sc-for list="{{ micOpts }}" as="m" hint-placeholder-count="2">
       <div onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</div>
     </sc-for>
   </div>
-  <div onClick="{{ pttBtn.go }}" style="{{ pttBtn.style }}">{{ pttBtn.label }}</div>
-  <sc-if value="{{ pttBtn.bound }}" hint-placeholder-val="{{ false }}">
-    <div onClick="{{ pttBtn.clear }}" style="cursor:pointer; flex:none; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; padding:7px 9px; border-radius:2px; border:1px solid var(--line,#1D2024); color:var(--dim,#7C817B);">CLEAR</div>
-  </sc-if>
-  <sc-if value="{{ talkBtn.show }}" hint-placeholder-val="{{ true }}">
-    <div onMouseDown="{{ talkBtn.down }}" onMouseUp="{{ talkBtn.up }}" onMouseLeave="{{ talkBtn.up }}" onTouchStart="{{ talkBtn.down }}" onTouchEnd="{{ talkBtn.up }}" style="{{ talkBtn.style }}">{{ talkBtn.label }}</div>
-  </sc-if>
 </div>
 <div style="{{ micLineStyle }}">{{ micLine }}</div>
 <div style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px;">
@@ -670,6 +642,323 @@
       <sc-for list="{{ skTy }}" as="y" hint-placeholder-count="4">
         <div style="text-align:center;"><div style="width:58px; height:58px; border-radius:50%; border:3px solid {{ y.fill }}; background:#0c0c0d; display:flex; align-items:center; justify-content:center; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:23px; color:#E9E3D2;">{{ y.txt }}</div><div style="font-family:'Barlow',sans-serif; font-size:10px; letter-spacing:.18em; color:#8c8776; margin-top:3px;">{{ y.pos }}</div></div>
       </sc-for>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ skinF1 }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1; display:flex; flex-direction:column; gap:12px; min-height:0;">
+
+  <!-- race strip: lap, position, shift lights, weather and track status -->
+  <div class="sk-card" style="flex:none; padding:6px 14px; display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:18px; border-top:2px solid var(--acc,#FF2D20);">
+    <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+      <div style="padding:5px 11px; border-radius:8px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.09); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.12em; white-space:nowrap;"><span style="color:var(--dim,#7A8290);">LAP </span>{{ lapLabel }}</div>
+      <sc-if value="{{ hasF1 }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:5px 11px; border-radius:8px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.09); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.12em; white-space:nowrap;"><span style="color:var(--dim,#7A8290);">POS </span><b style="font-size:15px;">{{ f1Pos }}</b><span style="color:var(--dim,#7A8290);"> {{ f1PosOf }}</span></div>
+        <div style="padding:5px 11px; border-radius:8px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.09); font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.12em; white-space:nowrap;"><span style="color:var(--dim,#7A8290);">STOPS </span>{{ f1Stops }}</div>
+      </sc-if>
+    </div>
+    <div style="display:flex; gap:7px; align-items:center;">
+      <sc-for list="{{ f1Leds }}" as="d" hint-placeholder-count="15"><div style="width:30px; height:11px; border-radius:6px; background:{{ d.bg }}; box-shadow:{{ d.glow }};"></div></sc-for>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:flex-end; gap:10px; min-width:0;">
+      <sc-if value="{{ hasF1 }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:5px 11px; border-radius:8px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.09); font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.1em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0;">{{ f1Wx }}</div>
+      </sc-if>
+      <sc-if value="{{ noF1 }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:5px 11px; border-radius:8px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.09); font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.1em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0;">{{ trackName }}</div>
+      </sc-if>
+      <div style="flex:none; padding:5px 14px; border-radius:8px; background:{{ f1Status.bg }}; border:1px solid {{ f1Status.bd }}; color:{{ f1Status.fg }}; font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.16em; white-space:nowrap;">{{ f1Status.txt }}</div>
+    </div>
+  </div>
+
+  <div style="flex:1; display:grid; grid-template-columns:350px minmax(0,1fr) 350px; gap:14px; min-height:0;">
+
+    <!-- left: delta, laps, sectors and the cars around you -->
+    <div style="display:flex; flex-direction:column; gap:12px; min-height:0;">
+      <div class="sk-card" style="padding:13px 18px;">
+        <div style="display:flex; justify-content:space-between; gap:10px; min-width:0;">
+          <div class="sk-lbl" style="min-width:0;">{{ deltaSub }}</div>
+          <div class="sk-lbl" style="flex:none; color:{{ deltaTrendColor }};">{{ deltaTrendLabel }}</div>
+        </div>
+        <div class="sk-num" style="font-size:60px; line-height:1; margin-top:2px; color:{{ deltaColor }}; text-shadow:0 0 28px color-mix(in oklch, {{ deltaColor }} 40%, transparent);">{{ deltaLabel }}</div>
+        <div style="margin-top:9px; position:relative; height:12px; border-radius:6px; background:rgba(255,255,255,.07);">
+          <div style="position:absolute; top:0; left:{{ skDbLeft }}; width:{{ skDbW }}; height:12px; background:{{ skDbCol }}; border-radius:6px; transition:width 90ms linear;"></div>
+          <div style="position:absolute; left:50%; top:-4px; width:2px; height:20px; background:var(--text,#F4F5F2);"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:6px;">
+          <div class="sk-lbl" style="font-size:9px;">PREDICTED</div>
+          <div class="sk-mono" style="font-size:15px; font-weight:600; color:{{ predFg }};">{{ predLabel }}</div>
+        </div>
+        <sc-if value="{{ lapInvalid }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:8px; padding:7px 9px; border:1px solid var(--bad,#F2564B); border-radius:8px; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; line-height:1.5; color:var(--bad,#F2564B); text-wrap:pretty;">{{ invalidLabel }}</div>
+        </sc-if>
+        <div style="margin-top:8px; padding-top:7px; border-top:1px solid rgba(255,255,255,.08);">
+          <div style="display:flex; justify-content:space-between; gap:10px;">
+            <div class="sk-lbl" style="font-size:9px; min-width:0;">{{ miniHead }}</div>
+            <div class="sk-lbl" style="font-size:9px; flex:none;">{{ miniNote }}</div>
+          </div>
+          <div style="display:flex; align-items:stretch; gap:1px; height:24px; margin-top:5px;">
+            <sc-for list="{{ miniBars }}" as="b" hint-placeholder-count="24">
+              <div style="flex:1; display:flex; flex-direction:column; min-width:0;">
+                <div style="flex:1; display:flex; flex-direction:column; justify-content:flex-end;"><div style="width:100%; height:{{ b.up }}; background:{{ b.bg }};"></div></div>
+                <div style="flex:1;"><div style="width:100%; height:{{ b.down }}; background:{{ b.bg }};"></div></div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-top:6px;">
+            <div class="sk-lbl" style="font-size:9px;">THEORETICAL BEST</div>
+            <div class="sk-mono" style="font-size:13px; font-weight:600; color:var(--purple,#C061FF);">{{ optimalLabel }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sk-card" style="padding:10px 18px;">
+        <div style="display:flex; justify-content:space-between;"><div class="sk-lbl">LAP {{ lapLabel }}</div><div class="sk-lbl">CURRENT</div></div>
+        <div class="sk-num" style="font-size:42px; line-height:1.1; text-align:right; color:{{ curFg }};">{{ curLap }}</div>
+        <div style="display:flex; justify-content:space-between; margin-top:4px;">
+          <div class="sk-mono" style="font-size:13px;"><span style="color:var(--dim,#7A8290);">BEST </span><span style="color:var(--purple,#C061FF);">{{ bestLap }}</span></div>
+          <div class="sk-mono" style="font-size:13px;"><span style="color:var(--dim,#7A8290);">LAST </span><span style="color:{{ lastFg }};">{{ lastLap }}</span></div>
+        </div>
+      </div>
+
+      <div class="sk-card" style="flex:1; padding:11px 18px 13px; display:flex; flex-direction:column; gap:7px; overflow:hidden;">
+        <div style="display:flex; justify-content:space-between;"><div class="sk-lbl" style="min-width:0;">{{ sectorHead }}</div></div>
+        <div style="display:grid; grid-template-columns:repeat({{ sectorCols }}, minmax(0,1fr)); gap:8px;">
+          <sc-for list="{{ sectors }}" as="sc" hint-placeholder-count="3">
+            <div style="border-radius:10px; background:rgba(0,0,0,.28); border:1px solid rgba(255,255,255,.07); overflow:hidden; padding-bottom:{{ skTilePb }};">
+              <div style="height:{{ skBarH }}; background:{{ sc.statusBar }}; box-shadow:0 0 12px {{ sc.statusBar }};"></div>
+              <div style="padding:{{ skTilePad }};">
+                <div class="sk-lbl" style="font-size:9px;">{{ sc.n }}</div>
+                <div class="sk-num" style="font-size:{{ skTSz }}; line-height:1.15; color:{{ sc.tColor }};">{{ sc.t }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex; gap:3px; height:9px;">
+          <sc-for list="{{ skProg }}" as="p" hint-placeholder-count="3">
+            <div style="flex:1; border-radius:4px; background:rgba(255,255,255,.07); overflow:hidden;"><div style="height:9px; width:{{ p.fw }}; background:{{ p.fill }};"></div></div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ hasF1 }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:auto; display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; padding-top:8px; border-top:1px solid rgba(255,255,255,.08);">
+          <div style="min-width:0;"><div class="sk-lbl" style="font-size:8px;">AHEAD {{ f1AheadName }}</div><div class="sk-mono" style="font-size:15px; font-weight:600; color:{{ gapAheadFg }};">{{ gapAhead }}</div></div>
+          <div style="min-width:0;"><div class="sk-lbl" style="font-size:8px;">BEHIND {{ f1BehindName }}</div><div class="sk-mono" style="font-size:15px; font-weight:600; color:{{ gapBehindFg }};">{{ gapBehind }}</div></div>
+          <div style="min-width:0;"><div class="sk-lbl" style="font-size:8px;">LEADER</div><div class="sk-mono" style="font-size:15px; font-weight:600;">{{ f1Leader }}</div></div>
+        </div>
+        </sc-if>
+        <sc-if value="{{ noF1 }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top:auto; display:grid; grid-template-columns:1fr 1fr; gap:10px; padding-top:8px; border-top:1px solid rgba(255,255,255,.08);">
+          <div><div class="sk-lbl" style="font-size:8px;">GAP AHEAD</div><div class="sk-mono" style="font-size:15px; font-weight:600; color:{{ gapAheadFg }};">{{ gapAhead }}</div></div>
+          <div><div class="sk-lbl" style="font-size:8px;">GAP BEHIND</div><div class="sk-mono" style="font-size:15px; font-weight:600; color:{{ gapBehindFg }};">{{ gapBehind }}</div></div>
+        </div>
+        </sc-if>
+      </div>
+    </div>
+
+    <!-- centre: rev bar, gear, speed, pedals and steering -->
+    <div class="sk-box" style="min-height:0; min-width:0;">
+      <div class="sk-fit" style="--arn:1.288;">
+        <svg viewBox="0 0 760 590" style="position:absolute; inset:0; width:100%; height:100%; display:block;">
+          <defs>
+            <filter id="f1Glow" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <!-- corner brackets -->
+          <path d="M8,34 L8,8 L34,8" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="2"></path>
+          <path d="M726,8 L752,8 L752,34" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="2"></path>
+          <path d="M8,556 L8,582 L34,582" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="2"></path>
+          <path d="M726,582 L752,582 L752,556" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="2"></path>
+          <!-- rev bar -->
+          <g filter="url(#f1Glow)"><sc-for list="{{ f1Rev }}" as="g" hint-placeholder-count="40"><rect x="{{ g.x }}" y="40" width="12" height="30" rx="3" fill="{{ g.fill }}"></rect></sc-for></g>
+          <line x1="60" y1="92" x2="700" y2="92" stroke="rgba(255,255,255,.08)"></line>
+          <!-- throttle and brake -->
+          <rect x="54" y="130" width="24" height="320" rx="7" fill="rgba(255,255,255,.07)"></rect>
+          <rect x="54" y="{{ f1ThrY }}" width="24" height="{{ f1ThrH }}" rx="7" style="fill:var(--good,#3BE06A);"></rect>
+          <rect x="682" y="130" width="24" height="320" rx="7" fill="rgba(255,255,255,.07)"></rect>
+          <rect x="682" y="{{ f1BrkY }}" width="24" height="{{ f1BrkH }}" rx="7" style="fill:var(--bad,#F2564B);"></rect>
+          <g stroke="rgba(255,255,255,.2)" stroke-width="2">
+            <line x1="84" y1="210" x2="94" y2="210"></line><line x1="84" y1="290" x2="94" y2="290"></line><line x1="84" y1="370" x2="94" y2="370"></line>
+            <line x1="666" y1="210" x2="676" y2="210"></line><line x1="666" y1="290" x2="676" y2="290"></line><line x1="666" y1="370" x2="676" y2="370"></line>
+          </g>
+          <!-- steering -->
+          <rect x="240" y="556" width="280" height="8" rx="4" fill="rgba(255,255,255,.08)"></rect>
+          <line x1="380" y1="548" x2="380" y2="572" stroke="rgba(255,255,255,.28)" stroke-width="2"></line>
+          <rect x="{{ f1SteerX }}" y="550" width="14" height="20" rx="4" style="fill:var(--text,#F4F5F2);"></rect>
+        </svg>
+        <div style="position:absolute; left:50.000%; top:20.678%; transform:translate(-50%,-80%); font-size:2.237cqw; line-height:1; white-space:nowrap; font-family:'IBM Plex Mono',monospace; font-weight:500; color:{{ rpmColor }}; letter-spacing:0.263cqw; ">{{ rpmLabel }} RPM</div>
+        <div style="position:absolute; left:50.000%; top:70.847%; transform:translate(-50%,-80%); font-size:39.474cqw; line-height:1; white-space:nowrap; font-family:'Oxanium',sans-serif; font-weight:800; color:var(--text,#F4F5F2); letter-spacing:0.000cqw; text-shadow:0 0 34px color-mix(in oklch, var(--acc,#FF2D20) 30%, transparent);">{{ gear }}</div>
+        <div style="position:absolute; left:50.000%; top:88.136%; transform:translate(-50%,-80%); font-size:12.105cqw; line-height:1; white-space:nowrap; font-family:'Oxanium',sans-serif; font-weight:700; color:var(--text,#F4F5F2); letter-spacing:0.000cqw; ">{{ speed }}</div>
+        <div style="position:absolute; left:50.000%; top:92.542%; transform:translate(-50%,-80%); font-size:1.711cqw; line-height:1; white-space:nowrap; font-family:'IBM Plex Mono',monospace; font-weight:400; color:var(--dim,#7A8290); letter-spacing:0.526cqw; ">{{ speedUnitLabel }}</div>
+        <div style="position:absolute; left:8.684%; top:82.373%; transform:translate(-50%,-80%); font-size:1.447cqw; line-height:1; white-space:nowrap; font-family:'IBM Plex Mono',monospace; font-weight:400; color:var(--dim,#7A8290); letter-spacing:0.263cqw; ">THR</div>
+        <div style="position:absolute; left:91.316%; top:82.373%; transform:translate(-50%,-80%); font-size:1.447cqw; line-height:1; white-space:nowrap; font-family:'IBM Plex Mono',monospace; font-weight:400; color:var(--dim,#7A8290); letter-spacing:0.263cqw; ">BRK</div>
+        <div style="position:absolute; left:28.158%; top:96.610%; transform:translate(-100%,-80%); font-size:1.316cqw; line-height:1; white-space:nowrap; font-family:'IBM Plex Mono',monospace; font-weight:400; color:var(--dim,#7A8290); letter-spacing:0.263cqw; ">STEER</div>
+      </div>
+    </div>
+
+    <!-- right: tyres and power -->
+    <div style="display:flex; flex-direction:column; gap:12px; min-height:0;">
+      <div class="sk-card" style="padding:14px 18px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+          <div class="sk-lbl">TYRES</div>
+          <sc-if value="{{ hasF1 }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex; align-items:center; gap:8px; min-width:0;">
+              <div class="sk-mono" style="font-size:10px; letter-spacing:.1em; color:var(--dim,#7A8290); white-space:nowrap;">{{ compoundSub }}</div>
+              <div style="flex:none; width:26px; height:26px; border-radius:50%; border:3px solid {{ compoundColor }}; display:flex; align-items:center; justify-content:center; font-family:'Oxanium',sans-serif; font-weight:800; font-size:13px; line-height:1;">{{ f1Comp }}</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noF1 }}" hint-placeholder-val="{{ true }}"><div class="sk-lbl" style="color:{{ tyreWarnColor }};">{{ tyreWarn }}</div></sc-if>
+        </div>
+        <div class="sk-fit2" style="position:relative; width:76%; aspect-ratio:330/190; margin:4px auto; container-type:inline-size;"><svg viewBox="0 0 330 190" style="position:absolute; inset:0; width:100%; height:100%; display:block;">
+          <rect x="112" y="18" width="106" height="156" rx="38" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.14)" stroke-width="2"></rect>
+          <rect x="130" y="62" width="70" height="46" rx="16" fill="rgba(0,0,0,.4)" stroke="rgba(255,255,255,.12)"></rect>
+          <sc-for list="{{ skTy }}" as="y" hint-placeholder-count="4">
+            <rect x="{{ y.x }}" y="{{ y.y }}" width="38" height="64" rx="8" fill="{{ y.fill }}"></rect>
+          </sc-for>
+        </svg>
+        <sc-for list="{{ skTy }}" as="y" hint-placeholder-count="4"><div style="position:absolute; left:{{ y.lp }}; top:{{ y.tp }}; transform:translate({{ y.tr }},-80%); font-family:'IBM Plex Mono',monospace; font-size:5.15cqw; line-height:1; white-space:nowrap; color:var(--text,#F4F5F2);">{{ y.txt }}</div></sc-for></div>
+        <sc-if value="{{ hasF1 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:8px;">
+            <sc-for list="{{ skTy }}" as="y" hint-placeholder-count="4">
+              <div style="min-width:0;">
+                <div style="display:flex; justify-content:space-between; align-items:baseline;"><div class="sk-lbl" style="font-size:9px;">{{ y.pos }}</div><div class="sk-mono" style="font-size:12px; font-weight:600; color:{{ y.wearCol }};">{{ y.wearTxt }}</div></div>
+                <div style="margin-top:3px; height:5px; border-radius:3px; background:rgba(255,255,255,.08); overflow:hidden;"><div style="height:5px; width:{{ y.wearW }}; background:{{ y.wearCol }};"></div></div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="margin-top:8px; padding-top:7px; border-top:1px solid rgba(255,255,255,.08); display:flex; justify-content:space-between; gap:8px;">
+            <div class="sk-lbl" style="font-size:9px; flex:none;">BRAKE TEMPS</div>
+            <div class="sk-mono" style="font-size:11px; color:var(--text,#F4F5F2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ f1Brakes }}</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ noF1 }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <sc-for list="{{ skTy }}" as="y" hint-placeholder-count="4">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="sk-lbl" style="width:22px; font-size:10px;">{{ y.pos }}</div>
+              <div style="flex:1; position:relative; height:6px; border-radius:3px; background:rgba(255,255,255,.08);">
+                <div style="position:absolute; top:0; left:{{ y.winL }}; width:{{ y.winW }}; height:6px; background:rgba(59,224,106,.3);"></div>
+                <div style="position:absolute; top:-3px; left:{{ y.mark }}; width:4px; height:12px; border-radius:2px; background:{{ y.fill }};"></div>
+              </div>
+              <div class="sk-mono" style="width:86px; text-align:right; font-size:11px; color:{{ y.bandCol }};">{{ y.band }}</div>
+            </div>
+          </sc-for>
+        </div>
+        </sc-if>
+      </div>
+
+      <!-- F1 telemetry: energy, DRS, fuel mix, brake bias, fuel -->
+      <sc-if value="{{ hasF1 }}" hint-placeholder-val="{{ false }}">
+      <div class="sk-card" style="flex:1; padding:14px 18px; display:flex; flex-direction:column; gap:9px; min-height:0;">
+        <div style="display:flex; justify-content:space-between; align-items:center;"><div class="sk-lbl">ENERGY · ERS</div><div class="sk-mono" style="font-size:11px; font-weight:700; letter-spacing:.1em; color:{{ f1ErsCol }};">{{ f1ErsMode }}</div></div>
+        <div style="display:flex; align-items:baseline; justify-content:space-between;"><div class="sk-num" style="font-size:38px; line-height:1; color:{{ f1ErsCol }};">{{ ersLabel }}</div><div class="sk-lbl" style="font-size:9px;">BATTERY</div></div>
+        <div style="height:12px; border-radius:6px; background:rgba(255,255,255,.07); overflow:hidden;"><div style="height:12px; width:{{ ersW }}; background:{{ f1ErsCol }}; border-radius:6px; transition:width 120ms linear;"></div></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div><div class="sk-lbl" style="font-size:8px;">DEPLOYED THIS LAP</div><div style="margin-top:4px; height:5px; border-radius:3px; background:rgba(255,255,255,.08); overflow:hidden;"><div style="height:5px; width:{{ f1DepW }}; background:var(--acc,#FF2D20);"></div></div></div>
+          <div><div class="sk-lbl" style="font-size:8px;">HARVESTED THIS LAP</div><div style="margin-top:4px; height:5px; border-radius:3px; background:rgba(255,255,255,.08); overflow:hidden;"><div style="height:5px; width:{{ f1HarvW }}; background:var(--good,#3BE06A);"></div></div></div>
+        </div>
+        <div style="display:grid; grid-template-columns:1.35fr 1fr 1fr; gap:8px;">
+          <div style="padding:7px 9px; border-radius:8px; background:{{ drsBg }}; border:1px solid {{ drsBorder }}; display:flex; align-items:center;"><div class="sk-mono" style="font-size:11px; font-weight:700; letter-spacing:.08em; color:{{ drsFg }}; white-space:nowrap;">{{ drsLabel }}</div></div>
+          <div style="padding:6px 9px; border-radius:8px; background:rgba(0,0,0,.28); border:1px solid rgba(255,255,255,.07);"><div class="sk-lbl" style="font-size:8px;">MIX</div><div class="sk-mono" style="font-size:13px; font-weight:700;">{{ f1Mix }}</div></div>
+          <div style="padding:6px 9px; border-radius:8px; background:rgba(0,0,0,.28); border:1px solid rgba(255,255,255,.07);"><div class="sk-lbl" style="font-size:8px;">BRAKE BIAS</div><div class="sk-mono" style="font-size:13px; font-weight:700;">{{ f1Bias }}</div></div>
+        </div>
+        <div style="margin-top:auto; padding-top:8px; border-top:1px solid rgba(255,255,255,.08);">
+          <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px;">
+            <div class="sk-num" style="font-size:24px; line-height:1;">{{ fuelLabel }}</div>
+            <div class="sk-mono" style="font-size:10px; color:var(--acc,#FF2D20); text-align:right; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ fuelNote }}</div>
+          </div>
+          <div style="margin-top:6px; height:6px; border-radius:3px; background:rgba(255,255,255,.07);"><div style="height:6px; border-radius:3px; width:{{ fuelW }}; background:linear-gradient(90deg, color-mix(in oklch, var(--acc,#FF2D20) 45%, transparent), var(--acc,#FF2D20));"></div></div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- GT7: fuel and engine, the same dials as the other dashboards -->
+      <sc-if value="{{ noF1 }}" hint-placeholder-val="{{ true }}">
+      <div class="sk-card" style="flex:1; padding:14px 18px; display:flex; flex-direction:column; gap:8px;">
+        <div class="sk-lbl">FUEL &amp; ENGINE</div>
+        <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px;">
+          <div class="sk-num" style="font-size:38px; line-height:1;">{{ fuelLabel }}</div>
+          <div class="sk-mono" style="font-size:10px; color:var(--acc,#FF2D20); text-align:right; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ fuelNote }}</div>
+        </div>
+        <div style="height:7px; border-radius:4px; background:rgba(255,255,255,.07);"><div style="height:7px; border-radius:4px; width:{{ fuelW }}; background:linear-gradient(90deg, color-mix(in oklch, var(--acc,#FF2D20) 45%, transparent), var(--acc,#FF2D20));"></div></div>
+        <div style="display:flex; gap:16px; justify-content:center; align-items:center; margin-top:4px;">
+          <div style="position:relative; width:92px; height:92px;">
+            <svg width="92" height="92" viewBox="0 0 96 96" style="transform:rotate(135deg);"><circle cx="48" cy="48" r="40" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="8" stroke-linecap="round" stroke-dasharray="188.5 251.3"></circle><circle cx="48" cy="48" r="40" fill="none" stroke="{{ skWater.col }}" stroke-width="8" stroke-linecap="round" stroke-dasharray="{{ skWater.dash }}"></circle></svg>
+            <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;"><div class="sk-num" style="font-size:21px; line-height:1;">{{ skWater.txt }}</div><div class="sk-lbl" style="font-size:8px; margin-top:2px;">WATER</div></div>
+          </div>
+          <div style="position:relative; width:92px; height:92px;">
+            <svg width="92" height="92" viewBox="0 0 96 96" style="transform:rotate(135deg);"><circle cx="48" cy="48" r="40" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="8" stroke-linecap="round" stroke-dasharray="188.5 251.3"></circle><circle cx="48" cy="48" r="40" fill="none" stroke="{{ skOil.col }}" stroke-width="8" stroke-linecap="round" stroke-dasharray="{{ skOil.dash }}"></circle></svg>
+            <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;"><div class="sk-num" style="font-size:21px; line-height:1;">{{ skOil.txt }}</div><div class="sk-lbl" style="font-size:8px; margin-top:2px;">OIL</div></div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:7px;">
+            <sc-for list="{{ skCar }}" as="r" hint-placeholder-count="2"><div><div class="sk-lbl" style="font-size:8px;">{{ r.k }}</div><div class="sk-mono" style="font-size:13px; font-weight:600;">{{ r.v }}</div></div></sc-for>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <!-- bottom: speed trace, radio log, engineer -->
+  <div style="flex:none; height:198px; display:grid; grid-template-columns:minmax(0,1fr) 320px 520px; gap:14px;">
+    <div class="sk-card" style="padding:12px 16px; display:flex; flex-direction:column; gap:8px; min-width:0;">
+      <div style="display:flex; justify-content:space-between; gap:14px;">
+        <div class="sk-lbl" style="min-width:0;">{{ traceHead }}</div><div class="sk-lbl" style="flex:none;">{{ traceLabel }}</div>
+      </div>
+      <sc-if value="{{ showSpeedTrace }}" hint-placeholder-val="{{ true }}">
+        <div style="flex:1; display:flex; align-items:flex-end; gap:1px; min-height:0;">
+          <sc-for list="{{ trace }}" as="b" hint-placeholder-count="90"><div style="flex:1; height:{{ b.h }}; background:{{ b.bg }}; border-radius:2px 2px 0 0;"></div></sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ showDeltaTrace }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1; position:relative; display:flex; gap:1px; min-height:0;">
+          <div style="position:absolute; left:0; right:0; top:50%; height:1px; background:rgba(255,255,255,.14);"></div>
+          <sc-for list="{{ deltaTrace }}" as="b" hint-placeholder-count="120">
+            <div style="flex:1; height:100%; display:flex; flex-direction:column;">
+              <div style="flex:1; display:flex; align-items:flex-end;"><div style="width:100%; height:{{ b.up }}; background:{{ b.bg }}; border-radius:1px 1px 0 0;"></div></div>
+              <div style="flex:1;"><div style="width:100%; height:{{ b.down }}; background:{{ b.bg }}; border-radius:0 0 1px 1px;"></div></div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+
+    <div class="sk-card" style="padding:12px 16px; display:flex; flex-direction:column; gap:7px; min-width:0; overflow:hidden;">
+      <div style="display:flex; justify-content:space-between; gap:10px;"><div class="sk-lbl">RADIO LOG</div><div class="sk-lbl">{{ chatterLabel }}</div></div>
+      <div style="flex:1; display:flex; flex-direction:column; gap:6px; overflow:hidden;">
+        <sc-for list="{{ radioLog }}" as="line" hint-placeholder-count="4">
+          <div style="display:flex; gap:10px; align-items:flex-start;">
+            <div class="sk-mono" style="font-size:8px; width:62px; flex:none; padding-top:4px; color:{{ line.tagColor }};">{{ line.tag }}</div>
+            <div style="flex:1; font-size:15px; line-height:1.25; color:{{ line.color }};">{{ line.text }}</div>
+          </div>
+        </sc-for>
+        <sc-if value="{{ noRadioLog }}" hint-placeholder-val="{{ false }}"><div class="sk-mono" style="font-size:11px; color:var(--dim,#7A8290);">Nothing on the radio yet.</div></sc-if>
+      </div>
+    </div>
+
+    <div class="sk-card" style="padding:12px 16px; display:flex; flex-direction:column; gap:8px; border-color:color-mix(in oklch, var(--acc,#FF2D20) 55%, transparent); min-width:0;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:48px; height:48px; flex:none; border-radius:50%; background-size:cover; background-position:center; background-image:{{ skEngImg }}; border:2px solid var(--acc,#FF2D20); box-shadow:0 0 18px color-mix(in oklch, var(--acc,#FF2D20) 40%, transparent);"></div>
+        <div style="flex:1; min-width:0;">
+          <div style="display:flex; justify-content:space-between; gap:10px;"><div class="sk-lbl" style="color:var(--acc,#FF2D20);">{{ skEngName }} · RACE ENGINEER</div><div class="sk-lbl" style="flex:none;">{{ engineerState }}</div></div>
+          <div style="font-size:16px; line-height:1.2; margin-top:2px; max-height:38px; overflow:hidden;">{{ engineerLine }}</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
+  <div class="sk-lbl" style="flex:none;">MIC</div>
+  <div style="flex:1; min-width:0; display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+    <sc-for list="{{ micOpts }}" as="m" hint-placeholder-count="2">
+      <div onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</div>
+    </sc-for>
+  </div>
+</div>
+<div style="{{ micLineStyle }}">{{ micLine }}</div>
+<div style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px;">
+  <sc-for list="{{ asks }}" as="a" hint-placeholder-count="6">
+    <div onClick="{{ a.go }}" style="cursor:pointer; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.02em; padding:6px 3px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); border-radius:8px; color:var(--text,#F4F5F2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" style-hover="background:var(--acc,#E8FF3A); color:var(--bg,#07080A);">{{ a.label }}</div>
+  </sc-for>
+</div>
+
     </div>
   </div>
 </div>
@@ -1870,7 +2159,7 @@
           <div style="color:var(--acc,#E8FF3A);"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style="display:block;"><circle cx="12" cy="12" r="8"></circle><path d="M12 4a8 8 0 010 16z" fill="currentColor" stroke="none"></path></svg></div>
           <div style="margin-top:auto; display:flex; flex-direction:column; gap:3px;">
             <div style="font-size:18px; font-weight:600; letter-spacing:-0.01em;">Themes</div>
-            <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; line-height:1.4; color:var(--dim,#7C817B); overflow-wrap:anywhere;">FOUR DASHBOARDS</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.1em; line-height:1.4; color:var(--dim,#7C817B); overflow-wrap:anywhere;">FIVE DASHBOARDS</div>
           </div>
         </div>
       </div>
@@ -1886,9 +2175,9 @@
         <div style="font-size:26px; font-weight:600; letter-spacing:-0.01em;">Themes</div>
       </div>
     </div>
-    <div style="flex:1; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:14px; min-height:0;">
+    <div style="flex:1; display:grid; grid-template-columns:repeat(6, 1fr); grid-template-rows:1fr 1fr; gap:14px; min-height:0;">
       <sc-for list="{{ themeCards }}" as="c" hint-placeholder-count="4">
-      <div onClick="{{ c.pick }}" style="cursor:pointer; display:flex; flex-direction:column; min-height:0; overflow:hidden; border-radius:14px; background:{{ c.panel }}; border:1px solid {{ c.border }}; box-shadow:{{ c.glow }};">
+      <div onClick="{{ c.pick }}" style="grid-column:span {{ c.span }}; cursor:pointer; display:flex; flex-direction:column; min-height:0; overflow:hidden; border-radius:14px; background:{{ c.panel }}; border:1px solid {{ c.border }}; box-shadow:{{ c.glow }};">
         <div style="flex:1; min-height:0; background:{{ c.bg }}; overflow:hidden;"><img src="{{ c.img }}" alt="" style="display:block; width:100%; height:100%; object-fit:cover; object-position:center top;"></div>
         <div style="flex:none; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; gap:16px;">
           <div style="min-width:0;">
@@ -2246,7 +2535,8 @@ const THEMES = {
   "COCKPIT": { skin:"cockpit", img:"cockpit.jpg", acc:"#E8FF3A", bg:"#07080A", panel:"#0E1013", line:"#1D2024", text:"#F4F5F2", dim:"#7C817B", pos:"#3BE06A", neg:"#F2564B", },
   "GLANCE HUD": { skin:"glance", img:"glance.jpg", acc:"#E8FF3A", bg:"#05060A", panel:"#0A0D14", line:"#1A2029", text:"#F4F5F2", dim:"#6B7280", pos:"#3BE06A", neg:"#F2564B", },
   "TRACK HERO": { skin:"track", img:"track.jpg", acc:"#4EA8FF", bg:"#05070B", panel:"#0A0F16", line:"#18212C", text:"#F4F5F2", dim:"#6E7886", pos:"#3BE06A", neg:"#F2564B", },
-  "HERITAGE CLUSTER": { skin:"heritage", img:"heritage.jpg", acc:"#FF6A13", bg:"#0A0A0B", panel:"#101012", line:"#26262A", text:"#E9E3D2", dim:"#8C8776", pos:"#3BE06A", neg:"#E0372B", }
+  "HERITAGE CLUSTER": { skin:"heritage", img:"heritage.jpg", acc:"#FF6A13", bg:"#0A0A0B", panel:"#101012", line:"#26262A", text:"#E9E3D2", dim:"#8C8776", pos:"#3BE06A", neg:"#E0372B", },
+  "F1 TELEMETRY": { skin:"f1", img:"f1.jpg", acc:"#FF2D20", bg:"#060709", panel:"#0C0E12", line:"#1B1F26", text:"#F4F5F2", dim:"#7A8290", pos:"#3BE06A", neg:"#F2564B", }
 };
 // State inks. Every warning, gain and heat colour comes from here so a light
 // theme is not left with dark-theme neons on paper white.
@@ -2257,7 +2547,7 @@ const INKS = t => (t && t.light
 INK = INKS(null);
 const DEFAULT_SUB = { sub: "#12151A", sunk: "#0B0D10" };
 const VIEWS = ["HOME","RACE","SETUP","CREW","ENGINEER","ANALYSIS","PRO","RECORDS","COACH","THEMES"];
-const T_ORDER = ["COCKPIT", "GLANCE HUD", "TRACK HERO", "HERITAGE CLUSTER"];
+const T_ORDER = ["COCKPIT", "GLANCE HUD", "TRACK HERO", "HERITAGE CLUSTER", "F1 TELEMETRY"];
 
 const GAMES = [
   { code:"GT",  name:"Gran Turismo 7", transport:"PlayStation 5", state:"LINKED" },
@@ -2300,7 +2590,7 @@ class Component extends DCLogic {
     delta: 0, lapT: 0, last: 0, best: 0,
     fuel: 0, ers: 0, bias: 0, tyres: [0, 0, 0, 0], press: [0, 0, 0, 0],
     wear: [0, 0, 0, 0], brakeTemp: 0, session: 0, radioOn: false,
-    micMode: "hold", listening: false, heard: "", pttPad: null, pttBind: false,
+    micMode: "always", listening: false, heard: "", pttPad: null, pttBind: false,
     engineerLine: "No telemetry yet. Start the bridge and I'll be on the radio.",
     log: [
     ]
@@ -2329,9 +2619,9 @@ class Component extends DCLogic {
         this.forceUpdate();
       })
       .catch(e => console.error("page modules failed to load", e));
-    Promise.all([import("./live-delta.js"), import("./race-coach.js"), import("./lap-trace.js"), import("./race-strategy.js")])
-      .then(([D, C, L, S]) => {
-        this.DX = D; this.CO = C; this.LT = L; this.ST = S;
+    Promise.all([import("./live-delta.js"), import("./race-coach.js"), import("./lap-trace.js"), import("./race-strategy.js"), import("./voice-intent.js")])
+      .then(([D, C, L, S, V]) => {
+        this.DX = D; this.CO = C; this.LT = L; this.ST = S; this.VI = V;
         this.dx = new D.LiveDeltaEngine({ mode: this.state.refMode });
         this.coach = new C.RaceCoach();
         this.coach.setPersona(this.state.persona);
@@ -2361,6 +2651,11 @@ class Component extends DCLogic {
     window.__dash = this;
     this.feed = d => { this.live = d; this.liveAt = performance.now(); this.everLive = true; this.applyLive(d); };
     this._padTimer = setInterval(this.pollPads, 60);
+    // the microphone opens on the first touch: browsers want a gesture first, and the radio must be on
+    this._firstTouch = () => { if (this.state.radioOn && this.hands() && !this.wantMic) { this.wantMic = true; this.startRec(); } };
+    window.addEventListener("pointerdown", this._firstTouch, { once: true });
+    // the apps need no gesture: the radio is on from the start, so the channel opens by itself
+    if (/Electron\//.test(navigator.userAgent || "") || (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())) setTimeout(this._firstTouch, 3000);
   }
   componentDidUpdate(p, s) { if (!s || s.theme !== this.state.theme) this.applyTheme(); }
   componentWillUnmount() {
@@ -2380,8 +2675,9 @@ class Component extends DCLogic {
     try { saved = JSON.parse(localStorage.getItem("gt7dash.settings") || "null"); } catch (e) {}
     const m = String(this.props.telemetryUrl || "ws://localhost:8091").match(/^wss?:\/\/([^:/]+)(?::(\d+))?/);
     const next = { bridgeHost: m ? m[1] : "localhost", bridgePort: m && m[2] ? m[2] : "8091" };
-    const keys = ["bridgeHost", "bridgePort", "psIp", "persona", "voiceName", "voiceSex", "refMode", "chatter", "theme", "raceLaps", "targetStops", "pitLoss", "ghostOn", "engineerPick", "speedUnit", "pttPad", "tempUnit", "seats", "seat"];
+    const keys = ["bridgeHost", "bridgePort", "psIp", "persona", "voiceName", "voiceSex", "refMode", "chatter", "theme", "raceLaps", "targetStops", "pitLoss", "ghostOn", "engineerPick", "speedUnit", "pttPad", "tempUnit", "seats", "seat", "sourceMode"];
     if (saved) keys.forEach(k => { if (saved[k]) next[k] = saved[k]; });
+    if (next.theme === "F1 WHEEL") next.theme = "F1 TELEMETRY";   // the first version of the F1 skin
     if (next.theme && !THEMES[next.theme]) next.theme = "COCKPIT";   // old saved theme names fall back to the default
     if (saved && saved.focus) next.focus = saved.focus;
     next.ipDraft = next.psIp || "";
@@ -2401,7 +2697,7 @@ class Component extends DCLogic {
         persona: s.persona, voiceName: s.voiceName, voiceSex: s.voiceSex, refMode: s.refMode,
         chatter: s.chatter, theme: s.theme, focus: s.focus, engineerPick: s.engineerPick,
         raceLaps: s.raceLaps, targetStops: s.targetStops, pitLoss: s.pitLoss, ghostOn: s.ghostOn,
-        seats: s.seats, seat: s.seat,
+        seats: s.seats, seat: s.seat, sourceMode: s.sourceMode,
         speedUnit: s.speedUnit, tempUnit: s.tempUnit
       }));
     } catch (e) {}
@@ -2577,7 +2873,21 @@ class Component extends DCLogic {
   };
   setSource = (mode) => {
     const host = this.state.bridgeHost || "localhost";
-    this.setState({ sourceMode: mode, sourceBusy: true, sourceNote: "Switching\u2026" });
+    const note = mode === "auto"
+      ? "Looking for whichever game is streaming. Start either one."
+      : mode === "f1"
+      ? "Listening for F1 on UDP " + (this.state.udpDraft || 20777) + ". Point the game at this computer, then go on track."
+      : "Looking for your PlayStation. Go on track in GT7.";
+    this.set({ sourceMode: mode });
+    if (this.ws && this.wsOpen && this.meta && this.meta.source) {
+      try {
+        this.ws.send(JSON.stringify({ type: "mode", mode }));
+        this.everLive = false; this.live = null; this.pps = 0;
+        this.setState({ sourceBusy: false, sourceNote: note });
+        return;
+      } catch (e) {}
+    }
+    this.setState({ sourceBusy: true, sourceNote: "Switching\u2026" });
     fetch("http://" + host + ":8090/re/source?mode=" + mode, { cache: "no-store" })
       .then(r => r.ok ? r.json() : Promise.reject(new Error(String(r.status))))
       .then(() => {
@@ -2633,6 +2943,7 @@ class Component extends DCLogic {
 
   partialIdent() {
     if (this._liveTrackId || !this.CAT || !this.CAT.identifyPartial || !this.rec) return;
+    if (this.live && this.live.f1) return; // F1 sends no positions, so there is no lap shape to match
     const now = performance.now();
     if (this._pAt && now - this._pAt < 2000) return;
     this._pAt = now;
@@ -2653,11 +2964,16 @@ class Component extends DCLogic {
     try { this.ws && (this.ws.onclose = null, this.ws.onmessage = null, this.ws.close()); } catch (e) {}
     try {
       const ws = this.openLink(url); this.ws = ws;
-      ws.onopen = () => { this.wsOpen = true; this._retryN = 0; this.forceUpdate(); };
+      ws.onopen = () => { this.wsOpen = true; this._retryN = 0; this._modeSynced = false; this.forceUpdate(); };
       ws.onmessage = e => {
         let d; try { d = JSON.parse(e.data); } catch (x) { return; }
         if (d.type === "meta") {
           this.meta = d; this.pps = d.pps;
+          if (!this._modeSynced) {
+            this._modeSynced = true;
+            const want = this.state.sourceMode;
+            if (want && d.source && want !== d.source) { try { this.ws.send(JSON.stringify({ type: "mode", mode: want })); } catch (e) {} }
+          }
           if (d.ip && !this.state.ipDraft) this.setState({ ipDraft: d.ip });
           this.forceUpdate(); return;
         }
@@ -2672,7 +2988,7 @@ class Component extends DCLogic {
       ws.onclose = () => {
         this.wsOpen = false; this.ws = null;
         const n = (this._retryN = (this._retryN || 0) + 1);
-        this._retry = setTimeout(() => this.connectLive(), Math.min(8000, 700 * n));
+        this._retry = setTimeout(() => this.connectLive(), Math.min(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) ? 1500 : 8000, 700 * n));
         this.forceUpdate();
       };
       ws.onerror = () => {};
@@ -2716,7 +3032,7 @@ class Component extends DCLogic {
       if (this.state.game !== "F1 25") next.game = "F1 25";
       const now = performance.now();
       if (!this._f1cAt || now - this._f1cAt > 2000) { this._f1cAt = now; this.f1Coach(FX); }
-    }
+    } else if (this.state.game === "F1 25") next.game = "Gran Turismo 7";   // back from F1: the label follows the frames
     this.setState(next);
 
     // car id change = new race (GT7 sends no such event); reset engine + track
@@ -3462,6 +3778,7 @@ class Component extends DCLogic {
     return this._tts;
   }
   speak(text) {
+    this._lastSaid = text;
     if (!this.state.radioOn) return;
     if (this.speaking) return;
     const T = this.nativeTts();
@@ -3470,7 +3787,7 @@ class Component extends DCLogic {
       this.speaking = true;
       clearTimeout(this._spkGuard);
       this._spkGuard = setTimeout(() => { this.speaking = false; }, 25000);
-      T.speak({ text: this.humanise(text), rate: plan.rate, pitch: plan.pitch, volume: plan.volume, female: plan.sex !== "MALE" })
+      T.speak({ text: this.humanise(text), rate: plan.rate, pitch: plan.pitch, volume: plan.volume, female: plan.sex !== "MALE", slot: plan.slot || 0, lang: (plan.langs || [])[0] || "en-GB" })
         .catch(() => { this.speaking = false; });
       return;
     }
@@ -3568,7 +3885,7 @@ class Component extends DCLogic {
     const byNames = names => {
       const out = [];
       names.forEach(n => pool.forEach(x => {
-        if ((x.name || "").indexOf(n) === 0 && out.indexOf(x) < 0) out.push(x);
+        if ((x.name || "").replace(/^Microsoft /, "").indexOf(n) === 0 && out.indexOf(x) < 0) out.push(x);
       }));
       return out;
     };
@@ -3603,7 +3920,8 @@ class Component extends DCLogic {
       const cue = this.sessionCue() || (this.ROS && this.ROS.byId(this.state.engineerPick || "wren").radioCue)
         || "Radio check. Loud and clear.";
       setTimeout(() => this.say(cue), 120);
-    } else { try { window.speechSynthesis.cancel(); } catch (e) {} try { const T = this.nativeTts(); T && T.stop(); } catch (e) {} this.speaking = false; }
+      if (this.hands()) { this.wantMic = true; this.startRec(); }
+    } else { this.stopRec(); try { window.speechSynthesis.cancel(); } catch (e) {} try { const T = this.nativeTts(); T && T.stop(); } catch (e) {} this.speaking = false; }
   };
   say(text) {
     this.setState(s => ({ engineerLine: text, log: [{ tag: "L" + s.lap + " · RADIO", text }].concat(s.log).slice(0, 4) }));
@@ -3642,36 +3960,95 @@ class Component extends DCLogic {
     if ((this.state.micMode || "hold") === "hold") this.ptt(on);
   };
 
+  muted() { return this.speaking || Date.now() - (this._spokeEnd || 0) < 700; }
+  // the driver asked something: whatever the engineer was saying gives way to the answer, which is otherwise dropped
+  hush() {
+    try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch (e) {}
+    clearTimeout(this._spkT); clearTimeout(this._spkGuard); clearTimeout(this._gapT);
+    this._sp = false; this._spokeEnd = 0;
+  }
+  get speaking() { return !!this._sp; }
+  set speaking(v) { if (this._sp && !v) this._spokeEnd = Date.now(); this._sp = v; }
+
   setMicMode(m) {
+    m = m === "wake" ? "wake" : "always";
     this.setState({ micMode: m, heard: "" });
-    clearTimeout(this._reopen);
-    if (m === "hold") {
-      this.wantMic = false; this._consumed = 0;
-      try { this.rec && this.rec.stop(); } catch (e) {}
-      this.setState({ listening: false });
-      return;
-    }
     this.wantMic = true; this._consumed = 0;
     this.startRec();
   }
 
-  ptt(down) {
-    if (this.state.micMode !== "hold") return;
-    if (down) { this.wantMic = false; this._consumed = 0; this.startRec(); return; }
-    try { this.rec && this.rec.stop(); } catch (e) {}
+  stopRec() {
+    this.wantMic = false;
+    clearTimeout(this._reopen);
+    try { this.sr && this.sr.stop(); } catch (e) {}
+    try { if (this._stt && this._sttOn) this._stt.stop(); } catch (e) {}
+    this._sttOn = false;
+    try { this._local && this._local.stop(); } catch (e) {}
+    this.setState({ listening: false });
+  }
+
+  // the phone's own speech recogniser, inside the Android app
+  nativeStt() {
+    const C = window.Capacitor;
+    if (!(C && C.isNativePlatform && C.isNativePlatform() && C.registerPlugin)) return null;
+    if (this._stt === undefined) {
+      try {
+        const N = C.registerPlugin("ApexaSpeech");
+        N.addListener("text", ev => this.heardSpeech(ev && ev.text, !!(ev && ev.final)));
+        N.addListener("state", ev => { if (this.wantMic) this.setState({ listening: !!(ev && ev.listening) }); });
+        N.addListener("error", ev => { this._sttOn = false; this._sttDead = true; if (this.wantMic) this.startLocal(); });
+        this._stt = N;
+      } catch (e) { this._stt = null; }
+    }
+    return this._sttDead ? null : this._stt;
+  }
+
+  // one place every speech engine reports to
+  heardSpeech(txt, fin) {
+    txt = String(txt || "").trim();
+    if (!txt || this.muted()) return;
+    this.setState({ heard: txt });
+    if (!fin) return;
+    this._consumed = 0;
+    this.heardText = txt;
+    this.dispatchHeard();
+  }
+
+  startLocal() {
+    if (this._local && this._local.on) return;
+    this.setState({ listening: true, heard: "Starting the microphone…" });
+    import("./voice-local.js").then(M => {
+      if (!this._local) this._local = new M.LocalListener({
+        onText: t => this.heardSpeech(t, true),
+        onStatus: t => this.setState({ heard: t === "Listening." ? "" : t }),
+        muted: () => this.muted() });
+      return this._local.start();
+    }).then(() => { if (this.wantMic) this.setState({ listening: true }); else this._local.stop(); }).catch(e => {
+      this._local = null;
+      this.setState({ listening: false, heard: e && (e.name === "NotAllowedError" || e.name === "SecurityError")
+        ? "Microphone blocked — allow microphone access for Apexa and tap ALWAYS ON again."
+        : "No microphone found on this device." });
+    });
   }
 
   startRec() {
+    if (this.sr || this._sttOn || (this._local && this._local.on)) return;
+    const N = this.nativeStt();
+    if (N) {
+      this._sttOn = true;
+      N.start({ lang: "en-GB" }).catch(() => { this._sttOn = false; this._sttDead = true; if (this.wantMic) this.startLocal(); });
+      return;
+    }
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) { this.setState({ heard: "This browser has no speech recognition — use Chrome, or tap a question." }); return; }
-    if (this.rec) return;
+    // the desktop app's Chromium has the API but no speech service behind it
+    if (!SR || this._webDead || /Electron/i.test(navigator.userAgent || "")) { this.startLocal(); return; }
     try {
-      const r = new SR(); this.rec = r;
+      const r = new SR(); this.sr = r;
       r.lang = "en-GB"; r.continuous = true; r.interimResults = true; r.maxAlternatives = 1;
       r.onresult = e => {
         let txt = "", fin = false;
         for (let k = 0; k < e.results.length; k++) { txt += e.results[k][0].transcript; if (e.results[k].isFinal) fin = true; }
-        if (this.speaking) { return; }
+        if (this.muted()) { this._consumed = txt.length; return; }
         this.setState({ heard: txt });
         if (!fin) return;
         const line = txt.slice(this._consumed || 0);
@@ -3681,64 +4058,80 @@ class Component extends DCLogic {
       };
       r.onerror = e => {
         const why = e && e.error;
-        this.rec = null;
+        this.sr = null;
+        if (why === "network" || why === "service-not-allowed" || why === "language-not-supported") {
+          this._webDead = true;                      // this browser has no working speech service: use the offline model
+          if (this.wantMic) this.startLocal();
+          return;
+        }
         this.setState({ listening: false, heard:
-          why === "not-allowed" || why === "service-not-allowed" ? "Microphone blocked — allow mic access for this page."
-          : why === "network" ? "Speech service unreachable. Tap a question instead."
-          : why === "no-speech" ? "" : "Radio trouble" + (why ? ": " + why : "") + "." });
-        if (this.hands() && this.wantMic && why === "no-speech") {
-          this._reopen = setTimeout(() => { if (this.wantMic && !this.rec) this.startRec(); }, 400);
+          why === "not-allowed" ? "Microphone blocked — allow microphone access for this page."
+          : why === "no-speech" || why === "aborted" ? "" : "Radio trouble" + (why ? ": " + why : "") + "." });
+        if (this.wantMic && (why === "no-speech" || why === "aborted")) {
+          this._reopen = setTimeout(() => { if (this.wantMic && !this.sr) this.startRec(); }, 400);
         }
       };
       r.onend = () => {
-        this.rec = null;
-        if (this.hands() && this.wantMic) {
+        this.sr = null;
+        if (this.wantMic) {
           this._consumed = 0;
           clearTimeout(this._reopen);
-          this._reopen = setTimeout(() => { if (this.wantMic && !this.rec) this.startRec(); }, 350);
+          this._reopen = setTimeout(() => { if (this.wantMic && !this.sr) this.startRec(); }, 350);
           return;
         }
         this.setState({ listening: false });
-        this.dispatchHeard();
       };
       this._consumed = 0; this.heardText = "";
       r.start();
       this.setState({ listening: true });
     } catch (e) {
-      this.rec = null;
-      this.setState({ listening: false, heard: "Microphone not available in this view." });
+      this.sr = null;
+      this.setState({ listening: false, heard: "Microphone not available." });
     }
   }
 
   dispatchHeard() {
     let q = (this.heardText || "").trim();
     if (!q) return;
-    if (this.state.micMode === "wake") {
-      const w = this.ROS && this.ROS.wakeMatch ? this.ROS.wakeMatch(q, this.state.engineerPick || "wren") : null;
-      if (!w) { this.setState({ heard: "…" }); return; }
-      q = w.rest;
-      if (!q) { this.setState({ heard: "Go ahead." }); return; }
-    }
+    this.heardText = "";
+    // an utterance that starts with the engineer's name is addressed to them in either mode
+    const w = this.ROS && this.ROS.wakeMatch ? this.ROS.wakeMatch(q, this.state.engineerPick || "wren") : null;
+    let addressed = false;
+    if (w) { addressed = true; q = w.rest; if (!q) { this.setState({ heard: "Go ahead." }); return; } }
+    else if (this.state.micMode === "wake") { this.setState({ heard: "…" }); return; }
     if (q.replace(/[^a-z]/gi, "").length < 3) return;
     if (/^(yes|yeah|no|ok|okay|right|thanks|thank you|come on)$/i.test(q)) return;
-    this.heardText = "";
     this.setState({ heard: "" });
-    this.ask(q);
+    this.ask(q, addressed || this.state.micMode === "wake");
   }
 
-  ask(q) {
-    const k = q.toLowerCase();
-    const id =
-      /gap|behind|ahead|catch|interval/.test(k) ? "gap" :
-      /position|where am i|update|standing|race|p\d|leader|points/.test(k) ? "race" :
-      /tyre|tire|temp|rubber|grip/.test(k) ? "tyre" :
-      /fuel|litre|liter|petrol|save/.test(k) ? "fuel" :
-      /delta|how am i|pace|predicted|on it/.test(k) ? "delta" :
-      /gain|faster|quicker|improve|better|find time/.test(k) ? "gain" :
-      /time|losing|lost|slower|sector|where/.test(k) ? "time" : null;
+  ask(q, addressed) {
+    const VI = this.VI;
+    const I = VI ? VI.parseIntent(q) : { id: null };
+    if (!I.id) {
+      // free speech: a racing question the data cannot answer gets a polite reply; plain chatter on an open channel is shown, not answered
+      const worth = addressed || (I.question && I.concepts && I.concepts.length > 0);
+      if (!worth) {
+        this.setState({ heard: "Heard: “" + q.slice(0, 90) + "” — no request in that." });
+        clearTimeout(this._heardT);
+        this._heardT = setTimeout(() => { if (String(this.state.heard).indexOf("Heard:") === 0) this.setState({ heard: "" }); }, 4500);
+        return;
+      }
+    }
     this.setState(s2 => ({ log: [{ tag: "DRIVER", text: q, driver: true }].concat(s2.log).slice(0, 4) }));
-    if (id) { setTimeout(() => this.answer(id, true), 260); return; }
-    setTimeout(() => this.say("On this channel I handle pace, delta, tyres, fuel and where the time is going. Ask me one of those."), 260);
+    if (I.id === "note" || I.id === "feel") return this.takeNote(q, I);
+    if (I.id === "quiet") { this.set({ chatter: "Minimal" }); setTimeout(() => { this.hush(); this.say("Understood. Only the important calls."); }, 80); return; }
+    if (I.id === "loud") { this.set({ chatter: "Talkative" }); setTimeout(() => { this.hush(); this.say("Understood. I'll keep you posted."); }, 80); return; }
+    if (I.id) { this._slot = I.slots || {}; setTimeout(() => { this.hush(); this.answer(I.id, true); }, 20); return; }
+    setTimeout(() => { this.hush(); this.say(VI && VI.sorry ? VI.sorry(q) : "Didn't catch that. " + (VI ? VI.HELP_LINE : "Ask me about tyres, fuel or delta.")); }, 80);
+  }
+
+  // "Note, the front feels tight in the slow corners" / "I keep locking up": kept in the session log, acknowledged
+  takeNote(q, I) {
+    const text = (I.rest || q).trim();
+    this.setState(s => ({ coachLog: [{ lap: String(s.lap), corner: "DRIVER", event: "DRIVER_NOTE", said: text, change: null }].concat(s.coachLog).slice(0, 14) }));
+    const reply = I.feel ? I.feel.reply : text ? "Noted." : "Go ahead, I'm taking a note.";
+    setTimeout(() => { this.hush(); this.say(reply); }, 80);
   }
 
   answer(id, spoken) {
@@ -3783,7 +4176,16 @@ class Component extends DCLogic {
           })()
         : gainLine;
 
-    const F1D = live && this.lastFrame && this.lastFrame.f1 ? this.lastFrame.f1 : null;
+    // the F1 block and the engine fields live on the raw frame, not on the delta engine's normalised one
+    const F1D = live && this.live && this.live.f1 ? this.live.f1 : null;
+    // what the free-speech answers share: the raw frame, the stint planner, the race length and the fuel range
+    const slot = this._slot || {}; this._slot = null;
+    const LF = (live && this.live) || {}, plan = this._plan || {}, nowLap = s.lap || 0;
+    const total = Number(s.raceLaps) || (F1D && F1D.totalLaps) || LF.totalLaps || 0;
+    const prog = dxs && typeof dxs.trackProgress === "number" ? dxs.trackProgress : 0;
+    const toGo = total > 0 && nowLap > 0 ? Math.max(0, total - nowLap + (1 - prog)) : null;
+    const fuelLaps = this.fuelPerLap ? s.fuel / this.fuelPerLap : null;
+    const stintLaps = this.plan && this.plan.laps ? Math.max(0, this.plan.laps.length - this.plan.stint) : null;
     const lines = {
       gap: F1D && F1D.position
         ? this.coach.gapLine(
@@ -3793,19 +4195,108 @@ class Component extends DCLogic {
         ? "No gap and no position, GT7 only sends your own car. " + deltaLine
         : "Gap ahead is " + (2.4 - s.delta).toFixed(1) + ", behind you it's 0.9. You're two tenths a lap quicker than him.",
       race: this.coach.report({ frame: this.lastFrame || {}, delta: dxs || {} }),
-      tyre: hot
-        ? "Front left's the one to watch. " + Math.round(s.tyres[0]) + " degrees, just over the window. Other three are stable."
-        : "All four in the window. Front left " + Math.round(s.tyres[0]) + ", rears around " + Math.round(s.tyres[2]) + ".",
+      tyre: (() => {
+        const T4 = s.tyres, N4 = ["front left", "front right", "rear left", "rear right"];
+        if (!live || !(Math.max.apply(null, T4) > 0)) return "No tyre temperatures yet. Get the car moving.";
+        const hi = T4.indexOf(Math.max.apply(null, T4)), lo = T4.indexOf(Math.min.apply(null, T4));
+        if (T4[hi] > 103) return cap(N4[hi]) + " is over the window at " + Math.round(T4[hi]) + " degrees. " + (T4[hi] - T4[lo] > 12 ? "The " + N4[lo] + " is " + Math.round(T4[lo]) + ". You're leaning on one corner." : "The rest are close behind.");
+        if (T4[lo] < 60) return cap(N4[lo]) + " is still cold at " + Math.round(T4[lo]) + " degrees. Work it before you lean on it.";
+        return "All four in the window, " + Math.round(T4[lo]) + " to " + Math.round(T4[hi]) + " degrees.";
+      })(),
       fuel: live
-        ? "You've got " + s.fuel.toFixed(1) + " litres" + (this.fuelPerLap ? ", that's " + (s.fuel / perLap).toFixed(1) + " laps at " + perLap.toFixed(2) + " a lap." : ". Give me a full lap and I'll work out the burn.")
+        ? (!(s.fuel > 0) ? "I'm not getting a fuel reading yet."
+          : !this.fuelPerLap ? "You've got " + s.fuel.toFixed(1) + " litres. Give me a full lap and I'll work out the burn."
+          : "You've got " + s.fuel.toFixed(1) + " litres, about " + fuelLaps.toFixed(1) + " laps at " + perLap.toFixed(2) + " a lap." +
+            (toGo !== null ? (fuelLaps >= toGo ? " That's enough to finish" + (fuelLaps - toGo > 0.5 ? ", with " + (fuelLaps - toGo).toFixed(1) + " laps in hand." : ", but only just.")
+              : " That's " + (toGo - fuelLaps).toFixed(1) + " laps short of the flag. Lift and coast, or plan a stop.") : ""))
         : "You've got " + s.fuel.toFixed(1) + " litres, that's " + (s.fuel / 2.62).toFixed(1) + " laps. Plus one on the target.",
       delta: deltaLine,
       gain: gainLine,
-      time: timeLine
+      time: timeLine,
+      last: !(dxs && dxs.lastLapMs > 0) ? "No completed lap yet."
+        : "Last lap " + F(dxs.lastLapMs) + (dxs.bestLapMs > 0 && dxs.lastLapMs > dxs.bestLapMs + 20 ? ", " + T((dxs.lastLapMs - dxs.bestLapMs) / 1000) + " off your best." : dxs.bestLapMs > 0 && dxs.lastLapMs <= dxs.bestLapMs ? ", that's your best." : "."),
+      best: dxs && dxs.bestLapMs > 0 ? "Your best is " + F(dxs.bestLapMs) + "." : "No best lap yet. Give me a clean one.",
+      box: (() => {
+        const mx = Math.max.apply(null, s.tyres), laps = this.fuelPerLap ? s.fuel / this.fuelPerLap : null;
+        const fuelBit = laps !== null ? "Fuel for " + laps.toFixed(1) + " laps." : "I haven't measured the fuel burn yet.";
+        const tyreBit = mx > 0 ? " Hottest tyre " + Math.round(mx) + " degrees." : "";
+        return fuelBit + tyreBit + (laps !== null && laps < 3 ? " Fuel says box soon." : mx > 108 ? " The tyres are the reason to box." : " Nothing here says box. Your call.");
+      })(),
+      repeat: this._lastSaid || "Nothing to repeat yet.",
+      check: "Loud and clear.",
+      help: this.VI ? this.VI.HELP_LINE : "Ask me about tyres, fuel or delta.",
+      race: F1D && F1D.position > 0
+        ? "You're P" + F1D.position + (LF.carsOnTrack > 0 ? " of " + LF.carsOnTrack : "") + ". " + this.coach.gapLine(
+            typeof F1D.gapAheadMs === "number" && F1D.gapAheadMs > 0 ? F1D.gapAheadMs / 1000 : null,
+            typeof F1D.gapBehindMs === "number" && F1D.gapBehindMs > 0 ? F1D.gapBehindMs / 1000 : null)
+        : this.coach.report({ frame: this.lastFrame || {}, delta: dxs || {} }),
+      tyrelife: (() => {
+        if (!live) return "No signal yet. Once the car is moving I'll tell you how the tyres are holding up.";
+        const cmp = F1D && F1D.compound && F1D.compound !== "—" ? F1D.compound.toLowerCase() : "";
+        if (F1D && Array.isArray(F1D.wear) && F1D.wear.some(v => v > 0)) {
+          const Wr = F1D.wear, mx = Math.max.apply(null, Wr), at = Wr.indexOf(mx), age = F1D.tyreAge || 0, rate = age > 0 ? mx / age : 0;
+          const left = rate > 0.2 ? Math.max(0, Math.floor((75 - mx) / rate)) : null;
+          return "The " + (cmp ? cmp + "s are " : "tyres are ") + age + (age === 1 ? " lap" : " laps") + " old. The " + ["front left", "front right", "rear left", "rear right"][at] + " is the worst at " + Math.round(mx) + " percent wear." +
+            (left !== null ? (left > 0 ? " At this rate you've got roughly " + left + " laps before they're done." : " They're at the end, I'd box.") : "");
+        }
+        const parts = ["GT7 doesn't send tyre wear."], dg = plan.deg;
+        if (stintLaps !== null && stintLaps > 0) parts.push("You're " + stintLaps + (stintLaps === 1 ? " lap" : " laps") + " into this set.");
+        if (dg && dg.laps >= 4) {
+          if (dg.perLapS > 0.04) parts.push("Lap times are falling " + dg.perLapS.toFixed(2) + " a lap, about " + Math.max(1, Math.round(1 / dg.perLapS)) + " laps to a second down.");
+          else parts.push("Lap times are holding, so the tyres are too.");
+        } else parts.push("A few more clean laps and I can judge it.");
+        const T4 = s.tyres, hm = Math.max.apply(null, T4);
+        if (hm > 103) parts.push("Heat is what to watch: the " + ["front left", "front right", "rear left", "rear right"][T4.indexOf(hm)] + " is at " + Math.round(hm) + " degrees.");
+        return parts.join(" ");
+      })(),
+      weather: !live ? "No signal yet." : F1D && (F1D.weather || typeof F1D.trackC === "number")
+        ? (() => {
+            const bits = [];
+            if (F1D.weather) bits.push(cap(F1D.weather.toLowerCase()));
+            if (typeof F1D.trackC === "number") bits.push("track " + Math.round(F1D.trackC) + " degrees");
+            if (typeof F1D.airC === "number") bits.push("air " + Math.round(F1D.airC));
+            const rain = (F1D.forecast || []).find(x => x.rainPct >= 40);
+            return bits.join(", ") + "." + (rain ? " Rain is forecast in about " + rain.inMin + " minutes." : F1D.forecast && F1D.forecast.length ? " No rain in the forecast." : "");
+          })()
+        : "GT7 doesn't send the weather or track temperature, so I can't call that.",
+      engine: !live ? "No signal yet." : (() => {
+        const wt = LF.waterTemp > 0 ? LF.waterTemp : null, ot = LF.oilTemp > 0 ? LF.oilTemp : null, op = LF.oilPressure > 0 ? LF.oilPressure : null, f = slot.focus;
+        if (f === "boost") return typeof LF.boost === "number" && LF.boost > -0.5 ? "Boost is " + LF.boost.toFixed(2) + " bar." : "I'm not seeing boost on this car.";
+        if (wt === null && ot === null) return "I'm not getting engine temperatures from this game.";
+        const bits = [], hotW = wt !== null && wt > 112, hotO = ot !== null && ot > 135;
+        if ((f === "water" || f === "engine" || !f) && wt !== null) bits.push("water " + Math.round(wt) + " degrees" + (hotW ? ", running hot" : ""));
+        if ((f === "oil" || f === "engine" || !f) && ot !== null) bits.push("oil " + Math.round(ot) + " degrees" + (hotO ? ", running hot" : ""));
+        if ((f === "oil" || f === "engine") && op !== null) bits.push("oil pressure " + op.toFixed(1) + " bar");
+        if (!bits.length) return "I don't have that reading from this game.";
+        return cap(bits.join(", ")) + "." + (hotW || hotO ? " Back off a little and let it breathe." : " All in the normal range.");
+      })(),
+      laps: !live ? "No signal yet." : total > 0 && nowLap > total ? "You're on lap " + nowLap + ", past the " + total + " laps set for the race."
+        : total > 0 && nowLap > 0
+        ? "You're on lap " + nowLap + " of " + total + ", about " + toGo.toFixed(1) + " to go." + (fuelLaps !== null ? " Fuel covers " + fuelLaps.toFixed(1) + " laps." : "") + (F1D && F1D.timeLeftS > 0 ? " " + Math.round(F1D.timeLeftS / 60) + " minutes on the clock." : "")
+        : "I don't know the race length. You've done " + Math.max(0, nowLap - 1) + " laps so far." + (fuelLaps !== null ? " Fuel's good for " + fuelLaps.toFixed(1) + " more." : "") + " Set the race laps in Strategy and I'll count them down.",
+      brakes: !live ? "No signal yet." : F1D && Array.isArray(F1D.brakes) && F1D.brakes.some(v => v > 0)
+        ? (() => { const B = F1D.brakes, mx = Math.max.apply(null, B); return "Brakes are " + Math.round(Math.min.apply(null, B)) + " to " + Math.round(mx) + " degrees." + (mx > 950 ? " Very hot, ease off the late braking." : mx < 300 ? " Cold, get some heat in them." : " A healthy window."); })()
+        : "GT7 doesn't send brake temperatures, so I can't call fade.",
+      ers: !live ? "No signal yet." : F1D && typeof F1D.ers === "number"
+        ? (slot.focus === "drs" ? (F1D.drs === 1 ? "DRS is open." : F1D.drsAllowed ? "DRS is available, open it on the straight." : F1D.drsDistance > 0 ? "DRS opens in " + F1D.drsDistance + " metres." : "No DRS yet.")
+            : "Battery at " + Math.round(F1D.ers * 100) + " percent, mode " + String(F1D.ersMode || "").toLowerCase() + ".")
+        : "That's an F1 thing. GT7 doesn't send hybrid energy or DRS.",
+      pressure: !live ? "No signal yet." : F1D && Array.isArray(F1D.press) && F1D.press.some(v => v > 0)
+        ? "Pressures: front left " + F1D.press[0].toFixed(1) + ", front right " + F1D.press[1].toFixed(1) + ", rear left " + F1D.press[2].toFixed(1) + ", rear right " + F1D.press[3].toFixed(1) + "."
+        : "GT7 doesn't send tyre pressures. I can give you the temperatures.",
+      compound: !live ? "No signal yet." : F1D && F1D.compound && F1D.compound !== "—"
+        ? "You're on the " + F1D.compound.toLowerCase() + "s" + (F1D.tyreAge ? ", " + F1D.tyreAge + " laps old." : ".")
+        : "GT7 doesn't tell me which compound you're on.",
+      unsupported: slot.topic === "damage" ? "I can't see damage in the telemetry. Tell me what's wrong and I'll log it."
+        : slot.topic === "setup" ? "I can't read or change the setup from here. Tell me how it feels and I'll log it."
+        : this.VI && this.VI.sorry ? this.VI.sorry("") : "That one's outside what the car sends me."
     };
-    const q = { gap: "What's the gap?", race: "Race update?", tyre: "Tyre status?", fuel: "Fuel?", delta: "How's my delta?", gain: "Where can I gain?", time: "Where am I losing time?" };
+    const q = { gap: "What's the gap?", race: "Race update?", tyre: "Tyre status?", fuel: "Fuel?", delta: "How's my delta?", gain: "Where can I gain?", time: "Where am I losing time?",
+      last: "Last lap?", best: "Best lap?", box: "Should I box?", repeat: "Say again?", check: "Radio check?", help: "What can you do?",
+      tyrelife: "How long will the tyres last?", weather: "What's the weather?", engine: "How's the engine?", laps: "How many laps to go?", brakes: "How are the brakes?",
+      ers: "How's the battery?", pressure: "Tyre pressures?", compound: "Which tyres am I on?", unsupported: "Can you see the damage?" };
     if (!spoken) this.setState(s2 => ({ log: [{ tag: "DRIVER", text: q[id], driver: true }].concat(s2.log).slice(0, 4) }));
-    setTimeout(() => this.say(lines[id]), 260);
+    setTimeout(() => this.say(lines[id]), spoken ? 20 : 260);   // a spoken question gets its answer at once
   }
 
   editSel(demo, s, mutate) {
@@ -4064,41 +4555,17 @@ class Component extends DCLogic {
         : x.press + " · " + x.wear
     }));
 
-    const micOpts = [["hold", "HOLD"], ["always", "ALWAYS ON"], ["wake", "WAKE WORD"]].map(o => {
-      const on = (s.micMode || "hold") === o[0];
+    const micOpts = [["always", "ALWAYS ON"], ["wake", "WAKE WORD"]].map(o => {
+      const on = (s.micMode || "always") === o[0];
       return { label: o[1], go: () => this.setMicMode(o[0]),
         style: { cursor: "pointer", fontFamily: "'IBM Plex Mono',monospace", fontSize: "9px", letterSpacing: "0.1em",
           padding: "7px 9px", borderRadius: "2px", textAlign: "center",
           border: "1px solid " + (on ? t.acc : t.line), background: on ? t.acc : "transparent", color: on ? t.bg : t.dim } };
     });
     const micLine = s.heard ? s.heard
-      : s.micMode === "always" ? "Channel open — just talk."
-      : s.micMode === "wake" ? "Say “" + ((this.ROS && this.ROS.byId(s.engineerPick || "wren").name) || "engineer") + "”, then your question."
-      : s.listening ? "Listening — release to send."
-      : "Hold TALK and speak, or tap a question.";
-    const padBound = !!s.pttPad;
-    const pttBtn = {
-      bound: padBound && !s.pttBind,
-      label: s.pttBind ? "PRESS A WHEEL BUTTON…" : padBound ? s.pttPad.id + " · BTN " + s.pttPad.button : "BIND PUSH-TO-TALK",
-      go: () => this.setState({ pttBind: !s.pttBind }),
-      clear: () => { this.set({ pttPad: null }); this.setState({ pttBind: false }); },
-      style: { cursor: "pointer", flex: "1", minWidth: "0", overflow: "hidden", textOverflow: "ellipsis",
-        whiteSpace: "nowrap", fontFamily: "'IBM Plex Mono',monospace", fontSize: "9px", letterSpacing: "0.1em",
-        padding: "7px 9px", borderRadius: "2px", textAlign: "center",
-        border: "1px solid " + (s.pttBind || padBound ? t.acc : t.line),
-        background: s.pttBind ? t.acc : "transparent",
-        color: s.pttBind ? t.bg : padBound ? t.acc : t.dim }
-    };
-    const isHold = (s.micMode || "hold") === "hold";
-    const talkBtn = {
-      show: isHold,
-      down: () => this.ptt(true), up: () => this.ptt(false),
-      label: s.listening ? "LISTENING" : "TALK",
-      style: { cursor: "pointer", userSelect: "none", touchAction: "none", flex: "none",
-        fontFamily: "'IBM Plex Mono',monospace", fontSize: "9px", letterSpacing: "0.14em",
-        padding: "7px 14px", borderRadius: "2px", textAlign: "center",
-        border: "1px solid " + t.acc, background: s.listening ? t.acc : "transparent",
-        color: s.listening ? t.bg : t.acc } };
+      : !s.radioOn ? "Radio is off. Switch it on to talk to the engineer."
+      : s.listening ? (s.micMode === "wake" ? "Say “" + ((this.ROS && this.ROS.byId(s.engineerPick || "wren").name) || "engineer") + "”, then your question." : "Listening — just talk.")
+      : "Opening the microphone…";
 
     const NAV = [["HOME", "HOME"], ["RACE", "RACE"], ["SETUP", "SETUP"], ["ENGINEER", "CREW"],
       ["ANALYSIS", "ANALYSIS"], ["PRO", "PRO"], ["RECORDS", "RECORDS"], ["COACH", "COACH"], ["THEMES", "THEMES"]];
@@ -4357,6 +4824,7 @@ class Component extends DCLogic {
         glow: n === s.theme ? "0 0 26px -8px " + th.acc : "none",
         tag: n === s.theme ? "ACTIVE" : n === "HERITAGE CLUSTER" ? "PRO" : "FREE",
         tagColor: n === s.theme ? th.acc : th.dim,
+        span: T_ORDER.indexOf(n) < 3 ? 2 : 3,
         pick: () => this.set({ theme: n, themePinned: true, themeNote: "" })
       };
     });
@@ -4481,7 +4949,7 @@ class Component extends DCLogic {
       dropThemeNote: () => this.setState({ themeNote: "" }),
       goRace: () => this.setState({ view: "RACE" }),
       goSetup: () => this.setState({ view: "SETUP" }),
-      micOpts, micLine, talkBtn, pttBtn,
+      micOpts, micLine,
       micLineStyle: { fontFamily: "'IBM Plex Mono',monospace", fontSize: "10px", lineHeight: "1.5",
         color: s.listening ? t.acc : t.dim, textWrap: "pretty" },
       isRace: s.view === "RACE", isSetup: s.view === "SETUP", isAnalysis: s.view === "ANALYSIS",
@@ -4844,7 +5312,7 @@ class Component extends DCLogic {
       reconnectBtn: { style: btnStyle(false), go: this.reconnect, label: "RECONNECT" },
       cmdLine,
       sources: [["auto", "AUTO"], ["gt7", "GRAN TURISMO 7"], ["f1", "F1 25"]].map(([id, label]) => {
-        const on = s.sourceMode === id || (!s.sourceMode && id === "auto" && false);
+        const on = (M.source || s.sourceMode) === id;
         return { label, border: on ? t.acc : t.line, bg: on ? "#15170F" : "var(--sub,#12151A)",
           fg: on ? t.acc : t.dim, pick: () => this.setSource(id) };
       }),

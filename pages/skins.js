@@ -101,8 +101,8 @@ export function skinVals(C, t) {
   const dxs = s.dxs || null;
   const POS = t.pos || "#3BE06A", NEG = t.neg || "#F2564B";
   const out = {
-    skinCockpit: skin === "cockpit", skinGlance: skin === "glance", skinTrack: skin === "track", skinHeritage: skin === "heritage",
-    hasF1: !!FX
+    skinCockpit: skin === "cockpit", skinGlance: skin === "glance", skinTrack: skin === "track", skinHeritage: skin === "heritage", skinF1: skin === "f1",
+    hasF1: !!FX, noF1: !FX
   };
 
   // engine speed scale: the car's own rev limit when the game sends it
@@ -145,13 +145,15 @@ export function skinVals(C, t) {
   const NM = ["FL", "FR", "RL", "RR"];
   const pos = [[56, 14], [236, 14], [56, 110], [236, 110]];
   out.skTy = NM.map((nm, i) => {
-    const v = T[i] > 0 && onAir ? T[i] : null;
+    const v = T[i] > 0 && onAir ? T[i] : null, wv = FX && onAir && FX.wear && num(FX.wear[i]) !== null ? FX.wear[i] : null;
     const [x, y] = pos[i], left = i % 2 === 0;
     const col = v === null ? "rgba(255,255,255,.12)" : tyreCol(v);
     return {
       pos: nm, x, y, fill: col, band: v === null ? "—" : band(v), bandCol: v === null ? t.dim : col,
       txt: v === null ? "—" : C.tempStr(v), lp: q((left ? x - 10 : x + 48) / 3.3) + "%", tp: q((y + 40) / 1.9) + "%", tr: left ? "-100%" : "0",
-      mark: v === null ? "0%" : clamp((v - 50) / 70, 0, 1) * 100 + "%", winL: ((78 - 50) / 70 * 100) + "%", winW: ((103 - 78) / 70 * 100) + "%"
+      mark: v === null ? "0%" : clamp((v - 50) / 70, 0, 1) * 100 + "%", winL: ((78 - 50) / 70 * 100) + "%", winW: ((103 - 78) / 70 * 100) + "%",
+      wearTxt: wv === null ? "—" : Math.round(wv) + "%", wearW: wv === null ? "0%" : clamp(wv, 0, 100) + "%",
+      wearCol: wv === null ? t.dim : wv < 35 ? "#3BE06A" : wv < 60 ? "#F5D93A" : "#F2564B"
     };
   });
 
@@ -277,6 +279,50 @@ export function skinVals(C, t) {
       const [x1, y1] = pol(1302, 336, 185, 80 * v), [x2, y2] = pol(1302, 336, 170, 80 * v), [x3, y3] = pol(1302, 336, 148, 80 * v);
       return { x1: q(x1), y1: q(y1), x2: q(x2), y2: q(y2), x3: q(x3), y3: q(y3 + 5), lp: q(x3 / 15.64) + "%", tp: q((y3 + 5) / 6.2) + "%", t: v === 0 ? "0" : (v < 0 ? "+" : "−") + Math.abs(v).toFixed(1).replace(/^0/, "") };
     });
+  }
+  // ----- F1 TELEMETRY: pit-wall layout. Shift lights and rev bar, pedals, ERS/DRS/fuel mix/brake bias, tyre wear, position and gaps.
+  // Everything F1-only comes from the F1 frame (LDT.f1); with GT7 packets those panels give way to the fuel and engine dials.
+  if (skin === "f1") {
+    const lit = onAir ? Math.round(clamp((frac - 0.5) / 0.5, 0, 1) * 15) : 0;
+    out.f1Leds = Array.from({ length: 15 }, (_, i) => {
+      const on = i < lit, col = i < 5 ? "#3BE06A" : i < 10 ? "#F2564B" : "#4EA8FF";
+      return { bg: on ? col : "rgba(255,255,255,.08)", glow: on ? "0 0 14px " + col : "none" };
+    });
+    const RN = 40, rlit = onAir ? Math.round(frac * RN) : 0;
+    out.f1Rev = Array.from({ length: RN }, (_, i) => ({ x: 60 + i * 16, fill: i < rlit ? (i < 14 ? "#3BE06A" : i < 28 ? "#F2564B" : "#4EA8FF") : "rgba(255,255,255,.07)" }));
+    const thr = onAir ? clamp(s.throttle, 0, 100) : 0, brk = onAir ? clamp(s.brake, 0, 100) : 0;
+    out.f1ThrH = thr * 3.2; out.f1ThrY = 450 - thr * 3.2; out.f1BrkH = brk * 3.2; out.f1BrkY = 450 - brk * 3.2;
+    out.f1SteerX = 380 + (onAir && typeof s.steer === "number" ? clamp(s.steer, -100, 100) : 0) * 1.3 - 7;
+
+    const pos = FX && FX.position > 0 ? FX.position : 0, cars = LDT && LDT.carsOnTrack > 0 ? LDT.carsOnTrack : 0;
+    out.f1Pos = pos ? "P" + pos : "—";
+    out.f1PosOf = pos && cars ? "/ " + cars : "";
+    out.f1Stops = FX ? String(FX.pitStops || 0) : "—";
+    out.f1Wx = FX ? [FX.weather, num(FX.trackC) !== null ? "TRACK " + C.tempStr(FX.trackC) : "", num(FX.airC) !== null ? "AIR " + C.tempStr(FX.airC) : ""].filter(Boolean).join(" · ") : "";
+
+    let st = { txt: "LIVE", fg: "#07090C", bg: "#3BE06A", bd: "#3BE06A" };
+    if (!onAir) st = { txt: "NO SIGNAL", fg: t.dim, bg: "transparent", bd: t.line };
+    else if (L === "LOST") st = { txt: "SIGNAL LOST", fg: "#07090C", bg: "#F5D93A", bd: "#F5D93A" };
+    else if (FX && FX.safetyCar) st = { txt: FX.safetyCar, fg: "#07090C", bg: "#F5D93A", bd: "#F5D93A" };
+    else if (FX && FX.flag === 4) st = { txt: "RED FLAG", fg: "#FFFFFF", bg: "#E0372B", bd: "#E0372B" };
+    else if (FX && FX.flag === 3) st = { txt: "YELLOW FLAG", fg: "#07090C", bg: "#F5D93A", bd: "#F5D93A" };
+    else if (FX && FX.flag === 2) st = { txt: "BLUE FLAG", fg: "#FFFFFF", bg: "#2E6BFF", bd: "#2E6BFF" };
+    else if (LDT && LDT.inPit) st = { txt: "PIT LANE", fg: "#FFFFFF", bg: "#2E6BFF", bd: "#2E6BFF" };
+    else if (FX) st = { txt: "GREEN FLAG", fg: "#07090C", bg: "#3BE06A", bd: "#3BE06A" };
+    out.f1Status = st;
+
+    out.f1Comp = FX ? ({ SOFT: "S", MEDIUM: "M", HARD: "H", INTER: "I", WET: "W", SUPERSOFT: "S" }[FX.compound] || "–") : "–";
+    const ers = FX ? clamp(FX.ers, 0, 1) : 0;
+    out.f1ErsCol = !FX ? t.dim : ers > 0.5 ? "#3BE06A" : ers > 0.2 ? "#F5D93A" : "#F2564B";
+    out.f1ErsMode = FX ? FX.ersMode : "—";
+    out.f1DepW = FX ? clamp(FX.ersDeployed, 0, 1) * 100 + "%" : "0%";
+    out.f1HarvW = FX ? clamp(FX.ersHarvested, 0, 1) * 100 + "%" : "0%";
+    out.f1Mix = FX ? ["LEAN", "STD", "RICH", "MAX"][FX.fuelMix] || "—" : "—";
+    out.f1Bias = FX && FX.bias ? FX.bias + "%" : "—";
+    out.f1Brakes = FX && FX.brakes ? FX.brakes.map(v => C.tempStr(v)).join("   ") : "—";
+    out.f1AheadName = FX && FX.nameAhead ? "· " + FX.nameAhead : "";
+    out.f1BehindName = FX && FX.nameBehind ? "· " + FX.nameBehind : "";
+    out.f1Leader = FX && FX.gapLeaderMs > 0 && FX.position > 1 ? "+" + (FX.gapLeaderMs / 1000).toFixed(1) : "–";
   }
   return out;
 }
