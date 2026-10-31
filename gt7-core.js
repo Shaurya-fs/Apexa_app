@@ -264,9 +264,9 @@
     // Faster re-beat when the stream stalls; walks the heartbeat letters until the console answers.
     watch() {
       const since = this.now() - this.lastPacketAt;
-      if (this.lastPacketAt && since > 250 && since < 30000) { this.gaps++; this.beat(); }
-      else if (this.lastPacketAt && since >= 30000 && this.psIp) this.beat();
-      else if (!this.lastPacketAt) {
+      if (this.lastPacketAt && since > 250 && since < 8000) { this.gaps++; this.beat(); }
+      else if (!this.lastPacketAt || (since >= 8000 && this.psIp)) {
+        // never heard anything, or silent for 8 s: walk the letters again; a stopped console may only restart on another one
         if (this.hbSent % 8 === 0) this.hbIdx = (this.hbIdx + 1) % HB_ORDER.length;
         this.beat();
       }
