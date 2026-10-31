@@ -70,6 +70,8 @@ export function rosterVals(C, t) {
   };
 }
 
+const BRAIN_TIME = new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" });
+
 export function brainVals(C, t) {
   const s = C.state;
   const tabs = ["ROSTER", "BRAIN"].map(x => {
@@ -122,7 +124,7 @@ export function brainVals(C, t) {
     })),
     brainLog: C.brain.log.slice(0, 7).map(e => ({
       tag: e.tag || "", saw: e.saw || "", changed: e.changed || "",
-      when: new Date(e.at).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" })
+      when: Number.isFinite(+e.at) ? BRAIN_TIME.format(+e.at) : "Invalid Date"
     })),
     noBrainLog: C.brain.log.length === 0,
     cmpHave: !!cmp.have, cmpNone: !cmp.have,

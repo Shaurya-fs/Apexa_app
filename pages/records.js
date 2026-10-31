@@ -1,10 +1,15 @@
+// one formatter, built once: toLocale*String() builds a new Intl formatter on every call, and this page is rebuilt on every frame
+const DATE_FMT = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" });
+const TIME_FMT = new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" });
+const fmtWith = (f, ms) => (Number.isFinite(+ms) ? f.format(+ms) : "Invalid Date");
+
 export function recordVals(C, t, F, DF, POS, NEG) {
   const real = C.state.sessions;
   const demo = false;
   const s = demo ? Object.assign({}, C.state, { sessions: C.demoSessions(), selSes: C.state.selSes || "d1" })
     : Object.assign({}, C.state, { sessions: C.state.sessions.filter(x => C.seatMatch(x)) });
-  const D = ms => { const x = new Date(ms); return x.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); };
-  const H = ms => new Date(ms).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+  const D = ms => fmtWith(DATE_FMT, ms);
+  const H = ms => fmtWith(TIME_FMT, ms);
   const bestOf = ses => { const v = ses.laps.map(l => l.ms).filter(x => x > 0); return v.length ? Math.min.apply(null, v) : null; };
 
   const sesCards = s.sessions.map(ses => {
